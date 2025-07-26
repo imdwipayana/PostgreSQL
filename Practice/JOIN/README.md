@@ -1,27 +1,13 @@
-# JOIN TABLES
+# Library Management System using SQL Project --P2
 
-There are 4 types of JOIN: INNER JOIN(JOIN), LEFT JOIN, RIGHT JOIN and FULL JOIN. Firstly, create the customer table with four columns: costumer_id, costumer_name, order_id and number_item.
+## Project Overview
 
-```sql
-DROP TABLE IF EXISTS customer;
-CREATE TABLE customer(
-customer_id VARCHAR(15) PRIMARY KEY,
-costomer_name VARCHAR(50),
-order_id VARCHAR(15),
-number_item INTEGER
-);
-```
+**Project Title**: Library Management System  
+**Level**: Intermediate  
+**Database**: `library_db`
 
-Then insert the value of customer table with:
-```sql
-INSERT INTO customer
-VALUES 
-('H101001', 'Robert Blake',     'F201', 2),
-('H101002', 'Jonathan Matheus', 'F203', 1),
-('H101003', 'Dona Doni',        'D301', 3),
-('H101004', 'Patrick Kluivert', 'F201', 4);
-```
-The table shown as:
+This project demonstrates the implementation of a Library Management System using SQL. It includes creating and managing tables, performing CRUD operations, and executing advanced SQL queries. The goal is to showcase skills in database design, manipulation, and querying.
+
 ![Library_project](https://github.com/najirh/Library-System-Management---P2/blob/main/library.jpg)
 
 ## Objectives
