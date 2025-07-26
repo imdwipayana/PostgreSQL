@@ -28,7 +28,7 @@ SELECT * FROM customer
 The customer table is
 ![JOIN](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/JOIN/image/customer_pict.png) 
 
-Then create the cust_order table:
+The column of customer_id is the primary key meanwhile the order_id is the foreign key which will be the primary key for cust_order table. Then we create the cust_order table:
 ```sql
 DROP TABLE IF EXISTS cust_order;
 CREATE TABLE cust_order(
