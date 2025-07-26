@@ -2,7 +2,15 @@
 
 There are 4 types of JOIN: INNER JOIN(JOIN), LEFT JOIN, RIGHT JOIN and FULL JOIN. Firstly, create the table
 
-
+```sql
+DROP TABLE IF EXISTS customer;
+CREATE TABLE customer(
+customer_id VARCHAR(15) PRIMARY KEY,
+costomer_name VARCHAR(50),
+order_id VARCHAR(15),
+number_item INTEGER
+);
+```
 '''sql
 DROP TABLE IF EXISTS customer;
 CREATE TABLE customer(
