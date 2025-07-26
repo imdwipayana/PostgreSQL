@@ -1,6 +1,6 @@
 # JOIN Tables
 
-There are four types of joins: JOIN (INNER JOIN), LEFT JOIN, RIGHT JOIN and FULL JOIN. We will create two tables which are costomer and cust_order table. At first, create the customer table:
+There are four types of joins: JOIN (INNER JOIN), LEFT JOIN, RIGHT JOIN and FULL JOIN. We will create two tables which are customer and cust_order table. At first, create the customer table:
 ```sql
 DROP TABLE IF EXISTS customer;
 CREATE TABLE customer(
