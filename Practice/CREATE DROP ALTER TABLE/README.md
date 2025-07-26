@@ -1,5 +1,5 @@
 # CREATE DROP ALTER
-The table named player will be created. At first we need to drop the player table in the case it exists.
+Basically CREATE command for create a table, DROP command for delete a table and ALTER command for modify a table. Here, a table named player will be created. At first we need to drop the player table in the case it exists.
 ## 1. DROP
 ```sql
 DROP TABLE IF EXISTS player;
