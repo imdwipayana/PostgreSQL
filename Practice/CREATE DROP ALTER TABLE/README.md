@@ -33,7 +33,7 @@ SELECT * FROM player
 ```
 
 The player table will be shown as:
-![create_drop_alter](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/CREATE%20DROP%20ALTER%20TABLE/image/player_table.png)
+![create_drop_alter](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/CREATE%20DROP%20ALTER%20TABLE/image/table_player.png)
 
 
 
