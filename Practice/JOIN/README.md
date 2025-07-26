@@ -1,6 +1,6 @@
 # JOIN TABLES
 
-There are 4 types of JOIN: INNER JOIN(JOIN), LEFT JOIN, RIGHT JOIN and FULL JOIN. Firstly, create the table
+There are 4 types of JOIN: INNER JOIN(JOIN), LEFT JOIN, RIGHT JOIN and FULL JOIN. Firstly, create the customer table with four columns: costumer_id, costumer_name, order_id and number_item.
 
 ```sql
 DROP TABLE IF EXISTS customer;
@@ -21,7 +21,7 @@ VALUES
 ('H101003', 'Dona Doni',        'D301', 3),
 ('H101004', 'Patrick Kluivert', 'F201', 4);
 ```
-
+The table shown as:
 ![Library_project](https://github.com/najirh/Library-System-Management---P2/blob/main/library.jpg)
 
 ## Objectives
