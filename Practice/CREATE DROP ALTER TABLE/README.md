@@ -38,11 +38,21 @@ The player table will be shown as:
 
 
 ## 3. ALTER
-
-
-
+We want to add one column about status the athlete either still active or already retired. For that reason, we use the ALTER command.
 ```sql
-UPDATE members
-SET member_address = '125 Oak St'
-WHERE member_id = 'C103';
+ALTER TABLE player
+ADD Column Status VARCHAR(50) DEFAULT('Active');
 ```
+Syntax above will put all the status are active. For the retired player, we can use the following syntax:
+```sql
+UPDATE player
+SET Status = 'Retired'
+WHERE player_id 
+    IN ('B201', 'B202');
+```
+Call the player table again to find the update result as:
+![create_drop_alter](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/CREATE%20DROP%20ALTER%20TABLE/image/alter_table.png)
+
+
+
+
