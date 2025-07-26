@@ -1,6 +1,7 @@
 # JOIN TABLES
 
-Integrate multiple tables with illustration. There are 4 types of JOIN: INNER JOIN(JOIN), LEFT JOIN, RIGHT JOIN and FULL JOIN. Firstly, create the table:
+There are 4 types of JOIN: INNER JOIN(JOIN), LEFT JOIN, RIGHT JOIN and FULL JOIN. Firstly, create the table
+
 
 '''sql
 DROP TABLE IF EXISTS customer;
