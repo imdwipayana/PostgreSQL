@@ -93,4 +93,4 @@ FULL JOIN cust_order
 ON customer.order_id = cust_order.order_id
 ```
 The result of FULL JOIN table is
-![JOIN]([https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/JOIN/image/right_join_sql.png](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/JOIN/image/full_join_sql.png)) 
+![JOIN](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/JOIN/image/full_join_sql.png) 
