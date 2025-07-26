@@ -59,10 +59,36 @@ UPDATE player
 SET  status = 'Retired'
 WHERE player_id = 'C301';
 ```
-The call again the player table to see the status has been changed.
+Then call again the player table to see the status has been changed.
 ```sql
 SELECT * FROM player
 ```
 ![create_drop_alter](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/CREATE%20DROP%20ALTER%20TABLE/image/update_status.png)
+
+Avril Lavigne wants to be a member of the club. She gives the data with syntax:
+```sql
+INSERT INTO player(player_id, first_name, last_name, sport, status)
+VALUES('D101', 'Avril', 'Lavigne', 'Skateboard', 'Active');
+```
+Then call again the player table to see a new member has been added.
+```sql
+SELECT * FROM player
+```
+
+![create_drop_alter](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/CREATE%20DROP%20ALTER%20TABLE/image/new%20member.png)
+
+After some time, Avril realize that she is a singer and wants to withdraw from the club as member. To fulfill that, we use the syntax:
+
+```sql
+DELETE FROM player
+WHERE   player_id =   'D101';
+```
+Then call again the player table to see the update table.
+```sql
+SELECT * FROM player
+```
+![create_drop_alter](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/CREATE%20DROP%20ALTER%20TABLE/image/member_withdraw.png)
+
+
 
 
