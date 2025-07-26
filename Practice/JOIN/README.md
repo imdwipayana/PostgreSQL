@@ -1,4 +1,31 @@
-# Library Management System using SQL Project --P2
+# JOIN Tables
+
+There are four types of joins: JOIN (INNER JOIN), LEFT JOIN, RIGHT JOIN and FULL JOIN. There are two tables that will be created which are costomer and order table. Create the customer table:
+```sql
+DROP TABLE IF EXISTS customer;
+CREATE TABLE customer(
+customer_id VARCHAR(15) PRIMARY KEY,
+costomer_name VARCHAR(50),
+order_id VARCHAR(15),
+number_item INTEGER
+);
+```
+Insert the customer table value:
+```sql
+INSERT INTO customer
+VALUES 
+('H101001', 'Robert Blake',     'F201', 2),
+('H101002', 'Jonathan Matheus', 'F203', 1),
+('H101003', 'Dona Doni',        'D301', 3),
+('H101004', 'Patrick Kluivert', 'F201', 4),
+('H101005', 'Ronaldo Messi',    Null, Null);
+```
+Call the customer table:
+```sql
+SELECT * FROM customer
+```
+The customer table is
+![JOIN](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/JOIN/image/customer_pict.png) 
 
 ## Project Overview
 
