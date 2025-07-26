@@ -53,6 +53,16 @@ WHERE player_id
 Call the player table again to find the update result as:
 ![create_drop_alter](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/CREATE%20DROP%20ALTER%20TABLE/image/alter_table.png)
 
-
+For example, if Milos Raonic decides to retired, then we need to update his status to be retired. To do this, we use the syntax:
+```sql
+UPDATE player
+SET  status = 'Retired'
+WHERE player_id = 'C301';
+```
+The call again the player table to see the status has been changed.
+```sql
+SELECT * FROM player
+```
+![create_drop_alter](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/CREATE%20DROP%20ALTER%20TABLE/image/update_status.png)
 
 
