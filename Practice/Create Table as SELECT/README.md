@@ -70,4 +70,16 @@ SELECT * FROM book_late;
 The books that late are shown in book late table as follow:
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/Create%20Table%20as%20SELECT/image/book_late.png)
 
+Meanwhile if we want to find out all title of books and days they have been borrowed, we can use the syntax:
+```sql
+CREATE TABLE days_borrowed AS
+SELECT 
+	book_title,
+	CURRENT_DATE - borrowed_date as days_borrowed
+FROM book_library
+WHERE return_date is NULL;
 
+SELECT * FROM days_borrowed;
+```
+The table days_borrowed is shown as follow:
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/Create%20Table%20as%20SELECT/image/days_borrowed.png)
