@@ -105,6 +105,8 @@ FROM planet_data;
 ```
 
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number7step1.png)
+
+
 Second step: find the planet that has the longest diameter
 ```sql
 SELECT
@@ -115,3 +117,89 @@ WHERE diameter = (SELECT
 				  FROM planet_data);
 ```
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number7.png)
+
+### 8. Find the farthest planet from the Sun
+First step: find the longest distance from the sun using MAX() aggregate function
+```sql
+SELECT 
+	MAX(distance_from_sun) as farthest_planet
+FROM planet_data;
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number8step1.png)
+
+
+Second step: find planet with distance is the farthest from the Sun
+```sql
+SELECT
+	*
+FROM planet_data
+WHERE distance_from_sun = (SELECT 
+					          MAX(distance_from_sun) as farthest_planet
+				           FROM planet_data);
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number8.png)
+
+### 9. Find all planets that father from the sun than the smallest planet but closer to the Sun than the planet that has the most moon.
+First step: Find the smallest diameter
+```sql
+SELECT 
+	MIN(diameter) as smallest_planet
+FROM planet_data;
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number9step1.png)
+
+
+Second step: find the distance from the Sun of the smallest planet
+```sql
+SELECT
+	distance_from_sun 
+FROM planet_data
+WHERE diameter = (SELECT 
+				     MIN(diameter) as smallest_planet
+				  FROM planet_data);
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number9step2.png)
+
+Third step: Find the number of most moon
+```sql
+SELECT
+	MAX(number_of_moon) as most_moon
+FROM planet_data;
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number9step3.png)
+
+
+Fourth step: Find the distance from the sun of the planet that has the most moon
+```sql
+SELECT
+	distance_from_sun 
+FROM planet_data
+WHERE number_of_moon = (SELECT
+					       MAX(number_of_moon) as most_moon
+						FROM planet_data);
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number9step4.png)
+
+Fifth step: Use nested function in WHERE statement.
+```sql
+SELECT
+	*
+FROM planet_data
+WHERE distance_from_sun > (SELECT
+						      distance_from_sun 
+						   FROM planet_data
+					       WHERE diameter = (SELECT 
+				                                MIN(diameter) as smallest_planet
+				                             FROM planet_data)) 
+AND distance_from_sun < (SELECT
+	                        distance_from_sun 
+                         FROM planet_data
+                         WHERE number_of_moon = (SELECT
+					                                MAX(number_of_moon) as most_moon
+						                         FROM planet_data));
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number9.png)
