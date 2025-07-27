@@ -38,9 +38,11 @@ The planet_data table is
 
 ### 1. Find all planets that closer to the sun than the earth
 ```sql
-SELECT * FROM members
-WHERE reg_date >= CURRENT_DATE - INTERVAL '180 days';
+SELECT 
+	*
+FROM planet_data
+WHERE distance_from_sun < 149.6
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/planet_data.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number1.png)
 
