@@ -86,3 +86,66 @@ GROUP BY border_with_USA
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/population_in_border.png)
 
 We can see that the population in the provinces and teritories that has border with USA are almost 20 times with those without sharing border.
+
+If we want to calculate the total population, the SUM() aggregate function can be used as the following syntax:
+```sql
+SELECT 
+	SUM(population) 
+FROM Canada_data
+```
+The result of that SUM() aggregation function is a number as shown as follow:
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/sum_agg.png)
+
+We can use SUM() window functions instead of the aggregation function. The different between those two results are aggregate function will give one number meanwhile window functions will create a new column with all of the column values are the total population.
+```sql
+SELECT 
+	province_teritory,
+	population,
+	SUM(population) OVER() as total_population
+FROM Canada_data
+```
+The result of that SUM() window functions can be seen in the following table:
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/sum_window.png)
+From here, we can see the benefit using window functions to calculate the percentage of population with the nested function from the previous table:
+```sql
+SELECT
+	*,
+	(((population::decimal)*100/(total_population::decimal))::numeric(10,5)) as percentage_population
+FROM (
+	SELECT 
+		province_teritory,
+		population,
+		SUM(population) OVER() as total_population
+	FROM Canada_data
+)
+```
+The population percentage table can be seen as follow:
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/percentage_population.png)
+To make it sure, we can add all the percentage to make it 100% with the syntax:
+```sql
+SELECT
+	SUM(percentage_population) as total_percentage_population
+FROM(
+	SELECT
+		*,
+		(((population::decimal)*100/(total_population::decimal))::numeric(10,5)) as percentage_population
+	FROM (
+		SELECT 
+			province_teritory,
+			population,
+			SUM(population) OVER() as total_population
+		FROM Canada_data
+)
+)
+```
+The total percentage of population is exactly 100% as expected.
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/total_percentage_population.png)
+
+
+
+
+
+
+
+
+
