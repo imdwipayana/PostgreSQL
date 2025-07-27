@@ -34,7 +34,7 @@ The book_library table is shown as follow:
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/Create%20Table%20as%20SELECT/image/book_library.png)
 
 
-NOTE: The date will appear in your table will be different with the date in this table because it will depends on when you run the program. This is caused by the CURRENT_DATE and INTERVAL Commands. The purpose of this fluid date format is to adapt with the late book regulation which is 30 days after borrowed date. The NULL value in return_date column means the book hasn't been returned yet. If we want to find all books that have been returned, we can use the syntax:
+NOTE: The date will appear in your table will be different with the date in this table because it will depends on when you run the program. This is caused by the CURRENT_DATE and INTERVAL Commands. The purpose of this fluid date format is to adapt with the late book regulation which is 30 days after borrowed date. It means the date will be different but the result after that will be the same with the tables shown here later. The NULL value in return_date column means the book hasn't been returned yet. If we want to find all books that have been returned, we can use the syntax:
 
 ```sql
 CREATE TABLE book_returned AS
