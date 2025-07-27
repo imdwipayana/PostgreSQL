@@ -40,6 +40,8 @@ SELECT * FROM Canada_data;
 After that the Canada_data table is shown as:
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/Canada_data.png)
 
+Basically, the * symbol represents that all the column data will be represented. If we want just a certain column, we can type the name of columns to replace the * symbol. At last, we can create a new column by doing calculation of the other column, for example by dividing population to area to find out the population density.
+
 Count the population density by dividing the population with areas.
 ```sql
 SELECT
