@@ -77,7 +77,7 @@ SELECT * FROM player
 
 ![create_drop_alter](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/CREATE%20DROP%20ALTER%20TABLE/image/new%20member.png)
 
-After some time, Avril realize that she is a singer and wants to withdraw from the club as member. To fulfill that, we use the syntax:
+After some time, Avril realizes that she is a singer and wants to withdraw from the club as member. To fulfill that, we use the syntax:
 
 ```sql
 DELETE FROM player
