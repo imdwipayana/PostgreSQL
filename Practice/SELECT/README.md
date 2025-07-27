@@ -96,6 +96,8 @@ SELECT
 FROM Canada_data
 ```
 The result of that SUM() aggregation function is a number as shown as follow:
+
+
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/sum_agg.png)
 
 We can use SUM() window functions instead of the aggregation function. The different between those two results are aggregate function will give one number meanwhile window functions will create a new column with all of the column values are the total population.
