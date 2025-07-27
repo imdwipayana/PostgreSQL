@@ -63,3 +63,18 @@ SELECT
 FROM Canada_data
 ```
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/house_senate_rep.png)
+
+Count the population of the previous year by noticing the formula: population2021 = population2020+population2020*(growth_rate/100). It means the population2020 = population2021/(1+(growth_rate/100))
+```sql
+SELECT
+	province_teritory,
+	population,
+	growth_rate,
+	population/(1+(growth_rate/100)) as population_2020
+FROM Canada_data
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/population_2020.png)
+
+
+
+
