@@ -33,8 +33,24 @@ VALUES
 ('Nova Scotia',               'Halifax',        969383,   5,    52942.27,   11,  10, 'No'),
 ('Prince Edward Island',      'Charlotte Town', 154331,   8,    5686.03,    4,   4,  'No');
 ```
+Call the table with syntax:
+```sql
+SELECT * FROM Canada_data;
+```
 After that the Canada_data table is shown as:
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/Canada_data.png)
 
-
-
+Count the population density by dividing the population with areas.
+```sql
+SELECT
+	province_teritory,
+	population,
+	areas,
+	population / areas as population_density
+FROM Canada_data
+```
+Call the table with syntax:
+```sql
+SELECT * FROM Canada_data;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/population_density.png)
