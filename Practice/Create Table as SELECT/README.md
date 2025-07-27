@@ -82,4 +82,6 @@ WHERE return_date is NULL;
 SELECT * FROM days_borrowed;
 ```
 The table days_borrowed is shown as follow:
+
+
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/Create%20Table%20as%20SELECT/image/days_borrowed.png)
