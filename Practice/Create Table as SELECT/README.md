@@ -33,8 +33,29 @@ SELECT * FROM book_library
 The book_library table is shown as follow:
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/Create%20Table%20as%20SELECT/image/book_library.png)
 
+
+The NULL value in return_date column means the book hasn't been returned yet. If we want to find all books that have been returned, we can use the syntax:
+
 ```sql
+CREATE TABLE book_returned AS
 SELECT * FROM book_library
-);
+WHERE return_date IS NOT NULL;
+
+SELECT * FROM book_returned;
 ```
+The result is the table book returned as follow:
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/Create%20Table%20as%20SELECT/image/book_returned.png)
+
+Meanwhile if we want to see the book that hasn't been returned yet, we can use the syntax:
+```sql
+CREATE TABLE book_not_returned AS
+SELECT * FROM book_library
+WHERE return_date IS NULL;
+
+SELECT * FROM book_not_returned;
+```
+The book_not_returned table is shown as:
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/Create%20Table%20as%20SELECT/image/book_not_returned.png)
+
+
 
