@@ -85,3 +85,33 @@ WHERE diameter > 12756 AND diameter < 120536
 ```
 
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number5.png)
+
+### 6. Find all planets that bigger but colder than the Earth
+```sql
+SELECT 
+	*
+FROM planet_data
+WHERE diameter > 12756 AND temperature < 15
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number6.png)
+
+### 7. Find the biggest planet
+First step: using MAX() aggregate function to find the longest diameter
+```sql
+SELECT 
+	MAX(diameter) as biggest_planet
+FROM planet_data;
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number7step1.png)
+Second step: find the planet that has the longest diameter
+```sql
+SELECT
+	*
+FROM planet_data
+WHERE diameter = (SELECT 
+					  MAX(diameter) as biggest_planet
+				  FROM planet_data);
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number7.png)
