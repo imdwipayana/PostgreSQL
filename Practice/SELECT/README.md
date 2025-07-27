@@ -141,11 +141,63 @@ FROM(
 The total percentage of population is exactly 100% as expected.
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/total_percentage_population.png)
 
+We can do the same ide to calculate the percentage of house and senate seats by calculating the total of house and senate seats with window function and then using nested function to find out the percentage of house and senate for each province and teritory.
+```sql
+SELECT
+	province_teritory,
+	house,
+	SUM(house) OVER() as total_house_seat,
+	senate,
+	SUM(senate) OVER() as total_senate_seat
+FROM Canada_data
+```
+The total house and senate seats are in the following table.
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/total_house_senate.png)
 
+```sql
+SELECT
+	province_teritory,
+	house,
+	((house::decimal/total_house_seat::decimal)*100)::numeric(10,5) as percentage_house,
+	senate,
+	((senate::decimal/total_senate_seat::decimal)*100)::numeric(10,5) as percentage_senate
+FROM (
+	SELECT
+		province_teritory,
+		house,
+		SUM(house) OVER() as total_house_seat,
+		senate,
+		SUM(senate) OVER() as total_senate_seat
+	FROM Canada_data
+)
+```
+The percentage of house and senate seats for each province and teritory can be seen in the following table.
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/percentage_house_senate.png)
 
-
-
-
-
+To check the total percentage (must be 100%), we can use the double nested function as follow:
+```sql
+SELECT
+	SUM(percentage_house)::numeric(10,2) as total_house_percentage,
+	SUM(percentage_senate)::numeric(10,2) as total_senate_percentage
+FROM (
+	SELECT
+		province_teritory,
+		house,
+		((house::decimal/total_house_seat::decimal)*100)::numeric(10,5) as percentage_house,
+		senate,
+		((senate::decimal/total_senate_seat::decimal)*100)::numeric(10,5) as percentage_senate
+	FROM (
+		SELECT
+			province_teritory,
+			house,
+			SUM(house) OVER() as total_house_seat,
+			senate,
+			SUM(senate) OVER() as total_senate_seat
+		FROM Canada_data
+)
+)
+```
+The total percentage of house and senate seats are:
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/house_senate_100.png)
 
 
