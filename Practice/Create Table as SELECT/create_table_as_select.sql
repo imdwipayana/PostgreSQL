@@ -52,9 +52,36 @@ SELECT * FROM book_library
 WHERE return_date IS NULL;
 
 --=================================================================================
--- Call the book_returned table
+-- Call the book_not_returned table
 --=================================================================================
 SELECT * FROM book_not_returned;
 
+--=================================================================================
+-- Save table which books that late for more than 30 days
+--=================================================================================
+CREATE TABLE book_late AS
+SELECT *,
+	CURRENT_DATE - borrowed_date as days_borrowed
+FROM book_library
+WHERE CURRENT_DATE - borrowed_date > 30;
 
+--=================================================================================
+-- Call the book_not_returned table
+--=================================================================================
+SELECT * FROM book_late;
 
+--=================================================================================
+-- Save table with title and number of days borrowed for books 
+-- that haven't been returned
+--=================================================================================
+CREATE TABLE days_borrowed AS
+SELECT 
+	book_title,
+	CURRENT_DATE - borrowed_date as days_borrowed
+FROM book_library
+WHERE return_date is NULL;
+
+--=================================================================================
+-- Call the book_not_returned table
+--=================================================================================
+SELECT * FROM days_borrowed;
