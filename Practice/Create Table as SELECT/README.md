@@ -57,5 +57,17 @@ SELECT * FROM book_not_returned;
 The book_not_returned table is shown as:
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/Create%20Table%20as%20SELECT/image/book_not_returned.png)
 
+If the late regulation is the book that returned more than 30 days after borrowed date, we can check all the book that late with syntax:
+```sql
+CREATE TABLE book_late AS
+SELECT *,
+	CURRENT_DATE - borrowed_date as days_borrowed
+FROM book_library
+WHERE CURRENT_DATE - borrowed_date > 30;
+
+SELECT * FROM book_late;
+```
+The books that late are shown in book late table as follow:
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/Create%20Table%20as%20SELECT/image/book_late.png)
 
 
