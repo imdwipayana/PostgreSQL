@@ -75,6 +75,14 @@ FROM Canada_data
 ```
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/population_2020.png)
 
+Lastly, we count the population of province and teritory that has border with the USA.
+```sql
+SELECT
+	border_with_USA,
+	SUM(population) as population_in_border
+FROM Canada_data
+GROUP BY border_with_USA
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/population_in_border.png)
 
-
-
+We can see that the population in the provinces and teritories that has border with USA are almost 20 times with those without sharing border.
