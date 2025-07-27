@@ -18,7 +18,7 @@ border_with_USA VARCHAR(10)
 );
 
 --=================================================================================
--- INSERT player table value
+-- INSERT Canada_data table value
 --=================================================================================
 INSERT INTO Canada_data
 VALUES 
