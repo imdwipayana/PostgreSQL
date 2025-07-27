@@ -49,8 +49,17 @@ SELECT
 	population / areas as population_density
 FROM Canada_data
 ```
-Call the table with syntax:
-```sql
-SELECT * FROM Canada_data;
-```
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/population_density.png)
+
+After that, count the house and senate representation by dividing population with number of house and senate seat for each province and teritory.
+```sql
+SELECT
+	province_teritory,
+	population,
+	house,
+	population/house as house_rep,
+	senate,
+	population/senate as senate_rep
+FROM Canada_data
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/house_senate_rep.png)
