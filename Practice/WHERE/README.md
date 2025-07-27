@@ -113,8 +113,8 @@ SELECT
 	*
 FROM planet_data
 WHERE diameter = (SELECT 
-					  MAX(diameter) as biggest_planet
-				  FROM planet_data);
+                     MAX(diameter) as biggest_planet
+                  FROM planet_data);
 ```
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number7.png)
 
@@ -135,8 +135,8 @@ SELECT
 	*
 FROM planet_data
 WHERE distance_from_sun = (SELECT 
-					          MAX(distance_from_sun) as farthest_planet
-				           FROM planet_data);
+                              MAX(distance_from_sun) as farthest_planet
+                           FROM planet_data);
 ```
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number8.png)
 
@@ -157,8 +157,8 @@ SELECT
 	distance_from_sun 
 FROM planet_data
 WHERE diameter = (SELECT 
-				     MIN(diameter) as smallest_planet
-				  FROM planet_data);
+                     MIN(diameter) as smallest_planet
+                  FROM planet_data);
 ```
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number9step2.png)
 
@@ -178,8 +178,8 @@ SELECT
 	distance_from_sun 
 FROM planet_data
 WHERE number_of_moon = (SELECT
-					       MAX(number_of_moon) as most_moon
-						FROM planet_data);
+                           MAX(number_of_moon) as most_moon
+                        FROM planet_data);
 ```
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number9step4.png)
 
@@ -189,17 +189,17 @@ SELECT
 	*
 FROM planet_data
 WHERE distance_from_sun > (SELECT
-						      distance_from_sun 
-						   FROM planet_data
-					       WHERE diameter = (SELECT 
-				                                MIN(diameter) as smallest_planet
-				                             FROM planet_data)) 
+                              distance_from_sun 
+                           FROM planet_data
+                           WHERE diameter = (SELECT 
+                                                MIN(diameter) as smallest_planet
+                                             FROM planet_data)) 
 AND distance_from_sun < (SELECT
 	                        distance_from_sun 
                          FROM planet_data
                          WHERE number_of_moon = (SELECT
-					                                MAX(number_of_moon) as most_moon
-						                         FROM planet_data));
+                                                    MAX(number_of_moon) as most_moon
+                                                 FROM planet_data));
 ```
 
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number9.png)
