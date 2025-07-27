@@ -46,3 +46,42 @@ WHERE distance_from_sun < 149.6
 
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number1.png)
 
+### 2. Find all planets that distance farther to the Sun than the Earth
+```sql
+SELECT 
+	*
+FROM planet_data
+WHERE distance_from_sun > 149.6
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number2.png)
+
+### 3. Find all planets that smaller than the Earth
+```sql
+SELECT 
+	*
+FROM planet_data
+WHERE diameter < 12756
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number3.png)
+
+### 4. Find all planets that bigger than the Earth
+```sql
+SELECT 
+	*
+FROM planet_data
+WHERE diameter > 12756
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number4.png)
+
+### 5. Find all planets that bigger than the Earth but smaller than the Saturn
+```sql
+SELECT 
+	*
+FROM planet_data
+WHERE diameter > 12756 AND diameter < 120536
+```
+
+![Library_project]([https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number4.png](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number5.png))
