@@ -84,3 +84,104 @@ SELECT
 FROM Canada_data
 GROUP BY border_with_USA
 
+--=================================================================================
+-- Calculation of total population by SUM aggregation function
+--=================================================================================
+SELECT 
+	SUM(population) 
+FROM Canada_data
+
+--=================================================================================
+-- Calculation of total population using SUM() window function
+--=================================================================================
+SELECT 
+	province_teritory,
+	population,
+	SUM(population) OVER() as total_population
+FROM Canada_data
+
+--=================================================================================
+-- Calculation of percentage population from total Canada's population using nested function.
+--=================================================================================
+SELECT
+	*,
+	(((population::decimal)*100/(total_population::decimal))::numeric(10,5)) as percentage_population
+FROM (
+	SELECT 
+		province_teritory,
+		population,
+		SUM(population) OVER() as total_population
+	FROM Canada_data
+)
+
+--=================================================================================
+-- Checking the total percentage population is 100% by using double nested function
+--=================================================================================
+SELECT
+	SUM(percentage_population) as total_percentage_population
+FROM(
+	SELECT
+		*,
+		(((population::decimal)*100/(total_population::decimal))::numeric(10,5)) as percentage_population
+	FROM (
+		SELECT 
+			province_teritory,
+			population,
+			SUM(population) OVER() as total_population
+		FROM Canada_data
+)
+)
+
+--=================================================================================
+-- Using SUM() window function to calculate the percentage of house and senate
+--=================================================================================
+SELECT
+	province_teritory,
+	house,
+	SUM(house) OVER() as total_house_seat,
+	senate,
+	SUM(senate) OVER() as total_senate_seat
+FROM Canada_data
+
+--=================================================================================
+-- Calculate percentage house and senate using nested function
+--=================================================================================
+SELECT
+	province_teritory,
+	house,
+	((house::decimal/total_house_seat::decimal)*100)::numeric(10,5) as percentage_house,
+	senate,
+	((senate::decimal/total_senate_seat::decimal)*100)::numeric(10,5) as percentage_senate
+FROM (
+	SELECT
+		province_teritory,
+		house,
+		SUM(house) OVER() as total_house_seat,
+		senate,
+		SUM(senate) OVER() as total_senate_seat
+	FROM Canada_data
+)
+
+--=================================================================================
+-- Checking wheter both of the total percentage are 100%
+--=================================================================================
+SELECT
+	SUM(percentage_house)::numeric(10,2) as total_house_percentage,
+	SUM(percentage_senate)::numeric(10,2) as total_senate_percentage
+FROM (
+	SELECT
+		province_teritory,
+		house,
+		((house::decimal/total_house_seat::decimal)*100)::numeric(10,5) as percentage_house,
+		senate,
+		((senate::decimal/total_senate_seat::decimal)*100)::numeric(10,5) as percentage_senate
+	FROM (
+		SELECT
+			province_teritory,
+			house,
+			SUM(house) OVER() as total_house_seat,
+			senate,
+			SUM(senate) OVER() as total_senate_seat
+		FROM Canada_data
+)
+)
