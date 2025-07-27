@@ -143,6 +143,8 @@ FROM(
 )
 ```
 The total percentage of population is exactly 100% as expected.
+
+
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/total_percentage_population.png)
 
 We can do the same ide to calculate the percentage of house and senate seats by calculating the total of house and senate seats with window function and then using nested function to find out the percentage of house and senate for each province and teritory.
@@ -202,6 +204,8 @@ FROM (
 )
 ```
 The total percentage of house and senate seats are:
+
+
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/house_senate_100.png)
 
 
