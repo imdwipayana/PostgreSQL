@@ -40,6 +40,8 @@ SELECT * FROM Canada_data;
 After that the Canada_data table is shown as:
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/Canada_data.png)
 
+Basically, the * symbol represents that all the column data will be represented. If we want just a certain column, we can type the name of columns to replace the * symbol. At last, we can create a new column by doing calculation of the other column, for example by dividing population to area to find out the population density.
+
 Count the population density by dividing the population with areas.
 ```sql
 SELECT
@@ -86,3 +88,124 @@ GROUP BY border_with_USA
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/population_in_border.png)
 
 We can see that the population in the provinces and teritories that has border with USA are almost 20 times with those without sharing border.
+
+If we want to calculate the total population, the SUM() aggregate function can be used as the following syntax:
+```sql
+SELECT 
+	SUM(population) 
+FROM Canada_data
+```
+The result of that SUM() aggregation function is a number as shown as follow:
+
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/sum_agg.png)
+
+We can use SUM() window functions instead of the aggregation function. The different between those two results are aggregate function will give one number meanwhile window functions will create a new column with all of the column values are the total population.
+```sql
+SELECT 
+	province_teritory,
+	population,
+	SUM(population) OVER() as total_population
+FROM Canada_data
+```
+The result of that SUM() window functions can be seen in the following table:
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/sum_window.png)
+From here, we can see the benefit using window functions to calculate the percentage of population with the nested function from the previous table:
+```sql
+SELECT
+	*,
+	(((population::decimal)*100/(total_population::decimal))::numeric(10,5)) as percentage_population
+FROM (
+	SELECT 
+		province_teritory,
+		population,
+		SUM(population) OVER() as total_population
+	FROM Canada_data
+)
+```
+The population percentage table can be seen as follow:
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/percentage_population.png)
+To make it sure, we can add all the percentage to make it 100% with the syntax:
+```sql
+SELECT
+	SUM(percentage_population) as total_percentage_population
+FROM(
+	SELECT
+		*,
+		(((population::decimal)*100/(total_population::decimal))::numeric(10,5)) as percentage_population
+	FROM (
+		SELECT 
+			province_teritory,
+			population,
+			SUM(population) OVER() as total_population
+		FROM Canada_data
+)
+)
+```
+The total percentage of population is exactly 100% as expected.
+
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/total_percentage_population.png)
+
+We can do the same ide to calculate the percentage of house and senate seats by calculating the total of house and senate seats with window function and then using nested function to find out the percentage of house and senate for each province and teritory.
+```sql
+SELECT
+	province_teritory,
+	house,
+	SUM(house) OVER() as total_house_seat,
+	senate,
+	SUM(senate) OVER() as total_senate_seat
+FROM Canada_data
+```
+The total house and senate seats are in the following table.
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/total_house_senate.png)
+
+```sql
+SELECT
+	province_teritory,
+	house,
+	((house::decimal/total_house_seat::decimal)*100)::numeric(10,5) as percentage_house,
+	senate,
+	((senate::decimal/total_senate_seat::decimal)*100)::numeric(10,5) as percentage_senate
+FROM (
+	SELECT
+		province_teritory,
+		house,
+		SUM(house) OVER() as total_house_seat,
+		senate,
+		SUM(senate) OVER() as total_senate_seat
+	FROM Canada_data
+)
+```
+The percentage of house and senate seats for each province and teritory can be seen in the following table.
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/percentage_house_senate.png)
+
+To check the total percentage (must be 100%), we can use the double nested function as follow:
+```sql
+SELECT
+	SUM(percentage_house)::numeric(10,2) as total_house_percentage,
+	SUM(percentage_senate)::numeric(10,2) as total_senate_percentage
+FROM (
+	SELECT
+		province_teritory,
+		house,
+		((house::decimal/total_house_seat::decimal)*100)::numeric(10,5) as percentage_house,
+		senate,
+		((senate::decimal/total_senate_seat::decimal)*100)::numeric(10,5) as percentage_senate
+	FROM (
+		SELECT
+			province_teritory,
+			house,
+			SUM(house) OVER() as total_house_seat,
+			senate,
+			SUM(senate) OVER() as total_senate_seat
+		FROM Canada_data
+)
+)
+```
+The total percentage of house and senate seats are:
+
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/house_senate_100.png)
+
+
