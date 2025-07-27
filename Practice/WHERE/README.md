@@ -84,4 +84,4 @@ FROM planet_data
 WHERE diameter > 12756 AND diameter < 120536
 ```
 
-![Library_project]([https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number4.png](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number5.png))
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number5.png)
