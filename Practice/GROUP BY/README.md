@@ -85,3 +85,25 @@ FROM (
 GROUP BY job_title
 ```
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number3step2.png)
+
+### 4. Find all employee who born in 1995 or later
+
+```sql
+SELECT *
+FROM employee_data
+WHERE date_of_birth > '1995-01-01'
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number4.png)
+
+### 5. Find the age of employee when they were hired (in days)
+
+```sql
+SELECT 
+	first_name,
+	last_name,
+	date_of_birth,
+	hire_date,
+	(hire_date - date_of_birth) as age_hired_days
+FROM employee_data
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number5.png)
