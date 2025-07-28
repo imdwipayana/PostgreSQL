@@ -55,7 +55,7 @@ SELECT * FROM cust_order
 The cust_order table is
 ![JOIN](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/JOIN/image/order_pict.png) 
 
-# For JOIN or INNER JOIN table, the sql syntax is
+### For JOIN or INNER JOIN table, the sql syntax is
 ```sql
 SELECT *
 FROM customer
@@ -65,7 +65,7 @@ ON customer.order_id = cust_order.order_id
 The result of JOIN table is
 ![JOIN](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/JOIN/image/join_sql.png) 
 
-# FOR LEFT JOIN table, the sql syntax is
+### FOR LEFT JOIN table, the sql syntax is
 ```sql
 SELECT *
 FROM customer
@@ -75,7 +75,7 @@ ON customer.order_id = cust_order.order_id
 The result of LEFT JOIN table is
 ![JOIN](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/JOIN/image/left_join_sql.png) 
 
-# FOR RIGHT JOIN table, the sql syntax is
+### FOR RIGHT JOIN table, the sql syntax is
 ```sql
 SELECT *
 FROM customer
@@ -85,7 +85,7 @@ ON customer.order_id = cust_order.order_id
 The result of LEFT JOIN table is
 ![JOIN](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/JOIN/image/right_join_sql.png) 
 
-# FOR FULL JOIN table, the sql syntax is
+### FOR FULL JOIN table, the sql syntax is
 ```sql
 SELECT *
 FROM customer
