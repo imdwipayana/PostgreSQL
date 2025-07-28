@@ -174,11 +174,11 @@ SELECT
 FROM employee_data
 WHERE job_title = 'Accountant' 
 	  AND salary = (SELECT 
-						MIN(salary) as average_salary
-					FROM employee_data
-					WHERE job_title = 'Accountant'
-					ORDER BY MIN(salary)
-					)
+			   MIN(salary) as average_salary
+			FROM employee_data
+			WHERE job_title = 'Accountant'
+			ORDER BY MIN(salary)
+)
 ```
 
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/ORDER%20BY/image/number10step2.png)
