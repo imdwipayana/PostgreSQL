@@ -107,3 +107,171 @@ SELECT
 FROM employee_data
 ```
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number5.png)
+
+### 6. Find the age of employee when they were hired (in months)
+
+```sql
+SELECT 
+	first_name,
+	last_name,
+	date_of_birth,
+	hire_date,
+	(DATE_PART('YEAR',hire_date) - DATE_PART('YEAR', date_of_birth))*12 + 
+	   (DATE_PART('MONTH',hire_date) - DATE_PART('MONTH', date_of_birth)) as age_hired_months
+FROM employee_data
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number6.png)
+
+### 7. Find the age of employee when they were hired (in years)
+
+```sql
+SELECT 
+	first_name,
+	last_name,
+	date_of_birth,
+	hire_date,
+	DATE_PART('YEAR',hire_date) - DATE_PART('YEAR', date_of_birth) as age_hired_years
+FROM employee_data
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number7.png)
+
+### 8. Someone who was born before 1997 is called millenial and called gen z if they were born in 1997-2012. Based on this clasification, calculate the average salary of millenial and gen z from employee_table.
+
+First step: divide the employee to be either millenial or gen z by using CASE
+```sql
+SELECT
+	*,
+	CASE
+		WHEN date_of_birth < '1997-01-01' THEN 'Millenial'
+		ELSE 'Gen Z'
+	END as employee_categorical
+FROM employee_data
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number8step1.png)
+
+Second step: use AVG() aggregate functions to calculate the average salary foe each category
+```sql
+SELECT
+	employee_categorical,
+	AVG(salary)::numeric(10,2) as average_salary
+FROM (
+SELECT
+	*,
+	CASE
+		WHEN date_of_birth < '1997-01-01' THEN 'Millenial'
+		ELSE 'Gen Z'
+	END as employee_categorical
+FROM employee_data
+)
+GROUP BY employee_categorical
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number8step2.png)
+
+### 9. There are three level of employee based on years of experience. Junior level with less tan 5 years of work experience. Mid level with 5-10 years of experience. The rest is the senior level. Based on that category, find the average salary of every level of employee.
+
+FIRST step: count the number of work experience in years.
+```sql
+SELECT 
+	first_name,
+	last_name,
+	date_of_birth,
+	hire_date,
+	salary,
+	DATE_PART('YEAR',CURRENT_DATE) - DATE_PART('YEAR', hire_date) as age_hired_years
+FROM employee_data
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number9step1.png)
+
+Second step: Make category based on the work experience with CASE statement.
+```sql
+SELECT
+	*,
+	CASE 
+		WHEN age_hired_years >= 10 THEN 'Senior'
+		WHEN age_hired_years < 5 THEN 'Junior'
+		ELSE 'Middle Level'
+	END as level_employee
+FROM(
+	SELECT 
+		first_name,
+		last_name,
+		date_of_birth,
+		hire_date,
+		salary,
+		DATE_PART('YEAR',CURRENT_DATE) - DATE_PART('YEAR', hire_date) as age_hired_years
+	FROM employee_data
+)
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number9step2.png)
+
+Third step: Use nested function then AVG() agregate functions to calculate the average work experience of the employee category based on salary
+```sql
+SELECT
+	level_employee,
+	AVG(salary)::numeric(10,2) as average_salary
+FROM (
+	SELECT
+	*,
+	CASE 
+		WHEN age_hired_years >= 10 THEN 'Senior'
+		WHEN age_hired_years < 5 THEN 'Junior'
+		ELSE 'Middle Level'
+	END as level_employee
+FROM(
+SELECT 
+	first_name,
+	last_name,
+	date_of_birth,
+	hire_date,
+	salary,
+	DATE_PART('YEAR',CURRENT_DATE) - DATE_PART('YEAR', hire_date) as age_hired_years
+FROM employee_data
+)
+)
+GROUP BY level_employee
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number9step3.png)
+
+### 10. There are 3 groups based on the salary: high, medium and low. The high earn employee is the one who earns more than 80000. Lower than 70000 is considered as low earning. Meanwhile the rest is the medium. Find out the average of work experience in years for all 3 groups.
+
+First step: Calculate the work experience in years (the same as the first step in previous problem). Then use CASE to make categorical group based on salary.
+```sql
+SELECT 
+	first_name,
+	last_name,
+	date_of_birth,
+	hire_date,
+	salary,
+	DATE_PART('YEAR',CURRENT_DATE) - DATE_PART('YEAR', hire_date) as age_hired_years,
+	CASE
+		WHEN salary >= 80000 THEN 'High'
+		WHEN salary < 70000 THEN 'Low'
+		ELSE 'Middle'
+	End as salary_category
+FROM employee_data
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number10step1.png)
+
+Second step: Use nested function from the previous table to calculate the average experience of 3 group based on salary.
+```sql
+SELECT
+	salary_category,
+	AVG(age_hired_years)::numeric(10,2) as average_experience_years
+FROM (
+	SELECT 
+		first_name,
+		last_name,
+		date_of_birth,
+		hire_date,
+		salary,
+		DATE_PART('YEAR',CURRENT_DATE) - DATE_PART('YEAR', hire_date) as age_hired_years,
+		CASE
+			WHEN salary >= 80000 THEN 'High'
+			WHEN salary < 70000 THEN 'Low'
+			ELSE 'Middle'
+		End as salary_category
+	FROM employee_data
+)
+GROUP BY salary_category
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number10step2.png)
