@@ -36,10 +36,52 @@ SELECT * FROM employee_data;
 
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/employee_data.png)
 
-
+### 1. Find the average salary of every job title
 
 ```sql
-SELECT * FROM books
-WHERE category = 'Classic';
+SELECT 
+	job_title,
+	AVG(salary)::numeric(10,2) as average_salary
+FROM employee_data
+GROUP BY job_title
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/employee_data.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number1.png)
+
+### 2. Find the average salary based on level of education
+
+```sql
+SELECT 
+	education,
+	AVG(salary)::numeric(10,2) as average_salary
+FROM employee_data
+GROUP BY education
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number2.png)
+
+### 3. Find the age average of every job title
+
+First step: find the days from data of birth until now
+
+```sql
+SELECT
+	*,
+	CURRENT_DATE - date_of_birth as age_in_days
+FROM employee_data
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number3step1.png)
+
+Second step: find the age average by using nested function from table of the first step above.
+
+```sql
+SELECT
+	job_title,
+	(AVG(age_in_days)::numeric(10,2)) as average_age
+FROM (
+    SELECT
+	    *,
+	    CURRENT_DATE - date_of_birth as age_in_days
+    FROM employee_data
+)
+GROUP BY job_title
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number3step2.png)
