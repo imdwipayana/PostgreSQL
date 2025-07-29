@@ -134,6 +134,156 @@ FROM book_data;
 
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number9.png)
 
+### 10. Example of aggregate window function with frame clause
+
+```sql
+SELECT
+	*,
+	AVG(price) OVER(PARTITION BY genre ORDER BY price DESC
+	   ROWS BETWEEN CURRENT ROW AND 2 FOLLOWING)::numeric(10,2) as average_price_now_next_two_books
+FROM book_data;
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number10.png)
+
+### 11. Example of aggregate window function with frame clause
+
+```sql
+SELECT
+	*,
+	AVG(price) OVER(PARTITION BY genre ORDER BY price DESC
+	   ROWS BETWEEN 1 PRECEDING AND CURRENT ROW)::numeric(10,2) as two_days_moving_average
+FROM book_data;
+```
+The ROWS statement in here can be used to calculate moving average in time series data.
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number11.png)
+
+### 12. The following two syntaxs using RANGE give the qustion result?
+
+Part one:
+```sql
+SELECT
+	*,
+	AVG(pages) OVER(PARTITION BY genre ORDER BY price DESC
+	   RANGE BETWEEN CURRENT ROW AND 2 FOLLOWING)::numeric(10,2) as total_pages
+FROM book_data;
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number12part1.png)
+
+Part two:
+```sql
+SELECT
+	*,
+	SUM(pages) OVER(PARTITION BY genre ORDER BY price DESC
+	   RANGE BETWEEN CURRENT ROW AND 2 FOLLOWING)::numeric(10,2) as total_pages
+FROM book_data;
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number12part2.png)
+
+### 13. Use COUNT() windows function to detect NULL
+
+Create a new table named book_duplicate that contain NULL and duplicate data.
+```sql
+CREATE TABLE book_duplicate(
+book_id VARCHAR(10),
+book_title VARCHAR(50),
+genre VARCHAR(25),
+in_stock INTEGER,
+pages INTEGER,
+price FLOAT
+);
+
+INSERT INTO book_duplicate(book_id, book_title, genre, in_stock, pages, price)
+VALUES 
+('M101', 'The Who',            'Mystery',  15, 315, 100),
+('T201', 'Back to Zero',       'Thriller', 20, 295, 400),
+('C301', 'Kill Billy',         'Crime',    25, 415, 50),
+('T202', 'What If',            'Thriller', 5,  394, 500),
+('C302', 'The Killer',         'Crime',    40, 452, 100),
+('M102', 'Unwanted',           'Mystery',  35, 512, 200),
+('M103', 'Right or Wrong',     'Mystery',  15, 314, 300),
+('C303', 'Stolen Soul',        'Crime',    20, 399, 150),
+('T203', 'The Broken Promise', 'Thriller', 25, 418, 600),
+('C304', 'The Culprit',        'Crime',    35, 550, 200),
+('C304', 'The Culprit',        'Crime',    35, 550, 200),
+('T203', 'The Broken Promise', 'Thriller', 25, 418, 600),
+('T203', 'The Broken Promise', 'Thriller', 25, 418, 600),
+(NULL,   'Me and You',         'Crime',    35, 550, 200);
+
+SELECT * FROM book_duplicate;
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number13part1.png)
+
+Using COUNT() window functions to detect the NULL value:
+```sql
+SELECT
+	book_id,
+	COUNT(*) OVER() as number_title,
+	COUNT(book_id) OVER () as no_null
+FROM book_duplicate;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number13.png)
+
+### 14. Use COUNT() windows function to detect data duplicate
+
+```sql
+SELECT 
+	book_id,
+	COUNT(*) OVER(PARTITION BY book_id) as number_repetitive
+FROM book_data;
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number14part1.png)
+
+The following syntax looks like has the same result, but if there is NULL data in book_id column, then the result will be different.
+```sql
+SELECT 
+	book_id,
+	COUNT(book_id) OVER(PARTITION BY book_id) as number_repetitive
+FROM book_data;
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number14part2.png)
+
+Based on the previous problem, the different must be clear. Try use the same syntax in book_duplicate table.
+```sql
+SELECT 
+	book_id,
+	COUNT(*) OVER(PARTITION BY book_id) as number_repetitive
+FROM book_duplicate;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number14part3.png)
+
+If the number of repetitive is more than 1, it means there must be duplication.
+```sql
+SELECT
+	*
+FROM (SELECT 
+         book_id,
+         COUNT(*) OVER(PARTITION BY book_id) as number_repetitive
+      FROM book_duplicate
+)
+WHERE number_repetitive >1;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number14part4.png)
+
+Finding the unique book_id that has duplicate:
+```sql
+SELECT
+	DISTINCT(book_id),
+	number_repetitive
+FROM (SELECT 
+	     book_id,
+	  COUNT(*) OVER(PARTITION BY book_id) as number_repetitive
+      FROM book_duplicate
+)
+WHERE number_repetitive >1;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number14part5.png)
 
 
 
