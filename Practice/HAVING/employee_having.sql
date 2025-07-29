@@ -51,15 +51,34 @@ Having AVG(salary) > 70000
 
 
 --=================================================================================
--- 2. Find the group of employee based on education that their average work experience is longer than 6 years.
+-- 2. Find out the number of employee for each category based on job title.
 --=================================================================================
--- First step:
+SELECT 
+	job_title,
+	COUNT(*) as number_employee
+FROM employee_data
+GROUP BY job_title
+
+--=================================================================================
+-- 3. Find all the employee category based on job_title who has more than 1 member.
+--=================================================================================
+SELECT 
+	job_title,
+	COUNT(*) as number_employee
+FROM employee_data
+GROUP BY job_title
+HAVING COUNT(*) > 1
+
+--=================================================================================
+-- 4. Find the group of employee based on education that their average work experience is longer than 6 years.
+--=================================================================================
+-- First step: calculate the work experience as a new column work_exp_years
 SELECT
 	*,
 	DATE_PART('YEAR',CURRENT_DATE) - DATE_PART('YEAR', hire_date) as work_exp_years
 FROM employee_data
 
--- Second step:
+-- Second step: use aggregate function to aggregate the average of work_exp_years
 SELECT
 	education,
 	AVG(work_exp_years)::numeric(10,2) as average_work_exp
@@ -71,7 +90,7 @@ FROM employee_data
 )
 GROUP BY education
 
--- Third step:
+-- Third step: using having to give contrain for average work experience bigger than 6
 SELECT
 	education,
 	AVG(work_exp_years)::numeric(10,2) as average_work_exp
@@ -83,104 +102,8 @@ FROM employee_data
 )
 GROUP BY education
 HAVING AVG(work_exp_years) > 6
---=================================================================================
--- 2. Order table based on salary. Starting from the highest salary.
---=================================================================================
-SELECT 
-	*
-FROM employee_data
-ORDER BY salary DESC
 
---=================================================================================
--- 3. Order table based on date of birth starting from the youngest
---=================================================================================
-SELECT 
-	*
-FROM employee_data
-ORDER BY date_of_birth DESC
 
---=================================================================================
--- 4. Order table based on working experience 
---=================================================================================
-SELECT 
-	*
-FROM employee_data
-ORDER BY hire_date 
 
---=================================================================================
--- 5. Find the average salary of group of employee based on job title.
---=================================================================================
-SELECT 
-	job_title,
-	AVG(salary)::numeric(10,2) as average_salary
-FROM employee_data
-GROUP BY job_title
-ORDER BY AVG(salary) 
 
---=================================================================================
--- 6. Find the average salary of group of employee based on job title. The highest first.
---=================================================================================
-SELECT 
-	job_title,
-	AVG(salary)::numeric(10,2) as average_salary
-FROM employee_data
-GROUP BY job_title
-ORDER BY AVG(salary) DESC
-
---=================================================================================
--- 7. Find top three higest average salary based on job title
---=================================================================================
-SELECT 
-	job_title,
-	AVG(salary)::numeric(10,2) as average_salary
-FROM employee_data
-GROUP BY job_title
-ORDER BY AVG(salary) DESC
-LIMIT 3
-
---=================================================================================
--- 8. Top three average salary based on job title for millenial only
---=================================================================================
-SELECT 
-	job_title,
-	AVG(salary)::numeric(10,2) as average_salary
-FROM employee_data
-WHERE date_of_birth < '1997-01-01'
-GROUP BY job_title
-ORDER BY AVG(salary) DESC
-LIMIT 3
-
---=================================================================================
--- 9. Find the average salary of millenial based on job_title where average salari bigger than 60000
---=================================================================================
-SELECT 
-	job_title,
-	AVG(salary)::numeric(10,2) as average_salary
-FROM employee_data
-WHERE date_of_birth < '1997-01-01'
-GROUP BY job_title
-HAVING AVG(salary) > 60000
-ORDER BY AVG(salary) DESC
-
---=================================================================================
--- 10. Find data who is an accountant with the lowest salary.
---=================================================================================
--- First step: calculate the amount of least salary for accountant
-SELECT 
-	MIN(salary) as average_salary
-FROM employee_data
-WHERE job_title = 'Accountant'
-ORDER BY MIN(salary)
-
--- Second step: find the accountant using subquery
-SELECT
-*
-FROM employee_data
-WHERE job_title = 'Accountant' 
-	  AND salary = (SELECT 
-						MIN(salary) as average_salary
-					FROM employee_data
-					WHERE job_title = 'Accountant'
-					ORDER BY MIN(salary)
-					)
 
