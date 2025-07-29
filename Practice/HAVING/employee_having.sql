@@ -103,7 +103,24 @@ FROM employee_data
 GROUP BY education
 HAVING AVG(work_exp_years) > 6
 
+--=================================================================================
+-- 5. In this example, WHERE and HAVING work interchangeably
+--=================================================================================
+-- First step: using WHERE statement
+SELECT
+	education,
+	AVG(salary)::numeric(10,2) as average_salary
+FROM employee_data
+WHERE education = 'Bachelor' 
+GROUP BY education
 
+-- Second step: using HAVING statement
+SELECT
+	education,
+	AVG(salary)::numeric(10,2) as average_salary
+FROM employee_data
+GROUP BY education
+HAVING education = 'Bachelor'
 
 
 
