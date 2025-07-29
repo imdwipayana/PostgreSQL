@@ -51,3 +51,30 @@ SELECT
 FROM book_data;
 ```
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number1.png)
+
+### 2. Create a new column to inform the total books in stock
+```sql
+SELECT
+	*,
+	SUM(in_stock) OVER() as total_book
+FROM book_data;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number2.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
