@@ -40,86 +40,100 @@ VALUES
 SELECT * FROM employee_data;
 
 --=================================================================================
--- 1. Find all groups of employee based on job title that average salary higher than 70000
+-- 1. Find the total of employee
 --=================================================================================
-SELECT 
-	job_title,
+SELECT
+	COUNT(*) as total_employee
+FROM employee_data
+
+--=================================================================================
+-- 2. Find the average salary of all the employees
+--=================================================================================
+SELECT
 	AVG(salary)::numeric(10,2) as average_salary
 FROM employee_data
-GROUP BY job_title
-Having AVG(salary) > 70000
 
 --=================================================================================
--- 2. Find out the number of employee for each category based on job title.
+-- 3. Find the highest salary of all employees
 --=================================================================================
-SELECT 
-	job_title,
-	COUNT(*) as number_employee
-FROM employee_data
-GROUP BY job_title
-
---=================================================================================
--- 3. Find all the employee category based on job_title who has more than 1 member.
---=================================================================================
-SELECT 
-	job_title,
-	COUNT(*) as number_employee
-FROM employee_data
-GROUP BY job_title
-HAVING COUNT(*) > 1
-
---=================================================================================
--- 4. Find the group of employee based on education that their average work experience is longer than 6 years.
---=================================================================================
--- First step: calculate the work experience as a new column work_exp_years
 SELECT
-	*,
-	DATE_PART('YEAR',CURRENT_DATE) - DATE_PART('YEAR', hire_date) as work_exp_years
+	MAX(salary) as highest_salary
 FROM employee_data
 
--- Second step: use aggregate function to aggregate the average of work_exp_years
+--=================================================================================
+-- 4. Find the lowest salary of all employees
+--=================================================================================
 SELECT
-	education,
-	AVG(work_exp_years)::numeric(10,2) as average_work_exp
-FROM(
-SELECT
-	*,
-	DATE_PART('YEAR',CURRENT_DATE) - DATE_PART('YEAR', hire_date) as work_exp_years
+	MIN(salary) as highest_salary
 FROM employee_data
-)
-GROUP BY education
-
--- Third step: using having to give contrain for average work experience bigger than 6
-SELECT
-	education,
-	AVG(work_exp_years)::numeric(10,2) as average_work_exp
-FROM(
-SELECT
-	*,
-	DATE_PART('YEAR',CURRENT_DATE) - DATE_PART('YEAR', hire_date) as work_exp_years
-FROM employee_data
-)
-GROUP BY education
-HAVING AVG(work_exp_years) > 6
 
 --=================================================================================
--- 5. In this example, WHERE and HAVING work interchangeably
+-- 5. Calculate the total salary of all the employees
 --=================================================================================
--- First step: using WHERE statement
 SELECT
-	education,
+	SUM(salary) as total_salary
+FROM employee_data
+
+--=================================================================================
+-- 6. Find the average salary for employee with education is Bachelor degree
+--=================================================================================
+-- First method: using WHERE statement
+SELECT
 	AVG(salary)::numeric(10,2) as average_salary
 FROM employee_data
-WHERE education = 'Bachelor' 
-GROUP BY education
+WHERE education = 'Bachelor'
 
--- Second step: using HAVING statement
+-- Second method: using HAVING statement (it is not recommended)
 SELECT
-	education,
 	AVG(salary)::numeric(10,2) as average_salary
 FROM employee_data
 GROUP BY education
 HAVING education = 'Bachelor'
+
+--=================================================================================
+-- 7. Find the number of employee for each level of education
+--=================================================================================
+SELECT
+	education,
+	COUNT(*) as number_employee
+FROM employee_data
+GROUP BY education
+
+--=================================================================================
+-- 8. Find out the majority of employee's education level.
+--=================================================================================
+-- First step: using GROUP BY statement and COUNT() aggregate function to find out the total of employee in every level of education
+SELECT
+	education,
+	COUNT(*) as number_employee
+FROM employee_data
+GROUP BY education
+
+-- Second step: using ORDER BY statement with DESC to sort the number of employee from the highest to lowest in the groups. Then use LIMIT 1 to get the highest number of employees in the group.
+SELECT
+	education,
+	COUNT(*) as number_employee
+FROM employee_data
+GROUP BY education
+ORDER BY COUNT(*) DESC
+LIMIT 1
+
+-- The same result if using the nested method like the following:
+SELECT
+	education,
+	number_employee
+FROM (SELECT
+	     education,
+	     COUNT(*) as number_employee
+      FROM employee_data
+      GROUP BY education
+)
+ORDER BY number_employee DESC
+LIMIT 1
+
+
+
+
 
 
 
