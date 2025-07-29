@@ -77,23 +77,23 @@ SELECT
 FROM book_data
 
 --=================================================================================
--- 6. 
+-- 6. Create a new table with information of the average price of book based on genre
 --=================================================================================
--- First method: using WHERE statement
 SELECT
-	AVG(salary)::numeric(10,2) as average_salary
-FROM employee_data
-WHERE education = 'Bachelor'
-
--- Second method: using HAVING statement (it is not recommended)
-SELECT
-	AVG(salary)::numeric(10,2) as average_salary
-FROM employee_data
-GROUP BY education
-HAVING education = 'Bachelor'
+	*,
+	AVG(price) OVER(PARTITION BY genre) as average_price
+FROM book_data
 
 --=================================================================================
--- 7. Find the number of employee for each level of education
+-- 7. Create a new table with information of the average price of book based on genre. Put the most pages on top for each category.
+--=================================================================================
+SELECT
+	*,
+	AVG(price) OVER(PARTITION BY genre ORDER BY price DESC)::numeric(10,2) as average_price
+FROM book_data
+
+--=================================================================================
+-- 
 --=================================================================================
 SELECT
 	education,
