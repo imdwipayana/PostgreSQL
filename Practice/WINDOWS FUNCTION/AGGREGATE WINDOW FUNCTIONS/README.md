@@ -61,16 +61,78 @@ FROM book_data;
 ```
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number2.png)
 
+### 3. Create a new column that inform the most expensive book
+```sql
+SELECT
+	*,
+	MAX(price) OVER() as most_expensive
+FROM book_data;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number3.png)
 
+### 4. Create a new column with information of the cheapest book
+```sql
+SELECT
+	*,
+	MIN(price) OVER() as most_expensive
+FROM book_data;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number4.png)
 
+### 5. Create a new column with information about the number of book's titles available
+```sql
+SELECT
+	*,
+	COUNT(*) OVER() as book_title
+FROM book_data;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number5.png)
 
+### 6. Create a new table with information of the average price of book based on genre
+```sql
+SELECT
+	*,
+	AVG(price) OVER(PARTITION BY genre) as average_price
+FROM book_data;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number6.png)
 
+### 7. Create a new table with information of the average price of book based on genre. Put the most pages on top for each category.
 
+```sql
+SELECT
+	*,
+	AVG(price) OVER(PARTITION BY genre ORDER BY price DESC)::numeric(10,2) as average_price
+FROM book_data;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number7.png)
 
+The result is a little bit weird. The pages column is sorted for each category, but the average price result based the row data and the preceeding data in the same category (this is the default from frame clause which is ROWS BETWEEN CURRENT ROW AND UNBOUNDED PRECEEDING). For further understanting, look for frame clause in window functions. I myself still learning when the ORDER BY in aggregate window function supposed to be applied in the real problem.
 
+### 8. Example of aggregate window function with frame clause
 
+```sql
+SELECT
+	*,
+	AVG(price) OVER(PARTITION BY genre ORDER BY price DESC
+	   ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)::numeric(10,2) as average_price
+FROM book_data;
+```
+The result is the same with the previous one.
 
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number8.png)
 
+### 9. Example of aggregate window function with frame clause
+
+```sql
+SELECT
+	*,
+	AVG(price) OVER(PARTITION BY genre ORDER BY price DESC
+	   ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING)::numeric(10,2) as average_price_now_next_book
+FROM book_data;
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number9.png)
 
 
 
