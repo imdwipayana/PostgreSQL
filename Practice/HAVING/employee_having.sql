@@ -49,7 +49,6 @@ FROM employee_data
 GROUP BY job_title
 Having AVG(salary) > 70000
 
-
 --=================================================================================
 -- 2. Find out the number of employee for each category based on job title.
 --=================================================================================
