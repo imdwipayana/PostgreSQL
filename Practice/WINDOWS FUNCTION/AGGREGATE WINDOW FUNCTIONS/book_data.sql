@@ -42,7 +42,7 @@ SELECT * FROM book_data;
 SELECT
 	*,
 	AVG(price) OVER() as average_price
-FROM book_data
+FROM book_data;
 
 --=================================================================================
 -- 2. Create a new column to inform the total books in stock
@@ -50,7 +50,7 @@ FROM book_data
 SELECT
 	*,
 	SUM(in_stock) OVER() as total_book
-FROM book_data
+FROM book_data;
 
 --=================================================================================
 -- 3. Create a new column that inform the most expensive book
@@ -58,7 +58,7 @@ FROM book_data
 SELECT
 	*,
 	MAX(price) OVER() as most_expensive
-FROM book_data
+FROM book_data;
 
 --=================================================================================
 -- 4. Create a new column with information of the cheapest book
@@ -66,7 +66,7 @@ FROM book_data
 SELECT
 	*,
 	MIN(price) OVER() as most_expensive
-FROM book_data
+FROM book_data;
 
 --=================================================================================
 -- 5. Create a new column with information about the number of book's titles available
@@ -74,7 +74,7 @@ FROM book_data
 SELECT
 	*,
 	COUNT(*) OVER() as book_title
-FROM book_data
+FROM book_data;
 
 --=================================================================================
 -- 6. Create a new table with information of the average price of book based on genre
@@ -82,7 +82,7 @@ FROM book_data
 SELECT
 	*,
 	AVG(price) OVER(PARTITION BY genre) as average_price
-FROM book_data
+FROM book_data;
 
 --=================================================================================
 -- 7. Create a new table with information of the average price of book based on genre. Put the most pages on top for each category.
@@ -90,7 +90,7 @@ FROM book_data
 SELECT
 	*,
 	AVG(price) OVER(PARTITION BY genre ORDER BY price DESC)::numeric(10,2) as average_price
-FROM book_data
+FROM book_data;
 
 -- The result is a little bit weird. The pages column is sorted for each category, but the average price result based the row data and the preceeding data in the same category (this is the default from frame clause which is ROWS BETWEEN CURRENT ROW AND UNBOUNDED PRECEEDING). For further understanting, look for frame clause in window functions
 -- I myself still learning when the ORDER BY in aggregate window function supposed to be applied in the real problem.
@@ -101,7 +101,7 @@ SELECT
 	*,
 	AVG(price) OVER(PARTITION BY genre ORDER BY price DESC
 	   ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)::numeric(10,2) as average_price
-FROM book_data
+FROM book_data;
 -- The result is the same with the previous one.
 --=================================================================================
 -- 9. Example of aggregate window function with frame clause
@@ -110,7 +110,7 @@ SELECT
 	*,
 	AVG(price) OVER(PARTITION BY genre ORDER BY price DESC
 	   ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING)::numeric(10,2) as average_price_now_next_book
-FROM book_data
+FROM book_data;
 
 --=================================================================================
 -- 10. Example of aggregate window function with frame clause
@@ -119,7 +119,7 @@ SELECT
 	*,
 	AVG(price) OVER(PARTITION BY genre ORDER BY price DESC
 	   ROWS BETWEEN CURRENT ROW AND 2 FOLLOWING)::numeric(10,2) as average_price_now_next_two_books
-FROM book_data
+FROM book_data;
 
 --=================================================================================
 -- 11. Example of aggregate window function with frame clause
@@ -128,9 +128,9 @@ SELECT
 	*,
 	AVG(price) OVER(PARTITION BY genre ORDER BY price DESC
 	   ROWS BETWEEN 1 PRECEDING AND CURRENT ROW)::numeric(10,2) as two_days_moving_average
-FROM book_data
+FROM book_data;
 
--- The RANGE statement in here can be used to calculate moving average in time series data.
+-- The ROWS statement in here can be used to calculate moving average in time series data.
 
 --=================================================================================
 -- 12. The following two syntaxs using RANGE give the qustion result?
@@ -140,14 +140,14 @@ SELECT
 	*,
 	AVG(pages) OVER(PARTITION BY genre ORDER BY price DESC
 	   RANGE BETWEEN CURRENT ROW AND 2 FOLLOWING)::numeric(10,2) as total_pages
-FROM book_data
+FROM book_data;
 
 -- Part two:
 SELECT
 	*,
 	SUM(pages) OVER(PARTITION BY genre ORDER BY price DESC
 	   RANGE BETWEEN CURRENT ROW AND 2 FOLLOWING)::numeric(10,2) as total_pages
-FROM book_data
+FROM book_data;
 
 --=================================================================================
 -- 13. Use COUNT() windows function to detect NULL
@@ -186,7 +186,7 @@ SELECT
 	book_id,
 	COUNT(*) OVER() as number_title,
 	COUNT(book_id) OVER () as no_null
-FROM book_duplicate
+FROM book_duplicate;
 
 --=================================================================================
 -- 14. Use COUNT() windows function to detect data duplicate
@@ -194,19 +194,19 @@ FROM book_duplicate
 SELECT 
 	book_id,
 	COUNT(*) OVER(PARTITION BY book_id) as number_repetitive
-FROM book_data
+FROM book_data;
 
--- The following syntax looks like has the same result, but id there is NULL data in book_id column, then the result will be different.
+-- The following syntax looks like has the same result, but if there is NULL data in book_id column, then the result will be different.
 SELECT 
 	book_id,
 	COUNT(book_id) OVER(PARTITION BY book_id) as number_repetitive
-FROM book_data
+FROM book_data;
 
 -- Based on the previous problem, the different must be clear. Try use the same syntax in book_duplicate table
 SELECT 
 	book_id,
 	COUNT(*) OVER(PARTITION BY book_id) as number_repetitive
-FROM book_duplicate
+FROM book_duplicate;
 
 -- If the number of repetitive is more than 1, it means there must be duplication.
 SELECT
@@ -216,7 +216,7 @@ FROM (SELECT
 	  COUNT(*) OVER(PARTITION BY book_id) as number_repetitive
       FROM book_duplicate
 )
-WHERE number_repetitive >1
+WHERE number_repetitive >1;
 
 -- Finding the unique book_id that has duplicate:
 SELECT
@@ -227,4 +227,4 @@ FROM (SELECT
 	  COUNT(*) OVER(PARTITION BY book_id) as number_repetitive
       FROM book_duplicate
 )
-WHERE number_repetitive >1
+WHERE number_repetitive >1;
