@@ -1,13 +1,15 @@
 # AGGREGATE FUNCTIONS
 
-There are some statement for agregate function which are:
+There are some statement for agregate function. The most commons are:
 #### 1. COUNT() to count the number of data.
 #### 2. SUM() to count the total value.
 #### 3. AVG() to count the average of data
 #### 4. MAX() to find out the maximum in the data
 #### 5. MIN() to find out the minimum in the data
 
-We will use the employment data with the following syntax:
+Those statements are used with GROUP BY (HAVING) and ORDER BY. The WHERE statement can not be followed with aggregation function, instead we can utilize HAVING statement.
+
+We will apply the employment data with the following syntax:
 
 ```sql
 --=================================================================================
@@ -55,11 +57,119 @@ SELECT * FROM employee_data;
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/AGGREGATE%20FUNCTIONS/image/employee_data.png)
 
 
-### 1. 
+### 1. Find the total of employee
 ```sql
-CREATE TABLE expensive_books AS
-SELECT * FROM books
-WHERE rental_price > 7.00;
+SELECT
+	COUNT(*) as total_employee
+FROM employee_data
 ```
 
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/AGGREGATE%20FUNCTIONS/image/employee_data.png)
+
+### 2. Find the average salary of all the employees
+```sql
+SELECT
+	AVG(salary)::numeric(10,2) as average_salary
+FROM employee_data
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/AGGREGATE%20FUNCTIONS/image/employee_data.png)
+
+### 3. Find the highest salary of all employees
+```sql
+SELECT
+	MAX(salary) as highest_salary
+FROM employee_data
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/AGGREGATE%20FUNCTIONS/image/employee_data.png)
+
+### 4. Find the lowest salary of all employees
+```sql
+SELECT
+	MIN(salary) as highest_salary
+FROM employee_data
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/AGGREGATE%20FUNCTIONS/image/employee_data.png)
+
+### 5. Calculate the total salary of all the employees
+```sql
+SELECT
+	SUM(salary) as total_salary
+FROM employee_data
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/AGGREGATE%20FUNCTIONS/image/employee_data.png)
+
+### 6. Find the average salary for employee with education is Bachelor degree
+
+First method: using WHERE statement
+```sql
+SELECT
+	AVG(salary)::numeric(10,2) as average_salary
+FROM employee_data
+WHERE education = 'Bachelor'
+```
+Second method: using HAVING statement (it is not recommended)
+```sql
+SELECT
+	AVG(salary)::numeric(10,2) as average_salary
+FROM employee_data
+GROUP BY education
+HAVING education = 'Bachelor'
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/AGGREGATE%20FUNCTIONS/image/employee_data.png)
+
+### 7. Find the number of employee for each level of education
+```sql
+SELECT
+	education,
+	COUNT(*) as number_employee
+FROM employee_data
+GROUP BY education
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/AGGREGATE%20FUNCTIONS/image/employee_data.png)
+
+### 8. Find out the majority of employee's education level.
+
+First step: using GROUP BY statement and COUNT() aggregate function to find out the total of employee in every level of education
+
+```sql
+SELECT
+	education,
+	COUNT(*) as number_employee
+FROM employee_data
+GROUP BY education
+```
+Second step: using ORDER BY statement with DESC to sort the number of employee from the highest to lowest in the groups. Then use LIMIT 1 to get the highest number of employees in the group.
+
+```sql
+SELECT
+	education,
+	COUNT(*) as number_employee
+FROM employee_data
+GROUP BY education
+ORDER BY COUNT(*) DESC
+LIMIT 1
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/AGGREGATE%20FUNCTIONS/image/employee_data.png)
+
+The same result if using the nested method like the following:
+
+```sql
+SELECT
+	education,
+	number_employee
+FROM (SELECT
+	     education,
+	     COUNT(*) as number_employee
+      FROM employee_data
+      GROUP BY education
+)
+ORDER BY number_employee DESC
+LIMIT 1
+```
