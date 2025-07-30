@@ -128,8 +128,8 @@ FROM (
 SELECT
 	*,
 	number_sold*price as sales
-FROM book_data_sold;
-)
+FROM book_data_sold
+);
 ```
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number6step2.png)
 
@@ -147,44 +147,184 @@ LIMIT 3;
 ```
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number6step3.png)
 
-### 
+### 7. USE NTILE() to divide the book data through some groups based on price.
 
 ```sql
-
+SELECT
+	*,
+	NTILE(1) OVER(ORDER BY price DESC) as one_group,
+	NTILE(2) OVER(ORDER BY price DESC) as two_groups,
+	NTILE(3) OVER(ORDER BY price DESC) as three_groups,
+	NTILE(4) OVER(ORDER BY price DESC) as four_groups,
+	NTILE(5) OVER(ORDER BY price DESC) as five_groups,
+	NTILE(6) OVER(ORDER BY price DESC) as six_groups
+FROM book_data_sold;
 ```
-![Library_project]()
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number7.png)
 
-### 
+### 8. USE NTILE() to categorize the book based on price into 3 groups: expensive, medium and cheap
+
+First step: use NTILE(3) to group table into 3 category
+```sql
+SELECT
+	*,
+	NTILE(3) OVER(ORDER BY price DESC) as three_group
+FROM book_data_sold;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number8step1.png)
+
+-- Second step: use CASE to categorize data based on the NTILE() result
+```sql
+SELECT
+	*,
+	CASE
+		WHEN three_group = 1 THEN 'expensive'
+		WHEN three_group = 2 THEN 'medium'
+		ELSE 'cheap'
+	END as price_category
+FROM (SELECT
+	     *,
+	  NTILE(3) OVER(ORDER BY price DESC) as three_group
+      FROM book_data_sold
+);
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number8step2.png)
+
+### 9. Categorize the books to be two groups based on sales: top_selling and less_selling
+
+First step: calculate sales for each book.
+```sql
+SELECT
+	*,
+	number_sold*price as sales
+FROM book_data_sold;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number9step1.png)
+
+Second step: use NTILE(2) to divide the sales becomes two groups.
+```sql
+SELECT
+	*,
+	NTILE(2) OVER(ORDER BY sales DESC) as sales_category
+FROM (SELECT
+	     *,
+	     number_sold*price as sales
+      FROM book_data_sold
+);
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number9step2.png)
+
+Third step: use CASE to make category based on sales
+```sql
+SELECT
+	*,
+	CASE
+		WHEN sales_category = 1 THEN 'top_selling'
+		ELSE 'less_selling'
+	END as top_less_selling
+FROM (SELECT
+         *,
+	     NTILE(2) OVER(ORDER BY sales DESC) as sales_category
+      FROM (SELECT
+	           *,
+	           number_sold*price as sales
+            FROM book_data_sold
+)
+);
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number9step3.png)
+
+### 10. USE CUME_DIST() to find out the top 40% from book price
+
+First step: use CUM_DIST() to find the top percentage
+```sql
+SELECT
+	*,
+	CUME_DIST() OVER(ORDER BY price DESC) as cumulative_dist 
+FROM book_data_sold;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number10step1.png)
+
+Second step: use WHERE to constrain the only top 40%
+```sql
+SELECT
+	*
+FROM(SELECT
+	    *,
+	 CUME_DIST() OVER(ORDER BY price DESC) as cumulative_dist 
+     FROM book_data_sold
+)
+WHERE cumulative_dist<=0.4;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number10step2.png)
+
+Third step: use CONCAT to write in percentage
+```sql
+SELECT
+	*,
+	CONCAT(cumulative_dist*100,'%') as percentage_dist
+FROM (SELECT
+  	     *
+      FROM(SELECT
+      	      *,
+	          CUME_DIST() OVER(ORDER BY price DESC) as cumulative_dist 
+           FROM book_data_sold
+)
+WHERE cumulative_dist<=0.4
+);
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number10step3.png)
+
+### 11. USE PERCENT_RANK() to find out the top 40% from book price
+
+First step: use CUM_DIST() to find the top percentage
 
 ```sql
-
+SELECT
+	*,
+	PERCENT_RANK() OVER(ORDER BY price DESC)::numeric(10,2) as cumulative_dist 
+FROM book_data_sold;
 ```
-![Library_project]()
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number11step1.png)
 
-### 
+
+Second step: use WHERE to constrain the only top 40%
+```sql
+SELECT
+	*
+FROM(SELECT
+	    *,
+	 PERCENT_RANK() OVER(ORDER BY price DESC)::numeric(10,2) as cumulative_dist 
+     FROM book_data_sold
+)
+WHERE cumulative_dist<=0.4;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number11step2.png)
+
+Third step: use CONCAT to write in percentage
+```sql
+SELECT
+	*,
+	CONCAT(cumulative_dist*100,'%') as percentage_dist
+FROM (SELECT
+  	     *
+      FROM(SELECT
+      	      *,
+	          PERCENT_RANK() OVER(ORDER BY price DESC)::numeric(10,2) as cumulative_dist 
+           FROM book_data_sold
+)
+WHERE cumulative_dist<=0.4
+);
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number11step3.png)
+
+### 12. Compare CUME_DIST() and PERCENT_RANK() from book price
 
 ```sql
-
+SELECT
+	*,
+	CUME_DIST() OVER(ORDER BY price DESC)::numeric(10,2) as example_cume_dist,
+	PERCENT_RANK() OVER(ORDER BY price DESC)::numeric(10,2) as example_percent_rank
+FROM book_data_sold;
 ```
-![Library_project]()
-
-### 
-
-```sql
-
-```
-![Library_project]()
-
-### 
-
-```sql
-
-```
-![Library_project]()
-
-### 
-
-```sql
-
-```
-![Library_project]()
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number12.png)
