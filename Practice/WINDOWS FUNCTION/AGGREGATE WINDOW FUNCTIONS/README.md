@@ -118,7 +118,7 @@ SELECT
 	   ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)::numeric(10,2) as average_price
 FROM book_data;
 ```
-The result is the same with the previous one.
+The result is the same with the previous one. It means the default is ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW if we didn't write the ROWS frame clause.
 
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number8.png)
 
