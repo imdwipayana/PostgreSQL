@@ -110,7 +110,7 @@ SELECT
 		ELSE 'expensive'
 	END as price_category
 FROM VIEW_book_average
-ORDER BY price
+ORDER BY price;
 
 --=================================================================================
 -- 4. Compare the previous result when we use NTILE() instead.
