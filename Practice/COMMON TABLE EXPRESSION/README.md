@@ -1,87 +1,106 @@
-# CREATE Table AS SELECT
+# COMMON TABLE EXPRESSION(CTE)
 
-CREATE table as select is the same with save the table that we need through SELECT command. At first we create table book_library. 
-
+Create table book_sold and insert all the values:
 ```sql
-DROP TABLE IF EXISTS book_library;
-CREATE TABLE book_library(
-book_id VARCHAR(15) PRIMARY KEY,
-book_title VARCHAR(200),
-borrowed_id VARCHAR(50),
-borrowed_date DATE,
-return_date DATE
+--=================================================================================
+-- DROP book_data_sold table if it exists
+--=================================================================================
+DROP TABLE IF EXISTS book_data_sold;
+
+--=================================================================================
+-- CREATE book_data_sold table 
+--=================================================================================
+CREATE TABLE book_data_sold(
+book_id VARCHAR(10) PRIMARY KEY,
+book_title VARCHAR(50),
+genre VARCHAR(25),
+in_stock INTEGER,
+number_sold INTEGER,
+pages INTEGER,
+price FLOAT
 );
-```
-Then insert the value of the table with syntax:
-```sql
-INSERT INTO book_library
+
+--=================================================================================
+-- INSERT book_data_sold table value
+--=================================================================================
+INSERT INTO book_data_sold
 VALUES 
-('A1001', 'To Kill a Mockingbird',  'W2206', CURRENT_DATE - INTERVAL '55 days', CURRENT_DATE - INTERVAL '25 days'),
-('A1002', 'The Alchemist',          'M0609', CURRENT_DATE - INTERVAL '50 days', NULL),
-('B2001', 'No Country for Old Man', 'T2305', CURRENT_DATE - INTERVAL '45 days', CURRENT_DATE - INTERVAL '20 days'),
-('B2002', 'Cloud Cuckoo Land',      'F1512', CURRENT_DATE - INTERVAL '35 days', NULL),
-('C3001', 'The Grapes of Wrath',    'S0511', CURRENT_DATE - INTERVAL '31 days', CURRENT_DATE - INTERVAL '15 days'),
-('C3002', 'Harry Potter',           'S0511', CURRENT_DATE - INTERVAL '25 days', NULL),
-('C3003', 'River Sing Me Home',     'M1809', CURRENT_DATE - INTERVAL '15 days', NULL);
-```
-Call the book_library table with:
+('M101', 'The Who',            'Mystery',  15, 75,  315, 100),
+('T201', 'Back to Zero',       'Thriller', 20, 50,  295, 400),
+('C301', 'Kill Billy',         'Crime',    25, 100, 415, 50),
+('T202', 'What If',            'Thriller', 5,  50,  394, 500),
+('C302', 'The Killer',         'Crime',    40, 75,  452, 100),
+('M102', 'Unwanted',           'Mystery',  35, 100, 512, 200),
+('M103', 'Right or Wrong',     'Mystery',  15, 50,  314, 300),
+('C303', 'Stolen Soul',        'Crime',    20, 25,  399, 150),
+('T203', 'The Broken Promise', 'Thriller', 25, 25,  418, 600),
+('C304', 'The Culprit',        'Crime',    35, 100, 550, 200);
 
-```sql
-SELECT * FROM book_library
+--=================================================================================
+-- Call the book_data table
+--=================================================================================
+SELECT * FROM book_data_sold;
 );
 ```
-The book_library table is shown as follow:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/Create%20Table%20as%20SELECT/image/book_library.png)
+The book_sold table is shown as follow:
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/COMMON%20TABLE%20EXPRESSION/image/book_sold_for_CTE.png)
 
-
-NOTE: The date will appear in your table will be different with the date in this table because it will depends on when you run the program. This is caused by the CURRENT_DATE and INTERVAL Commands. The purpose of this fluid date format is to adapt with the late book regulation which is 30 days after borrowed date. It means the date will be different but the result after that will be the same with the tables shown here later. The NULL value in return_date column means the book hasn't been returned yet. If we want to find all books that have been returned, we can use the syntax:
-
+### 1. FIND the book total sales of all books.
+#### First method: using subquery. 
+First step: calculate the total sales of each book by multiplying number_sold column with price.
 ```sql
-CREATE TABLE book_returned AS
-SELECT * FROM book_library
-WHERE return_date IS NOT NULL;
-
-SELECT * FROM book_returned;
+SELECT
+	*,
+	number_sold*price as sales
+FROM book_data_sold
 ```
-The result is the table book returned as follow:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/Create%20Table%20as%20SELECT/image/book_returned.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/COMMON%20TABLE%20EXPRESSION/image/number1method1step1.png)
 
-Meanwhile if we want to see the book that hasn't been returned yet, we can use the syntax:
+Second step: using SUM() for column sales to find out the total sales.
 ```sql
-CREATE TABLE book_not_returned AS
-SELECT * FROM book_library
-WHERE return_date IS NULL;
-
-SELECT * FROM book_not_returned;
+SELECT
+	SUM(sales) as total_sales
+FROM (SELECT
+	     *,
+	     number_sold*price as sales
+      FROM book_data_sold
+)
 ```
-The book_not_returned table is shown as:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/Create%20Table%20as%20SELECT/image/book_not_returned.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/COMMON%20TABLE%20EXPRESSION/image/number1method1step2.png)
 
-If the late regulation is the book that returned more than 30 days after borrowed date, we can check all the book that late with syntax:
+#### Second method: using Common Table Expression (CTE)
 ```sql
-CREATE TABLE book_late AS
-SELECT *,
-	CURRENT_DATE - borrowed_date as days_borrowed
-FROM book_library
-WHERE CURRENT_DATE - borrowed_date > 30;
-
-SELECT * FROM book_late;
+SELECT
+	SUM(sales) as total_sales
+FROM (SELECT
+	     *,
+	     number_sold*price as sales
+      FROM book_data_sold
+)
 ```
-The books that late are shown in book late table as follow:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/Create%20Table%20as%20SELECT/image/book_late.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/COMMON%20TABLE%20EXPRESSION/image/number1.png)
+Both methods have the same result.
 
-Meanwhile if we want to find out all title of books and days they have been borrowed, we can use the syntax:
+### 
 ```sql
-CREATE TABLE days_borrowed AS
-SELECT 
-	book_title,
-	CURRENT_DATE - borrowed_date as days_borrowed
-FROM book_library
-WHERE return_date is NULL;
 
-SELECT * FROM days_borrowed;
 ```
-The table days_borrowed is shown as follow:
+![Library_project]()
 
+### 
+```sql
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/Create%20Table%20as%20SELECT/image/days_borrowed.png)
+```
+![Library_project]()
+
+### 
+```sql
+
+```
+![Library_project]()
+
+### 
+```sql
+
+```
+![Library_project]()
