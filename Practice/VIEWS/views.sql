@@ -45,7 +45,7 @@ SELECT * FROM book_data_sold;
 SELECT
 	*,
 	number_sold*price as sales
-FROM book_data_sold
+FROM book_data_sold;
 ---- Second step: using SUM() for column sales to find out the total sales.
 SELECT
 	SUM(sales) as total_sales
@@ -53,7 +53,7 @@ FROM (SELECT
 	     *,
 	     number_sold*price as sales
       FROM book_data_sold
-)
+);
 
 -- Second method: using Common Table Expression (CTE)
 with CTE_sales as (
@@ -65,32 +65,43 @@ with CTE_sales as (
 
 SELECT
 	SUM(sales) as total_sales
-FROM CTE_sales
+FROM CTE_sales;
 
+-- Third method: using VIEWS
+CREATE OR REPLACE VIEW VIEW_sales as (
+	SELECT
+		*,
+		number_sold*price as sales
+	FROM book_data_sold
+);
+
+SELECT
+	SUM(sales) as total_sales
+FROM VIEW_sales;
 --=================================================================================
--- 2. with CTE, find all the most expensive book for each genre
+-- 2. with VIEW, find all the most expensive book for each genre
 --=================================================================================
-with CTE_expensive_genre as (
+CREATE OR REPLACE VIEW VIEW_expensive_genre as (
 	SELECT
 		*,
 		RANK() OVER(PARTITION BY genre ORDER BY price DESC) as price_category
 	FROM book_data_sold
-)
+);
 
 SELECT
 	*
-FROM CTE_expensive_genre
-WHERE price_category = 1
+FROM VIEW_expensive_genre
+WHERE price_category = 1;
 
 --=================================================================================
 -- 3. Create a new category based on the price. The book that higher than the average price is expensive. Menwhile, if it is less than the average then it is cheap.
 --=================================================================================
-with CTE_book_average as (
+CREATE OR REPLACE VIEW VIEW_book_average as (
 	SELECT 
 		*,
 		AVG(price) OVER() as price_average
 	FROM book_data_sold
-)
+);
 
 SELECT
 	*,
@@ -98,18 +109,18 @@ SELECT
 		WHEN price < price_average THEN 'cheap'
 		ELSE 'expensive'
 	END as price_category
-FROM CTE_book_average
+FROM VIEW_book_average
 ORDER BY price
 
 --=================================================================================
 -- 4. Compare the previous result when we use NTILE() instead.
 --=================================================================================
-with CTE_group_ntile as (
+CREATE OR REPLACE VIEW VIEW_group_ntile as (
 	SELECT
 		*,
 		NTILE(2) OVER(ORDER BY price) as two_group
 	FROM book_data_sold
-)
+);
 
 SELECT 
 	*,
@@ -117,107 +128,57 @@ SELECT
 		WHEN two_group = 1 THEN 'cheap'
 		ELSE 'expensive'
 	END as price_category
-FROM CTE_group_ntile
+FROM VIEW_group_ntile;
 --=================================================================================
 -- 5. Find top three selling book based on price category.
 --=================================================================================
-with CTE_book_average as (
+CREATE OR REPLACE VIEW VIEW_book_average as (
 	SELECT 
 		*,
 		AVG(price) OVER() as price_average
 	FROM book_data_sold
-),
-CTE_price_category as (
+);
+CREATE OR REPLACE VIEW VIEW_price_category as (
 	SELECT
 		*,
 		CASE
 			WHEN price < price_average THEN 'cheap'
 			ELSE 'expensive'
 		END as price_category
-	FROM CTE_book_average
+	FROM VIEW_book_average
 	ORDER BY price
-),
-CTE_rank_number_sold as (
+);
+CREATE OR REPLACE VIEW VIEW_rank_number_sold as (
 	SELECT 
 		*,
 		ROW_NUMBER() OVER(PARTITION BY price_category ORDER BY number_sold DESC) as rank_number_sold
-	FROM CTE_price_category
-)
+	FROM VIEW_price_category
+);
 
 SELECT
 	*
-FROM CTE_rank_number_sold
-WHERE rank_number_sold <=3
-
--- This is confusing at first, but lets do it step by step.
--- First step:
-
-with CTE_book_average as (
-	SELECT 
-		*,
-		AVG(price) OVER() as price_average
-	FROM book_data_sold
-)
-SELECT
-	*
-FROM CTE_book_average
-
--- Second step:
-with CTE_book_average as (
-	SELECT 
-		*,
-		AVG(price) OVER() as price_average
-	FROM book_data_sold
-),
-CTE_price_category as (
-	SELECT
-		*,
-		CASE
-			WHEN price < price_average THEN 'cheap'
-			ELSE 'expensive'
-		END as price_category
-	FROM CTE_book_average
-	ORDER BY price
-)
-
-SELECT
-	*
-FROM CTE_price_category
-
---The thirst step as last step is the full syntax which is same as the syntax above.
+FROM VIEW_rank_number_sold
+WHERE rank_number_sold <=3;
 
 --=================================================================================
 -- 6. Find all the book which sales is in top 40%
 --=================================================================================
-with CTE_sales as (
+CREATE OR REPLACE VIEW VIEW_sales as (
 	SELECT
 		*,
 		number_sold*price as sales
 	FROM book_data_sold
-),
-CTE_sales_dist as (
+);
+CREATE OR REPLACE VIEW VIEW_sales_dist as (
 	SELECT 
 		*,
 		CUME_DIST() OVER(ORDER BY sales DESC) as sales_dist
-	FROM CTE_sales
-)
+	FROM VIEW_sales
+);
 
 SELECT
 	*,
 	CONCAT(sales_dist*100,'%') as top_sales_dist_percentage
-FROM CTE_sales_dist
-WHERE sales_dist <= 0.4
+FROM VIEW_sales_dist
+WHERE sales_dist <= 0.4;
 
--- First step:
-with CTE_sales as (
-	SELECT
-		*,
-		number_sold*price as sales
-	FROM book_data_sold
-)
-
-SELECT
-	*
-FROM CTE_sales
-
--- Second step is the same as the full syntax above.
