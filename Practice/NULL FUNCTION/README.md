@@ -1,6 +1,6 @@
 # NULL FUNCTIONS
 
-$x^{n}=\frac{x_n}{n}$
+$x^{n}=\sum_1^n \frac{x_n}{n}$
 
 Create table book_sold and insert all the values:
 ```sql
