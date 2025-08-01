@@ -1,6 +1,6 @@
 # NULL FUNCTIONS
 
-$x^{\bar}=\frac{\sum_{n=1}^n x_n}{n}$
+$x^{n}=\frac{x_n}{n}$
 
 Create table book_sold and insert all the values:
 ```sql
