@@ -1,9 +1,14 @@
 # PostgreSQL
 
-## 1. [SELECT](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
-## 2. [WHERE](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/WHERE)
-## 3. WHERE
-## 4. WINDOW FUNCTIONS
-### 4.1. AGGREGATE WINDOW FUNCTION
-### 4.2. RANKING WINDOW FUNCTION
-### 4.3. VALUE WINDOW FUNCTION
+## [SELECT](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
+## [WHERE](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/WHERE)
+## [GROUP BY](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/GROUP%20BY)
+## [HAVING](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/HAVING)
+## [ORDER BY](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/ORDER%20BY)
+
+
+
+## [WINDOW FUNCTIONS](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/WINDOWS%20FUNCTION)
+### 4.1. [AGGREGATE WINDOW FUNCTION](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS)
+### 4.2. [RANKING WINDOW FUNCTION](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS)
+### 4.3. [VALUE WINDOW FUNCTION](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/WINDOWS%20FUNCTION/VALUE%20WINDOW%20FUNCTION)
