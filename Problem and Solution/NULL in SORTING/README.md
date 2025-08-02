@@ -1,95 +1,92 @@
 # NULL in SORTING
 
-There are two tables which are production and sales table. Both of them contain NULL value and they will be joined using LEFT JOIN
+We will use chess player data
 ```sql
---========================================================================
--- Create product_color_production table
---========================================================================
-DROP TABLE IF EXISTS product_color_production;
-CREATE TABLE product_color_production (
-production_date DATE,
-product_color VARCHAR(25),
-total_production INTEGER
-);
-INSERT INTO product_color_production
-VALUES
-('2020-01-01', 'red',    100),
-('2020-02-01', NULL,     200),
-('2020-03-01', 'yellow', 300),
-('2020-04-01', NULL,     400),
-('2020-05-01', 'blue',   500),
-('2020-06-01', NULL,     600);
+DROP TABLE IF EXISTS chess_player;
 
-SELECT * FROM product_color_production;
-```
-Production table:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/NULL%20in%20JOINING%20Table/image/table1.png)
-
-```sql
---========================================================================
--- Create product_color_sales table
---========================================================================
-DROP TABLE IF EXISTS product_color_sales;
-CREATE TABLE product_color_sales (
-production_date DATE,
-product_color VARCHAR(25),
-total_sales FLOAT
+CREATE TABLE chess_player(
+player_id VARCHAR(10) PRIMARY KEY,
+first_name VARCHAR(50),
+last_name VARCHAR(50),
+time_check_in TIMESTAMP,
+time_check_out TIMESTAMP,
+winner_prize FLOAT
 );
 
-INSERT INTO product_color_sales
+INSERT INTO chess_player
 VALUES
-('2020-01-01', 'red',    20000),
-('2020-02-01', NULL,     40000),
-('2020-03-01', 'yellow', 50000),
-('2020-04-01', NULL,     60000),
-('2020-05-01', 'blue',   80000),
-('2020-06-01', NULL,     100000);
+('F101', 'Zhu',     'Jinner',       '2025-08-01 07:15:25', '2025-08-01 17:30:21', 100000),
+('M201', 'Magnus',   NULL,          '2025-08-01 07:40:15', '2025-08-01 15:51:51', 90000),
+('F102', 'Hou',     'Yivan',        '2025-08-01 07:28:11', '2025-08-01 16:23:29', 80000),
+('M202', 'Wei',     'Yi',           '2025-08-01 07:25:05', '2025-08-01 18:43:13', NULL),
+('M203', 'Fabiano', 'Caruana',      '2025-08-01 07:26:02', '2025-08-01 17:32:07', 70000),
+('M204', 'Hikaru',   NULL,          '2025-08-01 07:21:21', '2025-08-01 18:29:31', 70000),
+('M205', 'Susanto', 'Megaranto',    '2025-08-01 07:22:35', '2025-08-01 18:15:41', 50000),
+('M206', 'Anish',   'Giri',         '2025-08-01 07:29:01', '2025-08-01 19:19:59', NULL),
+('M207', 'Garry',   'Kasparov',     '2025-08-01 07:30:15', '2025-08-01 19:03:25', 70000),
+('M208', NULL,      'Neponimiachi', '2025-08-01 07:32:25', '2025-08-01 17:49:27', 80000),
+('F103', NULL,       NULL,          '2025-08-01 07:24:59', '2025-08-01 17:41:31', 50000);
 
-SELECT * FROM product_color_sales;
+SELECT * FROM chess_player;
 ```
-Sales table:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/NULL%20in%20JOINING%20Table/image/table2.png)
+Chess player on tournament table:
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/NULL%20in%20SORTING/image/null_in_sorting_chess_player.png)
 
-
-### 1. Ignoring NULL value and do LEFT JOIN data with keys are production date and product_color
+### 1. Ignoring the NULL value. SORT the table based on the winning prize.
 ```sql
 SELECT
-	production.production_date,
-	production.product_color,
-	production.total_production,
-	sales.total_sales
-FROM product_color_production as production
-JOIN product_color_sales as sales
-ON production.production_date = sales.production_date AND production.product_color = sales.product_color;
+	*
+FROM chess_player
+ORDER BY winner_prize DESC
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/NULL%20in%20JOINING%20Table/image/number1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/NULL%20in%20SORTING/image/number1.png)
+The NULL position is in the top table
 
-Ignoring the NULL value will impact to lose a number of data
-
-### 2. Treating NULL value first and then do LEFT JOIN data with keys are production date and product_color
+### 2. Sort table based on winner prize but the NULL value must be in the last.
 ```sql
-WITH CTE_production as (
-	SELECT
-		*,
-		COALESCE(product_color,'') as no_null_color
-	FROM product_color_production
-),
-CTE_sales as (
-	SELECT
-		*,
-		COALESCE(product_color,'') as no_null_color
-	FROM product_color_sales
+WITH CTE_sorting as (
+SELECT
+	*,
+	MIN(winner_prize) OVER(),
+	COALESCE(winner_prize,MIN(winner_prize-100) OVER()) as no_null_winner_prize
+FROM chess_player
 )
 
 SELECT
-	production.production_date,
-	production.product_color,
-	production.total_production,
-	sales.total_sales
-FROM CTE_production as production
-JOIN CTE_sales as sales
-ON production.production_date = sales.production_date AND production.no_null_color = sales.no_null_color;
+	player_id,
+	first_name,
+	last_name,
+	time_check_in,
+	time_check_out,
+	winner_prize
+FROM CTE_sorting
+ORDER BY no_null_winner_prize DESC
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/NULL%20in%20JOINING%20Table/image/number2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/NULL%20in%20SORTING/image/number2.png)
 
-With NULL value tratment before the join, the data can be conserved
+### 3. We can solve the previous problem with this technique.
+First step: creat sorter as the flag for sorting
+```sql
+SELECT
+	*,
+	CASE
+	   WHEN winner_prize is NULL THEN 100
+	   ELSE 200
+	END as sorter
+FROM chess_player
+ORDER BY sorter DESC, winner_prize DESC
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/NULL%20in%20SORTING/image/number3part1.png)
+
+Second step: put sorter directly to ORDER BY, so that its value will not appear in the table
+```sql
+SELECT
+	*
+FROM chess_player
+ORDER BY (CASE
+		     WHEN winner_prize is NULL THEN 100
+		     ELSE 200
+	      END) DESC
+		  , winner_prize DESC
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/NULL%20in%20SORTING/image/number3part2.png)
