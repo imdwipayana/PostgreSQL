@@ -16,12 +16,12 @@
 ### 8.3. [VALUE WINDOW FUNCTION](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/WINDOWS%20FUNCTION/VALUE%20WINDOW%20FUNCTION)
 
 
-## 9 [COMMON TABLE EXPRESSION (CTE)](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/COMMON%20TABLE%20EXPRESSION)
-## 10 [VIEWS](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/VIEWS)
-## 11 [CREATE TABLE as SELECT (CTAS)](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/Create%20Table%20as%20SELECT)
-## 12 [CREATE DROP ALTER](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/CREATE%20DROP%20ALTER%20TABLE)
-## 13 [DATE and TIME FUNCTIONS](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/DATE%20and%20TIME%20FUNCTION)
-## 14 [NULL FUNCTIONS](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/NULL%20FUNCTION)
+## 9. [COMMON TABLE EXPRESSION (CTE)](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/COMMON%20TABLE%20EXPRESSION)
+## 10. [VIEWS](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/VIEWS)
+## 11. [CREATE TABLE as SELECT (CTAS)](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/Create%20Table%20as%20SELECT)
+## 12. [CREATE DROP ALTER](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/CREATE%20DROP%20ALTER%20TABLE)
+## 13. [DATE and TIME FUNCTIONS](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/DATE%20and%20TIME%20FUNCTION)
+## 14. [NULL FUNCTIONS](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/NULL%20FUNCTION)
 
 
 # II. Problem and Solution
