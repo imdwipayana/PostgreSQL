@@ -30,7 +30,13 @@
 ## 3. [COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
 ## 4. [COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
 
-# III. Projects
+# III. Best Practices
+## 1. [WHERE Before JOIN](https://github.com/imdwipayana/PostgreSQL/tree/main/Best%20Practices/WHERE%20after%20JOIN)
+## 2. [COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Problem%20and%20Solution/NULL%20in%20SORTING)
+## 3. [COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
+## 4. [COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
+
+# IV. Projects
 ## 1. [COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
 ## 2. [COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
 ## 3. [COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
