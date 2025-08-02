@@ -1,92 +1,87 @@
-# NULL in SORTING
+# WHERE Before JOIN
 
-We will use chess player data
+Create first table:
 ```sql
-DROP TABLE IF EXISTS chess_player;
+DROP TABLE IF EXISTS product_join;
 
-CREATE TABLE chess_player(
-player_id VARCHAR(10) PRIMARY KEY,
-first_name VARCHAR(50),
-last_name VARCHAR(50),
-time_check_in TIMESTAMP,
-time_check_out TIMESTAMP,
-winner_prize FLOAT
+CREATE TABLE product_join (
+product_id VARCHAR(10) PRIMARY KEY,
+manufacturer VARCHAR(25),
+total_production INTEGER
 );
 
-INSERT INTO chess_player
+INSERT INTO product_join
 VALUES
-('F101', 'Zhu',     'Jinner',       '2025-08-01 07:15:25', '2025-08-01 17:30:21', 100000),
-('M201', 'Magnus',   NULL,          '2025-08-01 07:40:15', '2025-08-01 15:51:51', 90000),
-('F102', 'Hou',     'Yivan',        '2025-08-01 07:28:11', '2025-08-01 16:23:29', 80000),
-('M202', 'Wei',     'Yi',           '2025-08-01 07:25:05', '2025-08-01 18:43:13', NULL),
-('M203', 'Fabiano', 'Caruana',      '2025-08-01 07:26:02', '2025-08-01 17:32:07', 70000),
-('M204', 'Hikaru',   NULL,          '2025-08-01 07:21:21', '2025-08-01 18:29:31', 70000),
-('M205', 'Susanto', 'Megaranto',    '2025-08-01 07:22:35', '2025-08-01 18:15:41', 50000),
-('M206', 'Anish',   'Giri',         '2025-08-01 07:29:01', '2025-08-01 19:19:59', NULL),
-('M207', 'Garry',   'Kasparov',     '2025-08-01 07:30:15', '2025-08-01 19:03:25', 70000),
-('M208', NULL,      'Neponimiachi', '2025-08-01 07:32:25', '2025-08-01 17:49:27', 80000),
-('F103', NULL,       NULL,          '2025-08-01 07:24:59', '2025-08-01 17:41:31', 50000);
+('P101', 'Tesla', 100),
+('P102', 'LG', 200),
+('P103', 'LG', 300),
+('P104', 'Tesla', 400),
+('P105', 'Tesla', 500);
 
-SELECT * FROM chess_player;
+SELECT * FROM product_join
 ```
-Chess player on tournament table:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/NULL%20in%20SORTING/image/null_in_sorting_chess_player.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/WHERE%20Before%20JOIN/image/table1.png)
 
-### 1. Ignoring the NULL value. SORT the table based on the winning prize.
+Create second table:
+```sql
+DROP TABLE IF EXISTS sales_join;
+
+CREATE TABLE sales_join (
+product_id VARCHAR(10) PRIMARY KEY,
+total_sales INTEGER
+);
+
+INSERT INTO sales_join
+VALUES
+('P101', 50000),
+('P102', 200000),
+('P103', 75000),
+('P104', 125000),
+('P105', 90000),
+('P106', 65000),
+('P107', 85000);
+
+SELECT * FROM sales_join
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/WHERE%20Before%20JOIN/image/table2.png)
+
+### 1. Use LEFT JOIN first table and second table where manufacturer is Tesla
 ```sql
 SELECT
-	*
-FROM chess_player
-ORDER BY winner_prize DESC
+	pj.product_id,
+	pj.manufacturer,
+	pj.total_production,
+	sj.total_sales
+FROM product_join as pj
+LEFT JOIN sales_join as sj
+ON pj.product_id = sj.product_id
+WHERE manufacturer = 'Tesla'
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/NULL%20in%20SORTING/image/number1.png)
-The NULL position is in the top table
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/WHERE%20Before%20JOIN/image/number1.png)
 
-### 2. Sort table based on winner prize but the NULL value must be in the last.
+
+### 2. This is the best practice
+Filter first table with WHERE then do the JOIN.
 ```sql
-WITH CTE_sorting as (
-SELECT
-	*,
-	MIN(winner_prize) OVER(),
-	COALESCE(winner_prize,MIN(winner_prize-100) OVER()) as no_null_winner_prize
-FROM chess_player
+WITH CTE_best_join as (
+	SELECT
+		*
+	FROM product_join
+	WHERE manufacturer = 'Tesla'
 )
-
 SELECT
-	player_id,
-	first_name,
-	last_name,
-	time_check_in,
-	time_check_out,
-	winner_prize
-FROM CTE_sorting
-ORDER BY no_null_winner_prize DESC
+	cbj.product_id,
+	cbj.manufacturer,
+	cbj.total_production,
+	sj.total_sales
+FROM CTE_best_join as cbj
+LEFT JOIN sales_join as sj
+ON cbj.product_id = sj.product_id;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/NULL%20in%20SORTING/image/number2.png)
+Here result of CTE_best_join
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/WHERE%20Before%20JOIN/image/number2part1.png)
 
-### 3. We can solve the previous problem with this technique.
-First step: creat sorter as the flag for sorting
-```sql
-SELECT
-	*,
-	CASE
-	   WHEN winner_prize is NULL THEN 100
-	   ELSE 200
-	END as sorter
-FROM chess_player
-ORDER BY sorter DESC, winner_prize DESC
-```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/NULL%20in%20SORTING/image/number3part1.png)
+And here is the final result:
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/WHERE%20Before%20JOIN/image/number2part2.png)
 
-Second step: put sorter directly to ORDER BY, so that its value will not appear in the table
-```sql
-SELECT
-	*
-FROM chess_player
-ORDER BY (CASE
-		     WHEN winner_prize is NULL THEN 100
-		     ELSE 200
-	      END) DESC
-		  , winner_prize DESC
-```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/NULL%20in%20SORTING/image/number3part2.png)
+By filtering the first table, then the row size of the table is decreasing. It will make the join process faster. The first attempt is not efficient because the data that we don't want will do the JOIN process then filtered through WHERE. You get the feeling.
