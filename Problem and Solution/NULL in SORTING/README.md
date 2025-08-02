@@ -1,4 +1,4 @@
-# NULL in JOINING TABLE
+# NULL in SORTING
 
 There are two tables which are production and sales table. Both of them contain NULL value and they will be joined using LEFT JOIN
 ```sql
