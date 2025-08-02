@@ -1,131 +1,129 @@
-DROP TABLE IF EXISTS book_date;
+DROP TABLE IF EXISTS chess_player;
 
-CREATE TABLE book_date(
-book_id VARCHAR(10) PRIMARY KEY,
-book_title VARCHAR(50),
-date_borrowed DATE,
-date_returned DATE
+CREATE TABLE chess_player(
+player_id VARCHAR(10) PRIMARY KEY,
+first_name VARCHAR(50),
+last_name VARCHAR(50),
+time_check_in TIMESTAMP,
+time_check_out TIMESTAMP,
+winner_prize FLOAT
 );
 
-INSERT INTO book_date
+INSERT INTO chess_player
 VALUES
-('M101', 'The Who',            '2025-03-10', '2025-03-28'),
-('T201', 'Back to Zero',       '2025-03-15', '2025-04-21'),
-('C301', 'Kill Billy',         '2025-04-04', '2025-07-05'),
-('T202', 'What If',            '2025-04-11', '2025-08-21'),
-('C302', 'The Killer',         '2025-04-27', '2025-06-13'),
-('M102', 'Unwanted',           '2025-05-09', '2025-09-09'),
-('M103', 'Right or Wrong',     '2025-05-18', '2025-06-25'),
-('C303', 'Stolen Soul',        '2025-06-06', '2025-09-05'),
-('T203', 'The Broken Promise', '2025-06-19', '2025-08-06'),
-('C304', 'The Culprit',        '2025-06-29', '2025-10-01');
+('F101', 'Zhu',     'Jinner',       '2025-08-01 07:15:25', '2025-08-01 17:30:21', 100000),
+('M201', 'Magnus',   NULL,          '2025-08-01 07:40:15', '2025-08-01 15:51:51', 90000),
+('F102', 'Hou',     'Yivan',        '2025-08-01 07:28:11', '2025-08-01 16:23:29', 80000),
+('M202', 'Wei',     'Yi',           '2025-08-01 07:25:05', '2025-08-01 18:43:13', NULL),
+('M203', 'Fabiano', 'Caruana',      '2025-08-01 07:26:02', '2025-08-01 17:32:07', 70000),
+('M204', 'Hikaru',   NULL,          '2025-08-01 07:21:21', '2025-08-01 18:29:31', 70000),
+('M205', 'Susanto', 'Megaranto',    '2025-08-01 07:22:35', '2025-08-01 18:15:41', 50000),
+('M206', 'Anish',   'Giri',         '2025-08-01 07:29:01', '2025-08-01 19:19:59', NULL),
+('M207', 'Garry',   'Kasparov',     '2025-08-01 07:30:15', '2025-08-01 19:03:25', 70000),
+('M208', NULL,      'Neponimiachi', '2025-08-01 07:32:25', '2025-08-01 17:49:27', 80000),
+('F103', NULL,       NULL,          '2025-08-01 07:24:59', '2025-08-01 17:41:31', 50000);
 
-SELECT * FROM book_date;
-
---========================================================================
--- 1. Find out 3 months after the borrowed_date
---========================================================================
-SELECT 
-	*,
-	date_borrowed + interval '3 months' as next_3months_borrowed
-FROM book_date
+SELECT * FROM chess_player;
 
 --========================================================================
--- 2. It was considered late if the book is returned more than 3 months. Find out all books that were returned late.
+-- 1. How long each chess player spend their time in the tournament?
 --========================================================================
-SELECT 
-	*,
-	date_borrowed + interval '3 months' as next_3months_borrowed
-FROM book_date
-WHERE date_borrowed + interval '3 months' >= date_returned
-
-
---========================================================================
--- 3. Label the book that returned late and not late in new table
---========================================================================
-WITH CTE_book_date as (
 SELECT
 	*,
-	date_borrowed + interval '3 months' as next_3months_borrowed
-FROM book_date
-)
+	time_check_out - time_check_in as time_in_tournament
+FROM chess_player;
+
+--========================================================================
+-- 2. Find out all players that last name are missing
+--========================================================================
+SELECT
+	*
+FROM chess_player
+WHERE last_name is NULL;
+
+--========================================================================
+-- 3. who is missing his/her first name?
+--========================================================================
+SELECT
+	*
+FROM chess_player
+WHERE first_name is NULL;
+
+--========================================================================
+-- 4. who is missing either his/her first name or his/her last_name?
+--========================================================================
+SELECT
+	*
+FROM chess_player
+WHERE first_name is NULL AND last_name is NULL;
+
+--========================================================================
+-- 5. Nick name usually is last name. But if it is empty, replace it by first name.
+--========================================================================
 SELECT
 	*,
+	COALESCE(last_name,first_name) as nick_name
+FROM chess_player;
+
+--========================================================================
+-- 6. What happened when the position is reversed
+--========================================================================
+SELECT
+	*,
+	COALESCE(first_name,last_name) as nick_name
+FROM chess_player;
+
+--========================================================================
+-- 7. Without first name and last name, the player must be unknown
+--========================================================================
+SELECT
+	*,
+	COALESCE(first_name,last_name, 'unknown') as nick_name
+FROM chess_player;
+
+--========================================================================
+-- 8. Find out all full name of the chess players. If it is not complete, just use either first name or last name. If both are NULL then the player is unknown 
+--========================================================================
+SELECT
+	*,
+	CONCAT(first_name, ' ', last_name)  as full_name,
 	CASE
-		WHEN next_3months_borrowed < date_returned THEN 'late'
-		ELSE 'early'
-	END as late_or_early
-FROM CTE_book_date
+		WHEN CONCAT(first_name, ' ', last_name) = ' ' THEN 'unknown'
+		ELSE CONCAT(first_name, ' ', last_name)
+	END as full_name_unknown
+FROM chess_player;
 
 --========================================================================
--- 4. How if the late regulation is 90 days after borrowed date? Label all books that were returned late or early.
---========================================================================
-WITH CTE_book_date as (
-SELECT
-	*,
-	date_borrowed + interval '90 days' as next_90days_borrowed
-FROM book_date
-)
-SELECT
-	*,
-	CASE
-		WHEN next_90days_borrowed < date_returned THEN 'late'
-		ELSE 'early'
-	END as late_or_early
-FROM CTE_book_date
-
---========================================================================
--- 5. Count how many days each book was borrowed? Then use the result to categorize the book tobe early or late.
---========================================================================
-WITH CTE_returned_borrowed as (
-	SELECT
-		*,
-		date_returned - date_borrowed as days_borrowed
-	FROM book_date
-)
-
-SELECT 
-	*,
-	CASE
-		WHEN days_borrowed > 90 THEN 'late'
-		ELSE 'early'
-	END as late_early
-FROM CTE_returned_borrowed
-
---========================================================================
--- 6. Compare the question above with this method.
+-- 9. Every player is awarded 5000 as appearance money. Count the total money that every players is collected.
 --========================================================================
 SELECT
 	*,
-	EXTRACT(YEAR FROM AGE(date_returned,date_borrowed))*12*30 +  
-	EXTRACT(MONTH FROM AGE(date_returned,date_borrowed))*12+
-	EXTRACT(DAY FROM AGE(date_returned,date_borrowed))as month_returned_borrowed
-FROM book_date
+	winner_prize + 5000 as total_money
+FROM chess_player;
 
---========================================================================
--- 7. Count how many month the book was returned after borrowed.
---========================================================================
-
+-- If we assume that NULL means the winner prize is 0, then:
 SELECT
 	*,
-	EXTRACT(YEAR FROM AGE(date_returned,date_borrowed))*12 +  
-	EXTRACT(MONTH FROM AGE(date_returned,date_borrowed))  as month_returned_borrowed
-FROM book_date
+	COALESCE(winner_prize,0) + 5000 as total_money
+FROM chess_player;
 
 --========================================================================
--- 8. Check the date using function in PostgreSQL
+-- 10. In aggregate functions, the NULL value is calculated differently.
 --========================================================================
-CREATE OR REPLACE FUNCTION is_date(s VARCHAR) RETURNS BOOLEAN AS $$
-BEGIN
-    PERFORM s::DATE;
-    RETURN TRUE;
-EXCEPTION WHEN others THEN
-    RETURN FALSE;
-END;
-$$ LANGUAGE plpgsql;
+SELECT
+	player_id,
+	winner_prize,
+	SUM(winner_prize) OVER() as money_with_null,
+	SUM(COALESCE(winner_prize,0)) OVER() as money_without_null,
+	AVG(winner_prize) OVER()::numeric(10,2) as avg_with_null,
+	AVG(COALESCE(winner_prize,0)) OVER() avg_without_null,
+	MIN(winner_prize) OVER()::numeric(10,2) as MIN_with_null,
+	MIN(COALESCE(winner_prize,0)) OVER() MIN_without_null
+FROM chess_player;
 
-SELECT is_date('2023-07-14'); -- Returns TRUE
-SELECT is_date('not-a-date'); -- Returns FALSE
+
+
+
 
 
 
