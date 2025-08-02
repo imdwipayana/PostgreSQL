@@ -41,7 +41,7 @@ VALUES
 
 SELECT * FROM sales_join
 --========================================================================
--- 1. Use Left join first table and second table
+-- 1. Use LEFT JOIN first table and second table where manufacturer is Tesla
 --========================================================================
 SELECT
 	pj.product_id,
