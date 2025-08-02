@@ -1,4 +1,4 @@
-# PostgreSQL
+# SQL Introduction
 
 ## [SELECT](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
 ## [WHERE](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/WHERE)
