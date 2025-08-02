@@ -1,6 +1,6 @@
 # PostgreSQL
 
-## 1. SELECT
+## 1. [SELECT](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
 ## 2. FROM
 ## 3. WHERE
 ## 4. WINDOW FUNCTIONS
