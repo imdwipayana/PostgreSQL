@@ -79,6 +79,7 @@ LEFT JOIN sales_join as sj
 ON cbj.product_id = sj.product_id;
 ```
 Here result of CTE_best_join
+
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/WHERE%20Before%20JOIN/image/number2part1.png)
 
 And here is the final result:
