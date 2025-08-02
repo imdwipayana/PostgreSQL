@@ -33,119 +33,69 @@ SELECT * FROM chess_player;
 The result of table is shown as follow:
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/NULL%20FUNCTION/image/null_chess_player.png)
 
-### 1. Find out 3 months after the borrowed_date
-```sql
-SELECT 
-	*,
-	date_borrowed + interval '3 months' as next_3months_borrowed
-FROM book_date
-```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/DATE%20and%20TIME%20FUNCTION/image/number1.png)
-
-### 2. It was considered late if the book is returned more than 3 months. Find out all books that were returned late.
-```sql
-SELECT 
-	*,
-	date_borrowed + interval '3 months' as next_3months_borrowed
-FROM book_date
-WHERE date_borrowed + interval '3 months' >= date_returned
-```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/DATE%20and%20TIME%20FUNCTION/image/number2.png)
-
-### 3. Label the book that returned late and not late in new table
-```sql
-WITH CTE_book_date as (
-SELECT
-	*,
-	date_borrowed + interval '3 months' as next_3months_borrowed
-FROM book_date
-)
-SELECT
-	*,
-	CASE
-		WHEN next_3months_borrowed < date_returned THEN 'late'
-		ELSE 'early'
-	END as late_or_early
-FROM CTE_book_date
-
-```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/DATE%20and%20TIME%20FUNCTION/image/number3.png)
-
-### 4. How if the late regulation is 90 days after borrowed date? Label all books that were returned late or early.
-```sql
-WITH CTE_book_date as (
-SELECT
-	*,
-	date_borrowed + interval '90 days' as next_90days_borrowed
-FROM book_date
-)
-SELECT
-	*,
-	CASE
-		WHEN next_90days_borrowed < date_returned THEN 'late'
-		ELSE 'early'
-	END as late_or_early
-FROM CTE_book_date
-```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/DATE%20and%20TIME%20FUNCTION/image/number4.png)
-
-### 5. Count how many days each book was borrowed? Then use the result to categorize the book tobe early or late.
-```sql
-WITH CTE_returned_borrowed as (
-	SELECT
-		*,
-		date_returned - date_borrowed as days_borrowed
-	FROM book_date
-)
-
-SELECT 
-	*,
-	CASE
-		WHEN days_borrowed > 90 THEN 'late'
-		ELSE 'early'
-	END as late_early
-FROM CTE_returned_borrowed
-```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/DATE%20and%20TIME%20FUNCTION/image/number5.png)
-
-### 6. Compare the question above with this method.
+### 1. How long each chess player spend their time in the tournament?
 ```sql
 SELECT
 	*,
-	EXTRACT(YEAR FROM AGE(date_returned,date_borrowed))*12*30 +  
-	EXTRACT(MONTH FROM AGE(date_returned,date_borrowed))*12+
-	EXTRACT(DAY FROM AGE(date_returned,date_borrowed))as month_returned_borrowed
-FROM book_date
+	time_check_out - time_check_in as time_in_tournament
+FROM chess_player;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/DATE%20and%20TIME%20FUNCTION/image/number6.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/NULL%20FUNCTION/image/number1.png)
 
-### 7. Count how many month the book was returned after borrowed.
+### 2. Find out all players that last name are missing
 ```sql
 SELECT
-	*,
-	EXTRACT(YEAR FROM AGE(date_returned,date_borrowed))*12 +  
-	EXTRACT(MONTH FROM AGE(date_returned,date_borrowed))  as month_returned_borrowed
-FROM book_date
+	*
+FROM chess_player
+WHERE last_name is NULL;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/DATE%20and%20TIME%20FUNCTION/image/number7.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/NULL%20FUNCTION/image/number2.png)
 
-
-### 8. Check the date using function in PostgreSQL
+### 
 ```sql
-CREATE OR REPLACE FUNCTION is_date(s VARCHAR) RETURNS BOOLEAN AS $$
-BEGIN
-    PERFORM s::DATE;
-    RETURN TRUE;
-EXCEPTION WHEN others THEN
-    RETURN FALSE;
-END;
-$$ LANGUAGE plpgsql;
 
-SELECT is_date('2025-08-01'); -- Returns TRUE
-SELECT is_date('2025-08'); -- Returns FALSE
-SELECT is_date('what a date?'); -- Returns FALSE
 ```
+![Library_project]()
+
+### 
+```sql
+
+```
+![Library_project]()
+
+### 
+```sql
+
+```
+![Library_project]()
+
+### 
+```sql
+
+```
+![Library_project]()
+
+### 
+```sql
+
+```
+![Library_project]()
 
 
+### 
+```sql
 
+```
+![Library_project]()
 
+### 
+```sql
+
+```
+![Library_project]()
+
+### 
+```sql
+
+```
+![Library_project]()
