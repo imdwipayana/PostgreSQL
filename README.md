@@ -1,4 +1,4 @@
-# SQL Introduction
+# I. SQL Introduction
 
 ## 1. [SELECT](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
 ## 2. [WHERE](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/WHERE)
@@ -22,3 +22,7 @@
 ## 12 [CREATE DROP ALTER](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/CREATE%20DROP%20ALTER%20TABLE)
 ## 13 [DATE and TIME FUNCTIONS](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/DATE%20and%20TIME%20FUNCTION)
 ## 14 [NULL FUNCTIONS](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/NULL%20FUNCTION)
+
+
+# II. Problem and Solution
+## 1. [NULL in JOIN Table](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
