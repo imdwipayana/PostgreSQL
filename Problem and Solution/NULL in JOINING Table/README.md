@@ -1,4 +1,4 @@
-# NULL FUNCTIONS
+# NULL in JOINING TABLE
 
 
 Here is the data of chess player in one tournament.
