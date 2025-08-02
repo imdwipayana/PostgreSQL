@@ -1,5 +1,5 @@
 # PostgreSQL
 
-## SELECT
-## FROM
-## WHERE
+## 1. SELECT
+## 2. FROM
+## 3. WHERE
