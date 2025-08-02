@@ -24,7 +24,7 @@
 ## 14. [NULL FUNCTIONS](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/NULL%20FUNCTION)
 
 
-# II. [Problem and Solution](https://github.com/imdwipayana/PostgreSQL/tree/main/Problem%20and%20Solution)
+# II. Problem and Solution
 ## 1. [NULL in JOINING Table](https://github.com/imdwipayana/PostgreSQL/tree/main/Problem%20and%20Solution/NULL%20in%20JOINING%20Table)
 ## 2. [NULL in SORTING](https://github.com/imdwipayana/PostgreSQL/tree/main/Problem%20and%20Solution/NULL%20in%20SORTING)
 ## 3. [COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
