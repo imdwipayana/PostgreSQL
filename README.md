@@ -26,7 +26,7 @@
 
 # II. [Problem and Solution](https://github.com/imdwipayana/PostgreSQL/tree/main/Problem%20and%20Solution)
 ## 1. [NULL in JOINING Table](https://github.com/imdwipayana/PostgreSQL/tree/main/Problem%20and%20Solution/NULL%20in%20JOINING%20Table)
-## 2. [COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
+## 2. [NULL in SORTING](https://github.com/imdwipayana/PostgreSQL/tree/main/Problem%20and%20Solution/NULL%20in%20SORTING)
 ## 3. [COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
 ## 4. [COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
 
