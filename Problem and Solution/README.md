@@ -1,4 +1,4 @@
-# NULL FUNCTIONS
+# PROBLEM ans SOLUTION
 
 
 Here is the data of chess player in one tournament.
