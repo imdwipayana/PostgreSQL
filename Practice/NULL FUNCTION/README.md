@@ -1,36 +1,37 @@
 # NULL FUNCTIONS
 
-$x^{n}=\sum_1^n \frac{x_n}{n}$
 
-Create table book_sold and insert all the values:
+Here is the data of chess player in one tournament.
 ```sql
-DROP TABLE IF EXISTS book_date;
+DROP TABLE IF EXISTS chess_player;
 
-CREATE TABLE book_date(
-book_id VARCHAR(10) PRIMARY KEY,
-book_title VARCHAR(50),
-date_borrowed DATE,
-date_returned DATE
+CREATE TABLE chess_player(
+player_id VARCHAR(10) PRIMARY KEY,
+first_name VARCHAR(50),
+last_name VARCHAR(50),
+time_check_in TIMESTAMP,
+time_check_out TIMESTAMP,
+winner_prize FLOAT
 );
 
-INSERT INTO book_date
+INSERT INTO chess_player
 VALUES
-('M101', 'The Who',            '2025-03-10', '2025-03-28'),
-('T201', 'Back to Zero',       '2025-03-15', '2025-04-21'),
-('C301', 'Kill Billy',         '2025-04-04', '2025-07-05'),
-('T202', 'What If',            '2025-04-11', '2025-08-21'),
-('C302', 'The Killer',         '2025-04-27', '2025-06-13'),
-('M102', 'Unwanted',           '2025-05-09', '2025-09-09'),
-('M103', 'Right or Wrong',     '2025-05-18', '2025-06-25'),
-('C303', 'Stolen Soul',        '2025-06-06', '2025-09-05'),
-('T203', 'The Broken Promise', '2025-06-19', '2025-08-06'),
-('C304', 'The Culprit',        '2025-06-29', '2025-10-01');
+('F101', 'Zhu',     'Jinner',       '2025-08-01 07:15:25', '2025-08-01 17:30:21', 100000),
+('M201', 'Magnus',   NULL,          '2025-08-01 07:40:15', '2025-08-01 15:51:51', 90000),
+('F102', 'Hou',     'Yivan',        '2025-08-01 07:28:11', '2025-08-01 16:23:29', 80000),
+('M202', 'Wei',     'Yi',           '2025-08-01 07:25:05', '2025-08-01 18:43:13', NULL),
+('M203', 'Fabiano', 'Caruana',      '2025-08-01 07:26:02', '2025-08-01 17:32:07', 70000),
+('M204', 'Hikaru',   NULL,          '2025-08-01 07:21:21', '2025-08-01 18:29:31', 70000),
+('M205', 'Susanto', 'Megaranto',    '2025-08-01 07:22:35', '2025-08-01 18:15:41', 50000),
+('M206', 'Anish',   'Giri',         '2025-08-01 07:29:01', '2025-08-01 19:19:59', NULL),
+('M207', 'Garry',   'Kasparov',     '2025-08-01 07:30:15', '2025-08-01 19:03:25', 70000),
+('M208', NULL,      'Neponimiachi', '2025-08-01 07:32:25', '2025-08-01 17:49:27', 80000),
+('F103', NULL,       NULL,          '2025-08-01 07:24:59', '2025-08-01 17:41:31', 50000);
 
-SELECT * FROM book_date;
-
+SELECT * FROM chess_player;
 ```
 The result of table is shown as follow:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/DATE%20and%20TIME%20FUNCTION/image/data_book_datetime.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/NULL%20FUNCTION/image/null_chess_player.png)
 
 ### 1. Find out 3 months after the borrowed_date
 ```sql
