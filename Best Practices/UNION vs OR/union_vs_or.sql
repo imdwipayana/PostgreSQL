@@ -47,13 +47,13 @@ SELECT * FROM sales_product
 --    Find the total sales of all products.
 --========================================================================
 -- First method: using OR in the process of joining the two tables
--- First step: 
+-- First method first step: 
 SELECT
 	*
 FROM production_status as ps
 INNER JOIN sales_product as sp
 ON ps.product_id = sp.main_id OR ps.product_id = sp.backup_id;
--- Second step: selected the required columns only.
+-- First method second step: selected the required columns only.
 SELECT
 	ps.product_id,
 	sp.total_sales
