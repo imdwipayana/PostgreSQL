@@ -33,7 +33,7 @@
 ## III. Best Practices
 ### 1. [WHERE Before JOIN](https://github.com/imdwipayana/PostgreSQL/tree/main/Best%20Practices/WHERE%20Before%20JOIN)
 ### 2. [Avoid Function in WHERE Clause](https://github.com/imdwipayana/PostgreSQL/tree/main/Best%20Practices/Avoid%20Function%20in%20WHERE%20Clause)
-### 3. [COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
+### 3. [Filtering Before Joining](https://github.com/imdwipayana/PostgreSQL/tree/main/Best%20Practices/Filtering%20Before%20Joining)
 ### 4. [COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
 
 ## IV. Projects
