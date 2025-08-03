@@ -32,7 +32,7 @@
 
 ## III. Best Practices
 ### 1. [WHERE Before JOIN](https://github.com/imdwipayana/PostgreSQL/tree/main/Best%20Practices/WHERE%20Before%20JOIN)
-### 2. [COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Problem%20and%20Solution/NULL%20in%20SORTING)
+### 2. [Avoid Function in WHERE Clause](https://github.com/imdwipayana/PostgreSQL/tree/main/Best%20Practices/Avoid%20Function%20in%20WHERE%20Clause)
 ### 3. [COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
 ### 4. [COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
 
