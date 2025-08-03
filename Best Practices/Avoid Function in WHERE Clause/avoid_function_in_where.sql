@@ -56,13 +56,13 @@ WHERE status = 'Delivered'
 --========================================================================
 -- 3. Find all product that manufactured in 2024
 --========================================================================
--- Bad practice
+-- Bad practice:
 SELECT
 	*
 FROM function_where
 WHERE EXTRACT(YEAR FROM production_date) = '2024'
 
--- Best Practice
+-- Best Practice:
 SELECT
 	*
 FROM function_where
