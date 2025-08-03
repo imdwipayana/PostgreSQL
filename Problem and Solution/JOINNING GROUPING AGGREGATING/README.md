@@ -1,92 +1,85 @@
-# NULL in SORTING
+# JOINNING GROUPING and AGGREGATING
 
-We will use chess player data
+Craete first table:
 ```sql
-DROP TABLE IF EXISTS chess_player;
+DROP TABLE IF EXISTS production_status;
 
-CREATE TABLE chess_player(
-player_id VARCHAR(10) PRIMARY KEY,
-first_name VARCHAR(50),
-last_name VARCHAR(50),
-time_check_in TIMESTAMP,
-time_check_out TIMESTAMP,
-winner_prize FLOAT
+CREATE TABLE production_status (
+product_id VARCHAR(10) PRIMARY KEY,
+production_date DATE,
+batch INTEGER,
+total_product INTEGER,
+status VARCHAR(25)
 );
 
-INSERT INTO chess_player
+INSERT INTO production_status
 VALUES
-('F101', 'Zhu',     'Jinner',       '2025-08-01 07:15:25', '2025-08-01 17:30:21', 100000),
-('M201', 'Magnus',   NULL,          '2025-08-01 07:40:15', '2025-08-01 15:51:51', 90000),
-('F102', 'Hou',     'Yivan',        '2025-08-01 07:28:11', '2025-08-01 16:23:29', 80000),
-('M202', 'Wei',     'Yi',           '2025-08-01 07:25:05', '2025-08-01 18:43:13', NULL),
-('M203', 'Fabiano', 'Caruana',      '2025-08-01 07:26:02', '2025-08-01 17:32:07', 70000),
-('M204', 'Hikaru',   NULL,          '2025-08-01 07:21:21', '2025-08-01 18:29:31', 70000),
-('M205', 'Susanto', 'Megaranto',    '2025-08-01 07:22:35', '2025-08-01 18:15:41', 50000),
-('M206', 'Anish',   'Giri',         '2025-08-01 07:29:01', '2025-08-01 19:19:59', NULL),
-('M207', 'Garry',   'Kasparov',     '2025-08-01 07:30:15', '2025-08-01 19:03:25', 70000),
-('M208', NULL,      'Neponimiachi', '2025-08-01 07:32:25', '2025-08-01 17:49:27', 80000),
-('F103', NULL,       NULL,          '2025-08-01 07:24:59', '2025-08-01 17:41:31', 50000);
+('P101', '2023-08-17', 1, 100, 'Delivered'),
+('P102', '2024-01-01', 2, 200, 'Shipped'),
+('P103', '2024-05-11', 3, 300, 'Check Out'),
+('P104', '2024-12-31', 4, 400, 'Delivered'),
+('P105', '2025-02-21', 5, 500, 'Delivered'),
+('P106', '2025-07-30', 6, 600, 'Shipped');
 
-SELECT * FROM chess_player;
+SELECT * FROM production_status
 ```
-Chess player on tournament table:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/NULL%20in%20SORTING/image/null_in_sorting_chess_player.png)
+The first table:
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/JOINNING%20GROUPING%20AGGREGATING/image/table1.png)
 
-### 1. Ignoring the NULL value. SORT the table based on the winning prize.
+Craete second table:
 ```sql
-SELECT
-	*
-FROM chess_player
-ORDER BY winner_prize DESC
+DROP TABLE IF EXISTS sales_product;
+
+CREATE TABLE sales_product (
+product_id VARCHAR(10) PRIMARY KEY,
+warehouse VARCHAR(50),
+total_sales FLOAT
+);
+
+INSERT INTO sales_product
+VALUES
+('P101', 'Edmonton',  200000),
+('P102', 'Toronto',   300000),
+('P103', 'Regina',    400000),
+('P104', 'Saskatoon', 500000),
+('P105', 'Vancouver', 600000),
+('P106', 'Ottawa',    700000),
+('P107', 'Winnippeg', 800000),
+('P108', 'Calgary',   900000);
+
+SELECT * FROM sales_product
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/NULL%20in%20SORTING/image/number1.png)
-The NULL position is in the top table
+The secong table:
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/JOINNING%20GROUPING%20AGGREGATING/image/table2.png)
 
-### 2. Sort table based on winner prize but the NULL value must be in the last.
+### 
 ```sql
-WITH CTE_sorting as (
-SELECT
-	*,
-	MIN(winner_prize) OVER(),
-	COALESCE(winner_prize,MIN(winner_prize-100) OVER()) as no_null_winner_prize
-FROM chess_player
+WITH CTE_status_sales as (
+	SELECT
+		*
+	FROM production_status as ps
+	LEFT JOIN sales_product as sp
+	ON ps.product_id = sp.product_id
+), CTE_sum_sales as (
+		SELECT
+			status,
+		SUM(total_sales) OVER(PARTITION BY status)
+		FROM CTE_status_sales
 )
-
-SELECT
-	player_id,
-	first_name,
-	last_name,
-	time_check_in,
-	time_check_out,
-	winner_prize
-FROM CTE_sorting
-ORDER BY no_null_winner_prize DESC
+SELECT DISTINCT
+ *
+FROM CTE_sum_sales
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/NULL%20in%20SORTING/image/number2.png)
+The result of first CTE:
 
-### 3. We can solve the previous problem with this technique.
-First step: creat sorter as the flag for sorting
-```sql
-SELECT
-	*,
-	CASE
-	   WHEN winner_prize is NULL THEN 100
-	   ELSE 200
-	END as sorter
-FROM chess_player
-ORDER BY sorter DESC, winner_prize DESC
-```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/NULL%20in%20SORTING/image/number3part1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/JOINNING%20GROUPING%20AGGREGATING/image/number1step1.png)
 
-Second step: put sorter directly to ORDER BY, so that its value will not appear in the table
-```sql
-SELECT
-	*
-FROM chess_player
-ORDER BY (CASE
-		     WHEN winner_prize is NULL THEN 100
-		     ELSE 200
-	      END) DESC
-		  , winner_prize DESC
-```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/NULL%20in%20SORTING/image/number3part2.png)
+The result of second CTE:
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/JOINNING%20GROUPING%20AGGREGATING/image/number1step2.png)
+
+The final result:
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/JOINNING%20GROUPING%20AGGREGATING/image/number1step3.png)
+
+Note: Joining then aggregating is not a best practice (I'll update again later).
