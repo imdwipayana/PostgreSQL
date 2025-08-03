@@ -1,86 +1,87 @@
-# WHERE Before JOIN
+# Avoid Function in WHERE Clause
 
-Create first table:
+Create  table:
 ```sql
-DROP TABLE IF EXISTS product_join;
+DROP TABLE IF EXISTS function_where;
 
-CREATE TABLE product_join (
+CREATE TABLE function_where (
 product_id VARCHAR(10) PRIMARY KEY,
-manufacturer VARCHAR(25),
-total_production INTEGER
+production_date DATE,
+batch INTEGER,
+total_product INTEGER,
+status VARCHAR(25)
 );
 
-INSERT INTO product_join
+INSERT INTO function_where
 VALUES
-('P101', 'Tesla', 100),
-('P102', 'LG', 200),
-('P103', 'LG', 300),
-('P104', 'Tesla', 400),
-('P105', 'Tesla', 500);
+('P101', '2023-08-17', 1, 100, 'Delivered'),
+('Q102', '2024-01-01', 2, 200, 'Shipped'),
+('R103', '2024-05-11', 3, 300, 'Check Out'),
+('P104', '2024-12-31', 4, 400, 'Delivered'),
+('P105', '2025-02-21', 5, 500, 'Delivered'),
+('Q106', '2025-07-30', 6, 600, 'Shipped');
 
-SELECT * FROM product_join
+SELECT * FROM function_where
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/WHERE%20Before%20JOIN/image/table1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Avoid%20Function%20in%20WHERE%20Clause/image/production_data.png)
 
-Create second table:
-```sql
-DROP TABLE IF EXISTS sales_join;
-
-CREATE TABLE sales_join (
-product_id VARCHAR(10) PRIMARY KEY,
-total_sales INTEGER
-);
-
-INSERT INTO sales_join
-VALUES
-('P101', 50000),
-('P102', 200000),
-('P103', 75000),
-('P104', 125000),
-('P105', 90000),
-('P106', 65000),
-('P107', 85000);
-
-SELECT * FROM sales_join
-```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/WHERE%20Before%20JOIN/image/table2.png)
-
-### 1. Use LEFT JOIN first table and second table where manufacturer is Tesla
+### 1. Check the status of all product that product_id is starting with P.
+Bad practice:
 ```sql
 SELECT
-	pj.product_id,
-	pj.manufacturer,
-	pj.total_production,
-	sj.total_sales
-FROM product_join as pj
-LEFT JOIN sales_join as sj
-ON pj.product_id = sj.product_id
-WHERE manufacturer = 'Tesla'
+	product_id,
+	status
+FROM function_where
+WHERE SUBSTRING(product_id,1,1) = 'P'
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/WHERE%20Before%20JOIN/image/number1.png)
 
-
-### 2. This is the best practice
-Filter first table with WHERE then do the JOIN.
+Best practice:
 ```sql
-WITH CTE_best_join as (
-	SELECT
-		*
-	FROM product_join
-	WHERE manufacturer = 'Tesla'
-)
 SELECT
-	cbj.product_id,
-	cbj.manufacturer,
-	cbj.total_production,
-	sj.total_sales
-FROM CTE_best_join as cbj
-LEFT JOIN sales_join as sj
-ON cbj.product_id = sj.product_id;
+	product_id,
+	status
+FROM function_where
+WHERE product_id LIKE 'P%'
 ```
-Here result of CTE_best_join
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Avoid%20Function%20in%20WHERE%20Clause/image/number1.png)
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/WHERE%20Before%20JOIN/image/number2part1.png)
+Note: LIKE is an operator, not a function.
+
+### 2. Find out all products that have been delivered
+Bad practice:
+```sql
+SELECT 
+	*
+FROM function_where
+WHERE UPPER(status) = 'DELIVERED'
+```
+Best practice:
+```sql
+SELECT 
+	*
+FROM function_where
+WHERE status = 'Delivered'
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Avoid%20Function%20in%20WHERE%20Clause/image/number2.png)
+
+### 3. Find all product that manufactured in 2024
+Bad practice:
+```sql
+SELECT
+	*
+FROM function_where
+WHERE EXTRACT(YEAR FROM production_date) = '2024'
+```
+Best Practice:
+```sql
+SELECT
+	*
+FROM function_where
+WHERE production_date BETWEEN '2024-01-01' AND '2024-12-31'
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Avoid%20Function%20in%20WHERE%20Clause/image/number3.png)
 
 And here is the final result:
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/WHERE%20Before%20JOIN/image/number2part2.png)
