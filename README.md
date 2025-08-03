@@ -1,3 +1,4 @@
+All of these syntaxes work in PostgreSQL. Some syntaxes might be do not work in other IDE, but 99% of the syntaxes all the same (at least the ideas are the same).
 ## I. SQL Introduction
 
 ### 1. [SELECT](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
