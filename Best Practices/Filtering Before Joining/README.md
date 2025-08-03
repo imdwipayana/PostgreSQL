@@ -1,10 +1,10 @@
-# Avoid Function in WHERE Clause
+# Filtering Before Joining
 
-Create  table:
+Create  the first table:
 ```sql
-DROP TABLE IF EXISTS function_where;
+DROP TABLE IF EXISTS production_status;
 
-CREATE TABLE function_where (
+CREATE TABLE production_status (
 product_id VARCHAR(10) PRIMARY KEY,
 production_date DATE,
 batch INTEGER,
@@ -12,78 +12,83 @@ total_product INTEGER,
 status VARCHAR(25)
 );
 
-INSERT INTO function_where
+INSERT INTO production_status
 VALUES
 ('P101', '2023-08-17', 1, 100, 'Delivered'),
-('Q102', '2024-01-01', 2, 200, 'Shipped'),
-('R103', '2024-05-11', 3, 300, 'Check Out'),
+('P102', '2024-01-01', 2, 200, 'Shipped'),
+('P103', '2024-05-11', 3, 300, 'Check Out'),
 ('P104', '2024-12-31', 4, 400, 'Delivered'),
 ('P105', '2025-02-21', 5, 500, 'Delivered'),
-('Q106', '2025-07-30', 6, 600, 'Shipped');
+('P106', '2025-07-30', 6, 600, 'Shipped');
 
-SELECT * FROM function_where
+SELECT * FROM production_status
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Avoid%20Function%20in%20WHERE%20Clause/image/production_data.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Filtering%20Before%20Joining/image/table1.png)
 
-### 1. Check the status of all product that product_id is starting with P.
-Bad practice:
+Create  the second table:
+```sql
+DROP TABLE IF EXISTS sales_product;
+
+CREATE TABLE sales_product (
+product_id VARCHAR(10) PRIMARY KEY,
+warehouse VARCHAR(50),
+total_sales FLOAT
+);
+
+INSERT INTO sales_product
+VALUES
+('P101', 'Edmonton',  200000),
+('P102', 'Toronto',   300000),
+('P103', 'Regina',    400000),
+('P104', 'Saskatoon', 500000),
+('P105', 'Vancouver', 600000),
+('P106', 'Ottawa',    700000),
+('P107', 'Winnippeg', 800000),
+('P108', 'Calgary',   900000);
+
+SELECT * FROM sales_product
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Filtering%20Before%20Joining/image/table2.png)
+
+### 1. Find out total sales of all product that already delivered
+First method: joining first then filtering.
 ```sql
 SELECT
-	product_id,
-	status
-FROM function_where
-WHERE SUBSTRING(product_id,1,1) = 'P'
+	ps.product_id,
+	sp.total_sales
+FROM production_status as ps
+INNER JOIN sales_product as sp
+ON ps.product_id = sp.product_id
+WHERE ps.status = 'Delivered'
 ```
 
-Best practice:
+Second method: process of filtering in the middle of joining.
 ```sql
 SELECT
-	product_id,
-	status
-FROM function_where
-WHERE product_id LIKE 'P%'
-```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Avoid%20Function%20in%20WHERE%20Clause/image/number1.png)
-
-Note: LIKE is an operator, not a function.
-
-### 2. Find out all products that have been delivered
-Bad practice:
-```sql
-SELECT 
-	*
-FROM function_where
-WHERE UPPER(status) = 'DELIVERED'
-```
-Best practice:
-```sql
-SELECT 
-	*
-FROM function_where
-WHERE status = 'Delivered'
+	ps.product_id,
+	sp.total_sales
+FROM production_status as ps
+INNER JOIN sales_product as sp
+ON ps.product_id = sp.product_id AND ps.status = 'Delivered'
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Avoid%20Function%20in%20WHERE%20Clause/image/number2.png)
-
-### 3. Find all product that manufactured in 2024
-Bad practice:
+Third method: filtering first with CTE then calles CTE into the main query.
 ```sql
+WITH CTE_filtering_joining as (
+	SELECT
+		*
+	FROM production_status
+	WHERE status = 'Delivered'
+)
+
 SELECT
-	*
-FROM function_where
-WHERE EXTRACT(YEAR FROM production_date) = '2024'
-```
-Best Practice:
-```sql
-SELECT
-	*
-FROM function_where
-WHERE production_date BETWEEN '2024-01-01' AND '2024-12-31'
+	cfj.product_id,
+	sp.total_sales
+FROM CTE_filtering_joining as cfj
+INNER JOIN sales_product as sp
+ON cfj.product_id = sp.product_id
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Avoid%20Function%20in%20WHERE%20Clause/image/number3.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Filtering%20Before%20Joining/image/number1.png)
 
-And here is the final result:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/WHERE%20Before%20JOIN/image/number2part2.png)
-
-By filtering the first table, then the row size of the table is decreasing. It will make the join process faster. The first attempt is not efficient because the data that we don't want will do the JOIN process then filtered through WHERE. You get the feeling.
+Note: For small dataset, all 3 methods are applicable. But for large dataset, the third method is the best practice.
