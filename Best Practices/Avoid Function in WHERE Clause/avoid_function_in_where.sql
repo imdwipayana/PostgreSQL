@@ -17,53 +17,58 @@ VALUES
 ('P105', '2025-02-21', 5, 500, 'Delivered'),
 ('Q106', '2025-07-30', 6, 600, 'Shipped');
 
-SELECT * FROM function_where
+SELECT * FROM function_where;
 
 --========================================================================
 -- 1. Check the status of all product that product_id is starting with P.
 --========================================================================
--- Bad practice:
+-- First method:
 SELECT
 	product_id,
 	status
 FROM function_where
-WHERE SUBSTRING(product_id,1,1) = 'P'
+WHERE SUBSTRING(product_id,1,1) = 'P';
 
--- Best practice:
+-- Second method:
 SELECT
 	product_id,
 	status
 FROM function_where
-WHERE product_id LIKE 'P%'
+WHERE product_id LIKE 'P%';
 
+-- The second method is the best practice.
 -- Note: LIKE is an operator, not a function.
 
 --========================================================================
 -- 2. Find out all products that have been delivered
 --========================================================================
--- Bad practice:
+-- First method:
 SELECT 
 	*
 FROM function_where
-WHERE UPPER(status) = 'DELIVERED'
+WHERE UPPER(status) = 'DELIVERED';
 
--- Best practice:
+-- Second method:
 SELECT 
 	*
 FROM function_where
-WHERE status = 'Delivered'
+WHERE status = 'Delivered';
+
+-- The second method is the best practice
 
 --========================================================================
 -- 3. Find all product that manufactured in 2024
 --========================================================================
--- Bad practice:
+-- First method:
 SELECT
 	*
 FROM function_where
-WHERE EXTRACT(YEAR FROM production_date) = '2024'
+WHERE EXTRACT(YEAR FROM production_date) = '2024';
 
--- Best Practice:
+-- Second method:
 SELECT
 	*
 FROM function_where
-WHERE production_date BETWEEN '2024-01-01' AND '2024-12-31'
+WHERE production_date BETWEEN '2024-01-01' AND '2024-12-31';
+
+-- The second method is the best practice.
