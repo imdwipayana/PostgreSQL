@@ -24,6 +24,11 @@ All of these syntaxes work in PostgreSQL. Some syntaxes might be do not work in 
 ### 13. [DATE and TIME FUNCTIONS](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/DATE%20and%20TIME%20FUNCTION)
 ### 14. [NULL FUNCTIONS](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/NULL%20FUNCTION)
 
+## II. SQL Intermediate
+### 1. [Stored Procedure: COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Problem%20and%20Solution/NULL%20in%20JOINING%20Table)
+### 2. [INDEXING: COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Problem%20and%20Solution/NULL%20in%20SORTING)
+### 3. [TRIGERING: COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Problem%20and%20Solution/JOINNING%20GROUPING%20AGGREGATING)
+### 4. [SQL Function: COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
 
 ## II. Problem and Solution
 ### 1. [NULL in JOINING Table](https://github.com/imdwipayana/PostgreSQL/tree/main/Problem%20and%20Solution/NULL%20in%20JOINING%20Table)
@@ -37,6 +42,7 @@ All of these syntaxes work in PostgreSQL. Some syntaxes might be do not work in 
 ### 3. [Filtering Before Joining](https://github.com/imdwipayana/PostgreSQL/tree/main/Best%20Practices/Filtering%20Before%20Joining)
 ### 4. [UNION vs OR](https://github.com/imdwipayana/PostgreSQL/tree/main/Best%20Practices/UNION%20vs%20OR)
 ### 5. [Aggregating Before Joining](https://github.com/imdwipayana/PostgreSQL/tree/main/Best%20Practices/Aggregating%20Before%20Joining)
+### 6. [JOIN vs EXISTS vs IN](https://github.com/imdwipayana/PostgreSQL/tree/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN)
 
 ## IV. Projects
 ### 1. [COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
