@@ -1,9 +1,149 @@
-# JOIN vs EXISTS vs IN
+# SQL FUNCTION
 
-Create  the first table:
+### 1. First sql function
+
+```sql
+CREATE OR REPLACE FUNCTION practice_function(VARCHAR, INTEGER, INTEGER)
+RETURNS VARCHAR
+AS
+$$
+BEGIN
+	RETURN SUBSTRING($1, $2, $3);
+END;
+$$
+LANGUAGE plpgsql;
+```
+
+-- Call the function:
+```sql
+SELECT * FROM practice_function('PostgreSQL', 5, 4);
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/SQL%20Function/image/number1.png)
+
+### 2. Second sql function
+
+```sql
+CREATE OR REPLACE FUNCTION practice_function2(VARCHAR, INTEGER, INTEGER)
+RETURNS VARCHAR
+AS
+$$
+DECLARE phrase ALIAS FOR $1;
+		start_from ALIAS FOR $2;
+		how_long ALIAS FOR $3;
+BEGIN
+	RETURN SUBSTRING(phrase, start_from, how_long);
+END;
+$$
+LANGUAGE plpgsql;
+```
+
+-- Call the practice_function2 function:
+```sql
+SELECT * FROM practice_function2('PostgreSQL', 5, 4);
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/SQL%20Function/image/number2.png)
+
+### 3. Third sql function
+
+```sql
+CREATE OR REPLACE FUNCTION practice_function3(phrase VARCHAR, start_from INTEGER, how_long INTEGER)
+RETURNS VARCHAR
+AS
+$$
+BEGIN
+	RETURN SUBSTRING(phrase, start_from, how_long);
+END;
+$$
+LANGUAGE plpgsql;
+```
+
+-- Call practice_function3 function:
+```sql
+SELECT * FROM practice_function3('PostgreSQL', 5, 4);
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/SQL%20Function/image/number3.png)
+
+### 4. Create function to generate full name
+
+```sql
+CREATE OR REPLACE FUNCTION full_name(first_name VARCHAR, last_name VARCHAR)
+RETURNS VARCHAR
+AS
+$$
+BEGIN
+	IF first_name IS NOT NULL AND last_name IS NOT NULL THEN
+		RETURN CONCAT(first_name, ' ', last_name);
+	ELSEIF first_name IS NOT NULL AND last_name IS NULL THEN
+		RETURN first_name;
+	ELSEIF first_name IS NULL AND last_name IS NOT NULL THEN
+		RETURN last_name;
+	ELSE
+		RETURN 'No Name Inserted';
+	END IF;
+END;
+$$
+LANGUAGE plpgsql;
+```
+Call full_name function:
+```sql
+SELECT * FROM full_name('Leylah', 'Fernandez');
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/SQL%20Function/image/number4call1.png)
+
+```sql
+SELECT * FROM full_name('Leylah', NULL);
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/SQL%20Function/image/number4call2.png)
+
+```sql
+SELECT * FROM full_name(NULL, 'Fernandez');
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/SQL%20Function/image/number4call3.png)
+
+```sql
+SELECT * FROM full_name(NULL, NULL);
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/SQL%20Function/image/number4call4.png)
+
+
+### 5. Create function to calculate average of data array.
+
+```sql
+CREATE OR REPLACE FUNCTION average(numeric[])
+RETURNS numeric
+AS
+$$
+DECLARE adding numeric := 0;
+		value_array numeric;
+		len_array INTEGER := 0;
+		input_array ALIAS FOR $1;
+
+BEGIN
+	FOREACH value_array in ARRAY input_array
+	loop
+		adding := adding + value_array;
+		len_array := len_array + 1;
+	END LOOP;
+
+	RETURN (adding/len_array)::numeric(10,2);
+END;
+$$
+LANGUAGE plpgsql;
+```
+Call the function:
+```sql
+SELECT * FROM average(ARRAY[1,2,3,4,5,6]);
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/SQL%20Function/image/number5.png)
+
+### 6. Create function to find all data about product that manufactured in 2024 from the following table:
+First create and inser table data:
 ```sql
 DROP TABLE IF EXISTS production_status;
-
 CREATE TABLE production_status (
 product_id VARCHAR(10) PRIMARY KEY,
 production_date DATE,
@@ -23,118 +163,40 @@ VALUES
 
 SELECT * FROM production_status;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/table1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/SQL%20Function/image/number6table.png)
 
-Create  the second table:
+Second step: crete the function
+
 ```sql
-DROP TABLE IF EXISTS sales_product;
-
-CREATE TABLE sales_product (
-product_id VARCHAR(10) PRIMARY KEY,
-warehouse VARCHAR(50),
-total_sales FLOAT
-);
-
-INSERT INTO sales_product
-VALUES
-('P101', 'Edmonton',  200000),
-('P102', 'Toronto',   300000),
-('P103', 'Regina',    400000),
-('P104', 'Saskatoon', 500000),
-('P105', 'Vancouver', 600000),
-('P106', 'Ottawa',    700000),
-('P107', 'Winnippeg', 800000),
-('P108', 'Calgary',   900000);
-
-SELECT * FROM sales_product;
-```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/table2.png)
-
-### 1. Find out the total sales of delivered status by using WHERE, EXISTS and IN.
-First method: using WHERE
-
-First method first step:
-```sql
-SELECT
-	*
-FROM production_status as ps
-INNER JOIN sales_product as sp
-ON ps.product_id = sp.product_id
-WHERE ps.status = 'Delivered';
-```
-
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/firstmethodstep1.png)
-
-First method second step: select all columns that required
-```sql
-SELECT
-	ps.product_id,
-	sp.total_sales
-FROM production_status as ps
-INNER JOIN sales_product as sp
-ON ps.product_id = sp.product_id
-WHERE ps.status = 'Delivered';
-```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/firstmethodstep2.png)
-
-Second method: using EXISTS
-Second step: 
-```sql
-SELECT
-	sp.product_id,
-	sp.total_sales
-FROM sales_product as sp
-WHERE EXISTS (SELECT 2
-			  FROM production_status as ps
-			  WHERE sp.product_id = ps.product_id 
-			     AND ps.status = 'Delivered'
-);
-```
-
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/secondmethod.png)
-
-Third method: using IN
-
-Third method first step:
-```sql
-SELECT
-	product_id
-FROM production_status
-WHERE status = 'Delivered'
-```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/thirdmethodstep1.png)
-
-Third step second step:
-```sql
-WITH CTE_in as (
-SELECT
-	product_id
-FROM production_status
-WHERE status = 'Delivered'
+CREATE OR REPLACE FUNCTION function_production_status (start_date DATE, end_date DATE)
+RETURNS TABLE
+(
+	product_id VARCHAR,
+	production_date DATE,
+	batch INTEGER,
+	total_product INTEGER,
+	status VARCHAR
 )
-SELECT 
-	sp.product_id,
-	sp.total_sales
-FROM sales_product as sp
-WHERE sp.product_id in (SELECT * FROM CTE_in);
+AS
+$$
+BEGIN
+	RETURN QUERY
+	SELECT
+		ps.product_id,
+		ps.production_date,
+		ps.batch,
+		ps.total_product,
+		ps.status
+	FROM production_status as ps
+	WHERE ps.production_date BETWEEN start_date AND end_date;
+END;
+$$
+LANGUAGE plpgsql;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/thirdmethodstep2.png)
+Third step: call the function_production_status
 
-The syntax above can be written as subquery as follow:
 ```sql
-SELECT 
-	sp.product_id,
-	sp.total_sales
-FROM sales_product as sp
-WHERE sp.product_id in (SELECT
-			     product_id
-			FROM production_status
-			WHERE status = 'Delivered'
-);
+SELECT * FROM function_production_status('2024-01-01', '2024-12-31')
 ```
 
-All of the sytaxes have the same result. But the second one is the best practice for large dataset, then followed by the first one.
-
-
-
-
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/SQL%20Function/image/number6result.png)
