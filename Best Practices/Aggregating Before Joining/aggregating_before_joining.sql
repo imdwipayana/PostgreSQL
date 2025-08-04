@@ -18,7 +18,7 @@ VALUES
 ('P105', '2025-02-21', 5, 500, 'Delivered'),
 ('P106', '2025-07-30', 6, 600, 'Shipped');
 
-SELECT * FROM production_status
+SELECT * FROM production_status;
 --========================================================================
 --The second table
 DROP TABLE IF EXISTS sales_product;
@@ -40,7 +40,7 @@ VALUES
 ('P107', 'Winnippeg', 800000),
 ('P108', 'Calgary',   900000);
 
-SELECT * FROM sales_product
+SELECT * FROM sales_product;
 --========================================================================
 -- 1. Find out total sales based on their status
 --========================================================================
@@ -57,10 +57,10 @@ WITH CTE_status_sales as (
 		FROM CTE_status_sales
 )
 SELECT DISTINCT
- *
-FROM CTE_sum_sales
+ 	*
+FROM CTE_sum_sales;
 
--- Joining then aggregating is not a best practice (I'll update again later). Update: 
+-- Joining then aggregating is not a best practice (I'll update again later). Update: look the different with this case.
 -- NOTE: But in this case the required columns in the problem are located in different table.
 
 
