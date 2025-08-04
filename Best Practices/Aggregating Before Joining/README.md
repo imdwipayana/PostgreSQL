@@ -1,4 +1,4 @@
-# Filtering Before Joining
+# Aggregating Before Joining
 
 Create  the first table:
 ```sql
@@ -21,9 +21,9 @@ VALUES
 ('P105', '2025-02-21', 5, 500, 'Delivered'),
 ('P106', '2025-07-30', 6, 600, 'Shipped');
 
-SELECT * FROM production_status
+SELECT * FROM production_status;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Filtering%20Before%20Joining/image/table1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Aggregating%20Before%20Joining/image/table1.png)
 
 Create  the second table:
 ```sql
@@ -46,49 +46,60 @@ VALUES
 ('P107', 'Winnippeg', 800000),
 ('P108', 'Calgary',   900000);
 
-SELECT * FROM sales_product
+SELECT * FROM sales_product;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Filtering%20Before%20Joining/image/table2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Aggregating%20Before%20Joining/image/table2.png)
 
 ### 1. Find out total sales of all product that already delivered
-First method: joining first then filtering.
+First step: 
 ```sql
 SELECT
-	ps.product_id,
-	sp.total_sales
+     *
 FROM production_status as ps
-INNER JOIN sales_product as sp
+LEFT JOIN sales_product as sp
 ON ps.product_id = sp.product_id
-WHERE ps.status = 'Delivered'
 ```
 
-Second method: process of filtering in the middle of joining.
-```sql
-SELECT
-	ps.product_id,
-	sp.total_sales
-FROM production_status as ps
-INNER JOIN sales_product as sp
-ON ps.product_id = sp.product_id AND ps.status = 'Delivered'
-```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Aggregating%20Before%20Joining/image/cte1.png)
 
-Third method: filtering first with CTE then calles CTE into the main query.
+
+Second step: 
 ```sql
-WITH CTE_filtering_joining as (
+WITH CTE_status_sales as (
 	SELECT
 		*
-	FROM production_status
-	WHERE status = 'Delivered'
+	FROM production_status as ps
+	LEFT JOIN sales_product as sp
+	ON ps.product_id = sp.product_id
 )
-
 SELECT
-	cfj.product_id,
-	sp.total_sales
-FROM CTE_filtering_joining as cfj
-INNER JOIN sales_product as sp
-ON cfj.product_id = sp.product_id
+	status,
+SUM(total_sales) OVER(PARTITION BY status)
+FROM CTE_status_sales
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Filtering%20Before%20Joining/image/number1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Aggregating%20Before%20Joining/image/cte2.png)
 
-Note: For small dataset, all 3 methods are applicable. But for large dataset, the third method is the best practice.
+Third step: 
+```sql
+WITH CTE_status_sales as (
+	SELECT
+		*
+	FROM production_status as ps
+	LEFT JOIN sales_product as sp
+	ON ps.product_id = sp.product_id
+), CTE_sum_sales as (
+		SELECT
+			status,
+		SUM(total_sales) OVER(PARTITION BY status)
+		FROM CTE_status_sales
+)
+SELECT DISTINCT
+ 	*
+FROM CTE_sum_sales;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Aggregating%20Before%20Joining/image/finalresult.png)
+
+Joining then aggregating is not a best practice (I'll update again later). Update: look the different with [Filtering Before Joining](https://github.com/imdwipayana/PostgreSQL/tree/main/Best%20Practices/Filtering%20Before%20Joining) case.
+
+NOTE: In this case the required columns in the problem are located in different table.
