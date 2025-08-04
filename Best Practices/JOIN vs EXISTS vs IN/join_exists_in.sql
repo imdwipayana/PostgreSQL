@@ -100,3 +100,5 @@ WHERE sp.product_id in (SELECT
 
 -- All of the sytaxes have the same result. But the second one is the best practice for large dataset, then followed by the first one.
 
+
+
