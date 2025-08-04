@@ -25,10 +25,11 @@ All of these syntaxes work in PostgreSQL. Some syntaxes might be do not work in 
 ### 14. [NULL FUNCTIONS](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/NULL%20FUNCTION)
 
 ## II. SQL Intermediate
-### 1. [Stored Procedure: COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Problem%20and%20Solution/NULL%20in%20JOINING%20Table)
+### 1. [SQL Function](https://github.com/imdwipayana/PostgreSQL/tree/main/SQL%20Intermediate/SQL%20Function)
+### 2. [Stored Procedure: COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Problem%20and%20Solution/NULL%20in%20JOINING%20Table)
 ### 2. [INDEXING: COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Problem%20and%20Solution/NULL%20in%20SORTING)
 ### 3. [TRIGERING: COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Problem%20and%20Solution/JOINNING%20GROUPING%20AGGREGATING)
-### 4. [SQL Function: COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
+
 
 ## II. Problem and Solution
 ### 1. [NULL in JOINING Table](https://github.com/imdwipayana/PostgreSQL/tree/main/Problem%20and%20Solution/NULL%20in%20JOINING%20Table)
