@@ -37,6 +37,7 @@ All of these syntaxes work in PostgreSQL. Some syntaxes might be do not work in 
 ### 3. [Filtering Before Joining](https://github.com/imdwipayana/PostgreSQL/tree/main/Best%20Practices/Filtering%20Before%20Joining)
 ### 4. [UNION vs OR](https://github.com/imdwipayana/PostgreSQL/tree/main/Best%20Practices/UNION%20vs%20OR)
 ### 5. [Aggregating Before Joining](https://github.com/imdwipayana/PostgreSQL/tree/main/Best%20Practices/Aggregating%20Before%20Joining)
+### 6. [JOIN vs EXISTS vs IN](https://github.com/imdwipayana/PostgreSQL/tree/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN)
 
 ## IV. Projects
 ### 1. [COMING SOON](https://github.com/imdwipayana/PostgreSQL/tree/main/Practice/SELECT)
