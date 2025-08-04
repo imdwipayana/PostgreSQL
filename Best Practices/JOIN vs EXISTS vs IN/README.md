@@ -1,4 +1,4 @@
-# Aggregating Before Joining
+# JOIN vs EXISTS vs IN
 
 Create  the first table:
 ```sql
@@ -23,7 +23,7 @@ VALUES
 
 SELECT * FROM production_status;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Aggregating%20Before%20Joining/image/table1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/table1.png)
 
 Create  the second table:
 ```sql
@@ -48,58 +48,93 @@ VALUES
 
 SELECT * FROM sales_product;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Aggregating%20Before%20Joining/image/table2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/table2.png)
 
-### 1. Find out total sales of all product that already delivered
-First step: 
+### 1. Find out the total sales of delivered status by using WHERE, EXISTS and IN.
+First method: using WHERE
+
+First method first step:
 ```sql
 SELECT
-     *
+	*
 FROM production_status as ps
-LEFT JOIN sales_product as sp
+INNER JOIN sales_product as sp
 ON ps.product_id = sp.product_id
+WHERE ps.status = 'Delivered';
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Aggregating%20Before%20Joining/image/cte1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/firstmethodstep1.png)
 
+First method second step: select all columns that required
+```sql
+SELECT
+	ps.product_id,
+	sp.total_sales
+FROM production_status as ps
+INNER JOIN sales_product as sp
+ON ps.product_id = sp.product_id
+WHERE ps.status = 'Delivered';
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/firstmethodstep2.png)
 
+Second method: using EXISTS
 Second step: 
 ```sql
-WITH CTE_status_sales as (
-	SELECT
-		*
-	FROM production_status as ps
-	LEFT JOIN sales_product as sp
-	ON ps.product_id = sp.product_id
-)
 SELECT
-	status,
-SUM(total_sales) OVER(PARTITION BY status)
-FROM CTE_status_sales
+	sp.product_id,
+	sp.total_sales
+FROM sales_product as sp
+WHERE EXISTS (SELECT 2
+			  FROM production_status as ps
+			  WHERE sp.product_id = ps.product_id 
+			     AND ps.status = 'Delivered'
+);
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Aggregating%20Before%20Joining/image/cte2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/secondmethod.png)
 
-Third step: 
+Third method: using IN
+
+Third method first step:
 ```sql
-WITH CTE_status_sales as (
-	SELECT
-		*
-	FROM production_status as ps
-	LEFT JOIN sales_product as sp
-	ON ps.product_id = sp.product_id
-), CTE_sum_sales as (
-		SELECT
-			status,
-		SUM(total_sales) OVER(PARTITION BY status)
-		FROM CTE_status_sales
-)
-SELECT DISTINCT
- 	*
-FROM CTE_sum_sales;
+SELECT
+	product_id
+FROM production_status
+WHERE status = 'Delivered'
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/Aggregating%20Before%20Joining/image/finalresult.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/thirdmethodstep1.png)
 
-Joining then aggregating is not a best practice (I'll update again later). Update: look the different with [Filtering Before Joining](https://github.com/imdwipayana/PostgreSQL/tree/main/Best%20Practices/Filtering%20Before%20Joining) case.
+Third step second step:
+```sql
+WITH CTE_in as (
+SELECT
+	product_id
+FROM production_status
+WHERE status = 'Delivered'
+)
+SELECT 
+	sp.product_id,
+	sp.total_sales
+FROM sales_product as sp
+WHERE sp.product_id in (SELECT * FROM CTE_in);
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/thirdmethodstep2.png)
 
-NOTE: In this case the required columns in the problem are located in different table.
+The syntax above can be written as subquery as follow:
+```sql
+SELECT 
+	sp.product_id,
+	sp.total_sales
+FROM sales_product as sp
+WHERE sp.product_id in (SELECT
+			     product_id
+			FROM production_status
+			WHERE status = 'Delivered'
+);
+```
+
+All of the sytaxes have the same result. But the second one is the best practice for large dataset, then followed by the first one.
+
+
+
+
