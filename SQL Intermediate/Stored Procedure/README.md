@@ -1,4 +1,4 @@
-# JOIN vs EXISTS vs IN
+# Stored Procedure
 
 Create  the first table:
 ```sql
