@@ -117,7 +117,7 @@ CALL SP_delivery('W103', 'W101', 5000);
 -- Call the table to see the update.
 SELECT * FROM table_warehouse_transfer;
 --=============================================================================
--- 1. Use stored procedure to insert data and the result is the table as folows: 
+-- 3. Use stored procedure to insert data and the result is the table as folows: 
 --=============================================================================
 -- Display table 1 (the first table in this page).
 -------------------------------------------------------------------------------
@@ -175,7 +175,7 @@ CALL SP_insert_data('P106', '2025-07-30', 6, 600, 'Shipped');
 SELECT * FROM stored_procedure;
 
 --=============================================================================
--- 2. Insert stored procedure to create table.
+-- 4. Insert stored procedure to create table.
 --=============================================================================
 DROP TABLE IF EXISTS table_stored_procedure;
 CREATE TABLE  table_stored_procedure(
