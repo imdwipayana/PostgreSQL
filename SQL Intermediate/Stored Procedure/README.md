@@ -1,15 +1,15 @@
 # Stored Procedure
 
-Create  the first table:
+Create  the table:
 ```sql
 DROP TABLE IF EXISTS production_status;
 
 CREATE TABLE production_status (
-product_id VARCHAR(10) PRIMARY KEY,
+product_id      VARCHAR(10) PRIMARY KEY,
 production_date DATE,
-batch INTEGER,
-total_product INTEGER,
-status VARCHAR(25)
+batch           INTEGER,
+total_product   INTEGER,
+status          VARCHAR(25)
 );
 
 INSERT INTO production_status
@@ -23,118 +23,114 @@ VALUES
 
 SELECT * FROM production_status;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/table1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/table1.png)
 
-Create  the second table:
-```sql
-DROP TABLE IF EXISTS sales_product;
 
-CREATE TABLE sales_product (
-product_id VARCHAR(10) PRIMARY KEY,
-warehouse VARCHAR(50),
-total_sales FLOAT
-);
-
-INSERT INTO sales_product
-VALUES
-('P101', 'Edmonton',  200000),
-('P102', 'Toronto',   300000),
-('P103', 'Regina',    400000),
-('P104', 'Saskatoon', 500000),
-('P105', 'Vancouver', 600000),
-('P106', 'Ottawa',    700000),
-('P107', 'Winnippeg', 800000),
-('P108', 'Calgary',   900000);
-
-SELECT * FROM sales_product;
-```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/table2.png)
-
-### 1. Find out the total sales of delivered status by using WHERE, EXISTS and IN.
-First method: using WHERE
-
-First method first step:
+### 1. Modify the following SQL query to be a stored procedure
+The query:
 ```sql
 SELECT
-	*
-FROM production_status as ps
-INNER JOIN sales_product as sp
-ON ps.product_id = sp.product_id
-WHERE ps.status = 'Delivered';
-```
-
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/firstmethodstep1.png)
-
-First method second step: select all columns that required
-```sql
-SELECT
-	ps.product_id,
-	sp.total_sales
-FROM production_status as ps
-INNER JOIN sales_product as sp
-ON ps.product_id = sp.product_id
-WHERE ps.status = 'Delivered';
-```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/firstmethodstep2.png)
-
-Second method: using EXISTS
-Second step: 
-```sql
-SELECT
-	sp.product_id,
-	sp.total_sales
-FROM sales_product as sp
-WHERE EXISTS (SELECT 2
-			  FROM production_status as ps
-			  WHERE sp.product_id = ps.product_id 
-			     AND ps.status = 'Delivered'
-);
-```
-
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/secondmethod.png)
-
-Third method: using IN
-
-Third method first step:
-```sql
-SELECT
-	product_id
+	COUNT(*) as total_status
 FROM production_status
 WHERE status = 'Delivered'
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/thirdmethodstep1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number22query.png)
 
-Third step second step:
+The stored procedure:
 ```sql
-WITH CTE_in as (
-SELECT
-	product_id
-FROM production_status
-WHERE status = 'Delivered'
+CREATE PROCEDURE SP_query (
+	IN sp_status VARCHAR,
+	OUT sp_total_status INTEGER
 )
-SELECT 
-	sp.product_id,
-	sp.total_sales
-FROM sales_product as sp
-WHERE sp.product_id in (SELECT * FROM CTE_in);
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+	SELECT
+		COUNT(*)
+	INTO sp_total_status
+	FROM production_status
+	WHERE status = sp_status;
+END;
+$$;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Best%20Practices/JOIN%20vs%20EXISTS%20vs%20IN/image/thirdmethodstep2.png)
-
-The syntax above can be written as subquery as follow:
+Call the stored procedure
 ```sql
-SELECT 
-	sp.product_id,
-	sp.total_sales
-FROM sales_product as sp
-WHERE sp.product_id in (SELECT
-			     product_id
-			FROM production_status
-			WHERE status = 'Delivered'
-);
+CALL SP_query('Delivered', NULL)
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number11update1.png)
+
+Do the other call to see how the stored procedure works.
+```sql
+CALL SP_query('Shipped', NULL)
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number11update2.png)
+
+```sql
+CALL SP_query('Check Out', NULL)
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number11update3.png)
+
+```sql
+CALL SP_query('On Hold', NULL)
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number11update4.png)
+
+
+### 
+
+```sql
+
 ```
 
-All of the sytaxes have the same result. But the second one is the best practice for large dataset, then followed by the first one.
+![Library_project]()
 
+### 
 
+```sql
+
+```
+
+![Library_project]()
+
+### 
+
+```sql
+
+```
+
+![Library_project]()
+
+### 
+
+```sql
+
+```
+
+![Library_project]()
+
+### 
+
+```sql
+
+```
+
+![Library_project]()
+
+### 
+
+```sql
+
+```
+
+![Library_project]()
+
+### 
+
+```sql
+
+```
+
+![Library_project]()
 
 
