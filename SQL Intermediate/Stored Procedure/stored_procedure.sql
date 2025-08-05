@@ -22,6 +22,7 @@ SELECT * FROM production_status;
 --=============================================================================
 -- 1. Modify the following SQL query to be a stored procedure
 --=============================================================================
+-- The query:
 SELECT
 	COUNT(*) as total_status
 FROM production_status
@@ -51,6 +52,7 @@ $$;
 -- Call the stored procedure
 CALL SP_query('Delivered', NULL)
 
+-- Do the other call to see how the stored procedure works.
 CALL SP_query('Shipped', NULL)
 
 CALL SP_query('Check Out', NULL)
@@ -59,7 +61,7 @@ CALL SP_query('On Hold', NULL)
 --=============================================================================
 -- 2. Create stored procedure to transfer a number of product between two warehouse.
 --=============================================================================
--- Create table
+-- Create table:
 DROP TABLE IF EXISTS table_warehouse_transfer;
 CREATE TABLE table_warehouse_transfer(
 warehouse_id VARCHAR(10) PRIMARY KEY,
@@ -117,27 +119,8 @@ SELECT * FROM table_warehouse_transfer;
 --=============================================================================
 -- 1. Use stored procedure to insert data and the result is the table as folows: 
 --=============================================================================
-DROP TABLE IF EXISTS production_status;
-
-CREATE TABLE production_status (
-product_id      VARCHAR(10) PRIMARY KEY,
-production_date DATE,
-batch           INTEGER,
-total_product   INTEGER,
-status          VARCHAR(25)
-);
-
-INSERT INTO production_status
-VALUES
-('P101', '2023-08-17', 1, 100, 'Delivered'),
-('P102', '2024-01-01', 2, 200, 'Shipped'),
-('P103', '2024-05-11', 3, 300, 'Check Out'),
-('P104', '2024-12-31', 4, 400, 'Delivered'),
-('P105', '2025-02-21', 5, 500, 'Delivered'),
-('P106', '2025-07-30', 6, 600, 'Shipped');
-
-SELECT * FROM production_status;
---====================================================================
+-- Display table 1 (the first table in this page).
+-------------------------------------------------------------------------------
 -- Create the header of the table:
 DROP TABLE IF EXISTS stored_procedure;
 
