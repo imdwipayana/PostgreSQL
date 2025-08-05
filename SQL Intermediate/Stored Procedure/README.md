@@ -77,13 +77,77 @@ CALL SP_query('On Hold', NULL)
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number11update4.png)
 
 
-### 
-
+### 2. Create stored procedure to transfer a number of product between two warehouse.
+Create table:
 ```sql
+DROP TABLE IF EXISTS table_warehouse_transfer;
+CREATE TABLE table_warehouse_transfer(
+warehouse_id VARCHAR(10) PRIMARY KEY,
+warehouse VARCHAR(25),
+in_stock INTEGER
+);
 
+INSERT INTO table_warehouse_transfer
+VALUES
+('W101', 'Toronto',  10000),
+('W102', 'Winnipeg', 20000),
+('W103', 'Calgary',  30000),
+('W104', 'Regina',   40000),
+('W105', 'Montreal', 50000);
+
+SELECT * FROM table_warehouse_transfer;
 ```
 
-![Library_project]()
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number22table.png)
+Crate the stored procedure to calculate the product transfer between warehouse.
+
+Note: The transfer will decrease the number of product from the warehouse origin and add the number of product into the warehpuse detination.
+
+```sql
+CREATE OR REPLACE PROCEDURE SP_delivery(
+	sp_origin_id VARCHAR,
+	sp_destination_id VARCHAR,
+	sp_number_product_transfer INTEGER
+)
+LANGUAGE plpgsql
+AS
+$$
+BEGIN
+	-- decrese the number product in stock in warehouse origin
+	UPDATE table_warehouse_transfer
+	SET in_stock = in_stock - sp_number_product_transfer
+	WHERE warehouse_id = sp_origin_id;
+
+	-- increase the number product in stock in warehouse destination
+	UPDATE table_warehouse_transfer
+	SET in_stock = in_stock + sp_number_product_transfer
+	WHERE warehouse_id = sp_destination_id;
+
+	COMMIT;
+
+END;
+$$;
+```
+Call the store procedure to update 3000 products transfer from warehouse in Toronto into Montreal.
+```sql
+CALL SP_delivery('W101', 'W105', 3000);
+```
+Call the table to see the update.
+```sql
+SELECT * FROM table_warehouse_transfer;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number22update1.png)
+
+Call the store procedure to update 5000 products transfer from warehouse in Regina into Toronto.
+```sql
+CALL SP_delivery('W103', 'W101', 5000);
+```
+Call the table to see the update.
+```sql
+SELECT * FROM table_warehouse_transfer;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number22update2.png)
+
 
 ### 
 
