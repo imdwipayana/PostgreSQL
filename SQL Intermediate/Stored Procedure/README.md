@@ -153,11 +153,88 @@ SELECT * FROM table_warehouse_transfer;
 ### 3. Use stored procedure to insert data and the result is the table as folows: 
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/table1.png)
 
+Create the header of the table:
 ```sql
+DROP TABLE IF EXISTS stored_procedure;
 
+CREATE TABLE stored_procedure (
+product_id      VARCHAR(10) PRIMARY KEY,
+production_date DATE,
+batch           INTEGER,
+total_product   INTEGER,
+status          VARCHAR(25)
+);
 ```
 
-![Library_project]()
+Create the insert stored procedure:
+```sql
+CREATE PROCEDURE SP_insert_data(product_id VARCHAR, production_date DATE, batch INTEGER, total_product INTEGER, status VARCHAR)
+AS
+$$
+BEGIN
+	INSERT INTO stored_procedure (product_id, production_date, batch, total_product, status) VALUES ($1, $2, $3, $4, $5);
+	COMMIT;
+END;
+$$
+LANGUAGE plpgsql;
+```
+
+-- Call the procedure to insert the first row data:
+```sql
+CALL SP_insert_data('P101', '2023-08-17', 1, 100, 'Delivered');
+```
+
+-- Call the table to update the inserted data:
+```sql
+SELECT * FROM stored_procedure;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number1insert1.png)
+
+-- Second row data inserted (run CALL first then run SELECT):
+```sql
+CALL SP_insert_data('P102', '2024-01-01', 2, 200, 'Shipped');
+```
+```sql
+SELECT * FROM stored_procedure;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number1insert2.png)
+
+-- Third row data inserted (run CALL first then run SELECT):
+```sql
+CALL SP_insert_data('P103', '2024-05-11', 3, 300, 'Check Out');
+```
+```sql
+SELECT * FROM stored_procedure;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number1insert3.png)
+
+-- Fourth row data inserted (run CALL first then run SELECT):
+```sql
+CALL SP_insert_data('P104', '2024-12-31', 4, 400, 'Delivered');
+```
+```sql
+SELECT * FROM stored_procedure;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number1insert4.png)
+
+-- Fifth row data inserted (run CALL first then run SELECT):
+```sql
+CALL SP_insert_data('P105', '2025-02-21', 5, 500, 'Delivered');
+```
+```sql
+SELECT * FROM stored_procedure;
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number1insert5.png)
+
+-- Sixth row data inserted (run CALL first then run SELECT):
+```sql
+CALL SP_insert_data('P106', '2025-07-30', 6, 600, 'Shipped');
+```
+```sql
+SELECT * FROM stored_procedure;
+```
+
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number1insert6.png)
 
 ### 
 
