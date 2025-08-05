@@ -99,6 +99,7 @@ SELECT * FROM table_warehouse_transfer;
 ```
 
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number22table.png)
+
 Crate the stored procedure to calculate the product transfer between warehouse.
 
 Note: The transfer will decrease the number of product from the warehouse origin and add the number of product into the warehpuse detination.
@@ -149,7 +150,8 @@ SELECT * FROM table_warehouse_transfer;
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number22update2.png)
 
 
-### 
+### 3. Use stored procedure to insert data and the result is the table as folows: 
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/table1.png)
 
 ```sql
 
