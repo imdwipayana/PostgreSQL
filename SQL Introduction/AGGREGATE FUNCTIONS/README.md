@@ -54,7 +54,7 @@ VALUES
 SELECT * FROM employee_data;
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/AGGREGATE%20FUNCTIONS/image/employee_data.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/AGGREGATE%20FUNCTIONS/image/employee_data.png)
 
 
 ### 1. Find the total of employee
