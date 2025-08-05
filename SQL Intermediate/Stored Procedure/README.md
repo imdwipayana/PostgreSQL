@@ -236,44 +236,76 @@ SELECT * FROM stored_procedure;
 
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number1insert6.png)
 
-### 
+
+### 4. Insert stored procedure to create table.
 
 ```sql
+DROP TABLE IF EXISTS table_stored_procedure;
+CREATE TABLE  table_stored_procedure(
+product_id      VARCHAR(10) PRIMARY KEY,
+manufacturer    VARCHAR(50) NOT NULL,
+production_date TIMESTAMP   DEFAULT NOW() - INTERVAL '30 days',
+sold_out        TIMESTAMP   DEFAULT NOW(),
+total_sales     FLOAT
+)
 
+CREATE OR REPLACE PROCEDURE SP_stored_procedure (
+product_id      VARCHAR(10),
+manufacturer    VARCHAR(50),
+total_sales     FLOAT
+)
+AS
+$$
+BEGIN
+	-- notifications:
+	IF product_id IS NULL THEN
+		RAISE EXCEPTION 'fill the product_id value';
+	END IF;
+
+	IF manufacturer IS NULL THEN
+		RAISE EXCEPTION 'fill the manufacturer value';
+	END IF;
+
+	INSERT INTO table_stored_procedure(product_id, manufacturer, total_sales) 
+	VALUES ($1, $2, $3);
+	COMMIT;
+	
+END;
+$$
+LANGUAGE plpgsql;
 ```
 
-![Library_project]()
 
-### 
-
+Call the stored procedure to insert first row data:
 ```sql
-
+CALL SP_stored_procedure('P101','Calgary',NULL)
 ```
 
-![Library_project]()
-
-### 
-
+Call the table to find the inserted data:
 ```sql
-
+SELECT * FROM table_stored_procedure
 ```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number2insert1.png)
 
-![Library_project]()
-
-### 
-
+Call the stored procedure to insert second row data:
 ```sql
-
+CALL SP_stored_procedure('P102', 'Toronto', 200000)
 ```
 
-![Library_project]()
-
-### 
-
+Call the table to find the inserted data:
 ```sql
+SELECT * FROM table_stored_procedure
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number2insert2.png)
 
+Call the stored procedure to insert third row data:
+```sql
+CALL SP_stored_procedure('P103', 'Winnipeg', 300000)
 ```
 
-![Library_project]()
-
+Call the table to find the inserted data:
+```sql
+SELECT * FROM table_stored_procedure
+```
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Intermediate/Stored%20Procedure/image/number2insert3.png)
 
