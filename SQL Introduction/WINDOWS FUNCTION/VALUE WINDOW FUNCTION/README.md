@@ -38,7 +38,7 @@ VALUES
 SELECT * FROM sales_data;
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/VALUE%20WINDOW%20FUNCTION/image/sales_data.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/VALUE%20WINDOW%20FUNCTION/image/sales_data.png)
 
 ### 1. Compare LEAD() and LAG() for sales that order by daily sales
 ```sql
@@ -48,7 +48,7 @@ SELECT
 	LAG(sales) OVER(ORDER BY order_date) as lag_sales
 FROM sales_data;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/VALUE%20WINDOW%20FUNCTION/image/number1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/VALUE%20WINDOW%20FUNCTION/image/number1.png)
 
 Notice that the frame clause default is ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
 
@@ -60,7 +60,7 @@ SELECT
 	LAG(sales) OVER(ORDER BY order_date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) as lag_sales
 FROM sales_data;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/VALUE%20WINDOW%20FUNCTION/image/number2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/VALUE%20WINDOW%20FUNCTION/image/number2.png)
 
 ### 3. Compare the result of LEAD(sales,2) and LAG(sales,2)
 ```sql
@@ -70,7 +70,7 @@ SELECT
 	LAG(sales,2) OVER(ORDER BY order_date) as lag_sales
 FROM sales_data;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/VALUE%20WINDOW%20FUNCTION/image/number3.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/VALUE%20WINDOW%20FUNCTION/image/number3.png)
 
 ### 4. The default of LEAD() and LAG()
 ```sql
@@ -80,7 +80,7 @@ SELECT
 	LAG(sales,1,NULL) OVER(ORDER BY order_date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) as lag_sales
 FROM sales_data;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/VALUE%20WINDOW%20FUNCTION/image/number4.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/VALUE%20WINDOW%20FUNCTION/image/number4.png)
 
 ### 5. Assume the value of data that not available is 0.
 ```sql
@@ -90,7 +90,7 @@ SELECT
 	LAG(sales,1,0) OVER(ORDER BY order_date) as lag_sales
 FROM sales_data;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/VALUE%20WINDOW%20FUNCTION/image/number5.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/VALUE%20WINDOW%20FUNCTION/image/number5.png)
 
 ### 6. Compare FIRST_VALUE() and LAST_VALUE of sales that ordered based on daily sales.
 ```sql
@@ -100,7 +100,7 @@ SELECT
 	LAST_VALUE(sales) OVER(ORDER BY order_date) as last_sales
 FROM sales_data;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/VALUE%20WINDOW%20FUNCTION/image/number6.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/VALUE%20WINDOW%20FUNCTION/image/number6.png)
 
 ### 7. Add the default frame clause ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW to previous syntax.
 ```sql
@@ -110,4 +110,4 @@ SELECT
 	LAST_VALUE(sales) OVER(ORDER BY order_date ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) as last_sales
 FROM sales_data;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/VALUE%20WINDOW%20FUNCTION/image/number7.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/VALUE%20WINDOW%20FUNCTION/image/number7.png)
