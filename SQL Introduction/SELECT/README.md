@@ -38,6 +38,7 @@ Call the table with syntax:
 SELECT * FROM Canada_data;
 ```
 After that the Canada_data table is shown as:
+
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/SELECT/image/Canada_data.png)
 
 Basically, the * symbol represents that all the column data will be represented. If we want just a certain column, we can type the name of columns to replace the * symbol. At last, we can create a new column by doing calculation of the other column, for example by dividing population to area to find out the population density.
@@ -109,7 +110,9 @@ SELECT
 FROM Canada_data
 ```
 The result of that SUM() window functions can be seen in the following table:
+
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/SELECT/image/sum_window.png)
+
 From here, we can see the benefit using window functions to calculate the percentage of population with the nested function from the previous table:
 ```sql
 SELECT
@@ -124,7 +127,9 @@ FROM (
 )
 ```
 The population percentage table can be seen as follow:
+
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/SELECT/image/percentage_population.png)
+
 To make it sure, we can add all the percentage to make it 100% with the syntax:
 ```sql
 SELECT
@@ -158,6 +163,7 @@ SELECT
 FROM Canada_data
 ```
 The total house and senate seats are in the following table.
+
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/SELECT/image/total_house_senate.png)
 
 ```sql
@@ -178,6 +184,7 @@ FROM (
 )
 ```
 The percentage of house and senate seats for each province and teritory can be seen in the following table.
+
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/SELECT/image/percentage_house_senate.png)
 
 To check the total percentage (must be 100%), we can use the double nested function as follow:
