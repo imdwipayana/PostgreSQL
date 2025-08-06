@@ -45,7 +45,7 @@ VALUES
 SELECT * FROM employee_data;
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/HAVING/image/employee_data.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/HAVING/image/employee_data.png)
 
 
 ### 1. Find all groups of employee based on job title that average salary higher than 70000
@@ -58,7 +58,7 @@ FROM employee_data
 GROUP BY job_title
 Having AVG(salary) > 70000
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/HAVING/image/number1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/HAVING/image/number1.png)
 
 ### 2. Find out the number of employee for each category based on job title.
 
@@ -69,7 +69,7 @@ SELECT
 FROM employee_data
 GROUP BY job_title
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/HAVING/image/number2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/HAVING/image/number2.png)
 
 ### 3. Find all the employee category based on job_title who has more than 1 member.
 
@@ -81,7 +81,7 @@ FROM employee_data
 GROUP BY job_title
 HAVING COUNT(*) > 1
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/HAVING/image/number3.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/HAVING/image/number3.png)
 
 ### 4. Find the group of employee based on education that their average work experience is longer than 6 years.
 
@@ -92,7 +92,7 @@ SELECT
 	DATE_PART('YEAR',CURRENT_DATE) - DATE_PART('YEAR', hire_date) as work_exp_years
 FROM employee_data
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/HAVING/image/number4step1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/HAVING/image/number4step1.png)
 
 Second step: use aggregate function to aggregate the average of work_exp_years
 ```sql
@@ -107,7 +107,7 @@ FROM employee_data
 )
 GROUP BY education
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/HAVING/image/number4step2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/HAVING/image/number4step2.png)
 
 Third step: using having to give contrain for average work experience bigger than 6
 ```sql
@@ -123,7 +123,7 @@ FROM employee_data
 GROUP BY education
 HAVING AVG(work_exp_years) > 6
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/HAVING/image/number4step3.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/HAVING/image/number4step3.png)
 
 
 ### 5. In this example, WHERE and HAVING work interchangeably
@@ -147,4 +147,4 @@ HAVING education = 'Bachelor'
 ```
 Both syntaxs will give result as folloeing:
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/HAVING/image/number5.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/HAVING/image/number5.png)
