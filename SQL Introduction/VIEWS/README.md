@@ -43,7 +43,7 @@ SELECT * FROM book_data_sold;
 );
 ```
 The book_sold table is shown as follow:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/VIEWS/image/book_view.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/VIEWS/image/book_view.png)
 
 ### 1. FIND the book total sales of all books.
 #### First method: using subquery. 
@@ -78,7 +78,7 @@ FROM (SELECT
       FROM book_data_sold
 )
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/COMMON%20TABLE%20EXPRESSION/image/number1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/VIEWS/image/number1.png)
 
 #### Third method: using VIEW
 ```sql
@@ -93,7 +93,7 @@ SELECT
 	SUM(sales) as total_sales
 FROM VIEW_sales;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/COMMON%20TABLE%20EXPRESSION/image/number1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/VIEWS/image/number1.png)
 
 All three methods have the same result.
 
@@ -111,7 +111,7 @@ SELECT
 FROM VIEW_expensive_genre
 WHERE price_category = 1;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/COMMON%20TABLE%20EXPRESSION/image/number2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/VIEWS/image/number2.png)
 
 ### 3. Create a new category based on the price. The book that higher than the average price is expensive. Menwhile, if it is less than the average then it is cheap.
 
@@ -132,7 +132,7 @@ SELECT
 FROM VIEW_book_average
 ORDER BY price;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/COMMON%20TABLE%20EXPRESSION/image/number3.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/VIEWS/image/number3.png)
 
 ### 4. Compare the previous result when we use NTILE() instead.
 ```sql
@@ -151,7 +151,7 @@ SELECT
 	END as price_category
 FROM VIEW_group_ntile;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/COMMON%20TABLE%20EXPRESSION/image/number4.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/VIEWS/image/number4.png)
 
 ### 5. Find top three selling book based on price category.
 ```sql
@@ -183,7 +183,7 @@ SELECT
 FROM VIEW_rank_number_sold
 WHERE rank_number_sold <=3;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/COMMON%20TABLE%20EXPRESSION/image/number5.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/VIEWS/image/number5.png)
 
 ### 6. Find all the book which sales is in top 40%
 ```sql
@@ -206,6 +206,6 @@ SELECT
 FROM VIEW_sales_dist
 WHERE sales_dist <= 0.4;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/COMMON%20TABLE%20EXPRESSION/image/number6.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/VIEWS/image/number6.png)
 
 

@@ -38,7 +38,7 @@ Call the table with syntax:
 SELECT * FROM Canada_data;
 ```
 After that the Canada_data table is shown as:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/Canada_data.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/SELECT/image/Canada_data.png)
 
 Basically, the * symbol represents that all the column data will be represented. If we want just a certain column, we can type the name of columns to replace the * symbol. At last, we can create a new column by doing calculation of the other column, for example by dividing population to area to find out the population density.
 
@@ -51,7 +51,7 @@ SELECT
 	population / areas as population_density
 FROM Canada_data
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/population_density.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/SELECT/image/population_density.png)
 
 After that, count the house and senate representation by dividing population with number of house and senate seat for each province and teritory.
 ```sql
@@ -64,7 +64,7 @@ SELECT
 	population/senate as senate_rep
 FROM Canada_data
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/house_senate_rep.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/SELECT/image/house_senate_rep.png)
 
 Count the population of the previous year by noticing the formula: population2021 = population2020+population2020*(growth_rate/100). It means the population2020 = population2021/(1+(growth_rate/100))
 ```sql
@@ -75,7 +75,7 @@ SELECT
 	population/(1+(growth_rate/100)) as population_2020
 FROM Canada_data
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/population_2020.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/SELECT/image/population_2020.png)
 
 Lastly, we count the population of province and teritory that has border with the USA.
 ```sql
@@ -85,7 +85,7 @@ SELECT
 FROM Canada_data
 GROUP BY border_with_USA
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/population_in_border.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/SELECT/image/population_in_border.png)
 
 We can see that the population in the provinces and teritories that has border with USA are almost 20 times with those without sharing border.
 
@@ -98,7 +98,7 @@ FROM Canada_data
 The result of that SUM() aggregation function is a number as shown as follow:
 
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/sum_agg.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/SELECT/image/sum_agg.png)
 
 We can use SUM() window functions instead of the aggregation function. The different between those two results are aggregate function will give one number meanwhile window functions will create a new column with all of the column values are the total population.
 ```sql
@@ -109,7 +109,7 @@ SELECT
 FROM Canada_data
 ```
 The result of that SUM() window functions can be seen in the following table:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/sum_window.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/SELECT/image/sum_window.png)
 From here, we can see the benefit using window functions to calculate the percentage of population with the nested function from the previous table:
 ```sql
 SELECT
@@ -124,7 +124,7 @@ FROM (
 )
 ```
 The population percentage table can be seen as follow:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/percentage_population.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/SELECT/image/percentage_population.png)
 To make it sure, we can add all the percentage to make it 100% with the syntax:
 ```sql
 SELECT
@@ -145,7 +145,7 @@ FROM(
 The total percentage of population is exactly 100% as expected.
 
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/total_percentage_population.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/SELECT/image/total_percentage_population.png)
 
 We can do the same ide to calculate the percentage of house and senate seats by calculating the total of house and senate seats with window function and then using nested function to find out the percentage of house and senate for each province and teritory.
 ```sql
@@ -158,7 +158,7 @@ SELECT
 FROM Canada_data
 ```
 The total house and senate seats are in the following table.
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/total_house_senate.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/SELECT/image/total_house_senate.png)
 
 ```sql
 SELECT
@@ -178,7 +178,7 @@ FROM (
 )
 ```
 The percentage of house and senate seats for each province and teritory can be seen in the following table.
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/percentage_house_senate.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/SELECT/image/percentage_house_senate.png)
 
 To check the total percentage (must be 100%), we can use the double nested function as follow:
 ```sql
@@ -206,6 +206,6 @@ FROM (
 The total percentage of house and senate seats are:
 
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/SELECT/image/house_senate_100.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/SELECT/image/house_senate_100.png)
 
 

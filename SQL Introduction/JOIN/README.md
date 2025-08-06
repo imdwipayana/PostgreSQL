@@ -26,7 +26,7 @@ SELECT * FROM customer
 ```
 
 The customer table is
-![JOIN](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/JOIN/image/customer_pict.png) 
+![JOIN](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/JOIN/image/customer_pict.png) 
 
 The column of customer_id is the primary key meanwhile the order_id is the foreign key which will be the primary key for cust_order table. Then we create the cust_order table:
 ```sql
@@ -53,7 +53,7 @@ SELECT * FROM cust_order
 ```
 
 The cust_order table is
-![JOIN](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/JOIN/image/order_pict.png) 
+![JOIN](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/JOIN/image/order_pict.png) 
 
 ### For JOIN or INNER JOIN table, the sql syntax is
 ```sql
@@ -63,7 +63,7 @@ JOIN cust_order
 ON customer.order_id = cust_order.order_id
 ```
 The result of JOIN table is
-![JOIN](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/JOIN/image/join_sql.png) 
+![JOIN](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/JOIN/image/join_sql.png) 
 
 ### FOR LEFT JOIN table, the sql syntax is
 ```sql
@@ -73,7 +73,7 @@ LEFT JOIN cust_order
 ON customer.order_id = cust_order.order_id
 ```
 The result of LEFT JOIN table is
-![JOIN](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/JOIN/image/left_join_sql.png) 
+![JOIN](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/JOIN/image/left_join_sql.png) 
 
 ### FOR RIGHT JOIN table, the sql syntax is
 ```sql
@@ -83,7 +83,7 @@ RIGHT JOIN cust_order
 ON customer.order_id = cust_order.order_id
 ```
 The result of LEFT JOIN table is
-![JOIN](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/JOIN/image/right_join_sql.png) 
+![JOIN](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/JOIN/image/right_join_sql.png) 
 
 ### FOR FULL JOIN table, the sql syntax is
 ```sql
@@ -93,6 +93,6 @@ FULL JOIN cust_order
 ON customer.order_id = cust_order.order_id
 ```
 The result of FULL JOIN table is
-![JOIN](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/JOIN/image/full_join_sql.png) 
+![JOIN](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/JOIN/image/full_join_sql.png) 
 
 I hope this will hellp understanding the concept of JOIN in sql.

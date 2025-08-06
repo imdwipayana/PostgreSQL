@@ -28,7 +28,7 @@ SELECT * FROM book_date;
 
 ```
 The result of table is shown as follow:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/DATE%20and%20TIME%20FUNCTION/image/data_book_datetime.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/DATE%20and%20TIME%20FUNCTION/image/data_book_datetime.png)
 
 ### 1. Find out 3 months after the borrowed_date
 ```sql
@@ -37,7 +37,7 @@ SELECT
 	date_borrowed + interval '3 months' as next_3months_borrowed
 FROM book_date
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/DATE%20and%20TIME%20FUNCTION/image/number1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/DATE%20and%20TIME%20FUNCTION/image/number1.png)
 
 ### 2. It was considered late if the book is returned more than 3 months. Find out all books that were returned late.
 ```sql
@@ -47,7 +47,7 @@ SELECT
 FROM book_date
 WHERE date_borrowed + interval '3 months' >= date_returned
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/DATE%20and%20TIME%20FUNCTION/image/number2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/DATE%20and%20TIME%20FUNCTION/image/number2.png)
 
 ### 3. Label the book that returned late and not late in new table
 ```sql
@@ -66,7 +66,7 @@ SELECT
 FROM CTE_book_date
 
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/DATE%20and%20TIME%20FUNCTION/image/number3.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/DATE%20and%20TIME%20FUNCTION/image/number3.png)
 
 ### 4. How if the late regulation is 90 days after borrowed date? Label all books that were returned late or early.
 ```sql
@@ -84,7 +84,7 @@ SELECT
 	END as late_or_early
 FROM CTE_book_date
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/DATE%20and%20TIME%20FUNCTION/image/number4.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/DATE%20and%20TIME%20FUNCTION/image/number4.png)
 
 ### 5. Count how many days each book was borrowed? Then use the result to categorize the book tobe early or late.
 ```sql
@@ -103,7 +103,7 @@ SELECT
 	END as late_early
 FROM CTE_returned_borrowed
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/DATE%20and%20TIME%20FUNCTION/image/number5.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/DATE%20and%20TIME%20FUNCTION/image/number5.png)
 
 ### 6. Compare the question above with this method.
 ```sql
@@ -114,7 +114,7 @@ SELECT
 	EXTRACT(DAY FROM AGE(date_returned,date_borrowed))as month_returned_borrowed
 FROM book_date
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/DATE%20and%20TIME%20FUNCTION/image/number6.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/DATE%20and%20TIME%20FUNCTION/image/number6.png)
 
 ### 7. Count how many month the book was returned after borrowed.
 ```sql
@@ -124,7 +124,7 @@ SELECT
 	EXTRACT(MONTH FROM AGE(date_returned,date_borrowed))  as month_returned_borrowed
 FROM book_date
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/DATE%20and%20TIME%20FUNCTION/image/number7.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/DATE%20and%20TIME%20FUNCTION/image/number7.png)
 
 
 ### 8. Check the date using function in PostgreSQL

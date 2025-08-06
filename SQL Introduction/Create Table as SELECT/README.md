@@ -31,7 +31,7 @@ SELECT * FROM book_library
 );
 ```
 The book_library table is shown as follow:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/Create%20Table%20as%20SELECT/image/book_library.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/Create%20Table%20as%20SELECT/image/book_library.png)
 
 
 NOTE: The date will appear in your table will be different with the date in this table because it will depends on when you run the program. This is caused by the CURRENT_DATE and INTERVAL Commands. The purpose of this fluid date format is to adapt with the late book regulation which is 30 days after borrowed date. It means the date will be different but the result after that will be the same with the tables shown here later. The NULL value in return_date column means the book hasn't been returned yet. If we want to find all books that have been returned, we can use the syntax:
@@ -44,7 +44,7 @@ WHERE return_date IS NOT NULL;
 SELECT * FROM book_returned;
 ```
 The result is the table book returned as follow:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/Create%20Table%20as%20SELECT/image/book_returned.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/Create%20Table%20as%20SELECT/image/book_returned.png)
 
 Meanwhile if we want to see the book that hasn't been returned yet, we can use the syntax:
 ```sql
@@ -55,7 +55,7 @@ WHERE return_date IS NULL;
 SELECT * FROM book_not_returned;
 ```
 The book_not_returned table is shown as:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/Create%20Table%20as%20SELECT/image/book_not_returned.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/Create%20Table%20as%20SELECT/image/book_not_returned.png)
 
 If the late regulation is the book that returned more than 30 days after borrowed date, we can check all the book that late with syntax:
 ```sql
@@ -68,7 +68,7 @@ WHERE CURRENT_DATE - borrowed_date > 30;
 SELECT * FROM book_late;
 ```
 The books that late are shown in book late table as follow:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/Create%20Table%20as%20SELECT/image/book_late.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/Create%20Table%20as%20SELECT/image/book_late.png)
 
 Meanwhile if we want to find out all title of books and days they have been borrowed, we can use the syntax:
 ```sql
@@ -84,4 +84,4 @@ SELECT * FROM days_borrowed;
 The table days_borrowed is shown as follow:
 
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/Create%20Table%20as%20SELECT/image/days_borrowed.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/Create%20Table%20as%20SELECT/image/days_borrowed.png)
