@@ -34,7 +34,7 @@ VALUES
 SELECT * FROM planet_data;
 ```
 The planet_data table is
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/planet_data.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WHERE/image/planet_data.png)
 
 ### 1. Find all planets that closer to the sun than the earth
 ```sql
@@ -44,7 +44,7 @@ FROM planet_data
 WHERE distance_from_sun < 149.6
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WHERE/image/number1.png)
 
 ### 2. Find all planets that distance farther to the Sun than the Earth
 ```sql
@@ -54,7 +54,7 @@ FROM planet_data
 WHERE distance_from_sun > 149.6
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WHERE/image/number2.png)
 
 ### 3. Find all planets that smaller than the Earth
 ```sql
@@ -64,7 +64,7 @@ FROM planet_data
 WHERE diameter < 12756
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number3.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WHERE/image/number3.png)
 
 ### 4. Find all planets that bigger than the Earth
 ```sql
@@ -74,7 +74,7 @@ FROM planet_data
 WHERE diameter > 12756
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number4.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WHERE/image/number4.png)
 
 ### 5. Find all planets that bigger than the Earth but smaller than the Saturn
 ```sql
@@ -84,7 +84,7 @@ FROM planet_data
 WHERE diameter > 12756 AND diameter < 120536
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number5.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WHERE/image/number5.png)
 
 ### 6. Find all planets that bigger but colder than the Earth
 ```sql
@@ -94,7 +94,7 @@ FROM planet_data
 WHERE diameter > 12756 AND temperature < 15
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number6.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WHERE/image/number6.png)
 
 ### 7. Find the biggest planet
 First step: using MAX() aggregate function to find the longest diameter
@@ -104,7 +104,7 @@ SELECT
 FROM planet_data;
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number7step1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WHERE/image/number7step1.png)
 
 
 Second step: find the planet that has the longest diameter
@@ -116,7 +116,7 @@ WHERE diameter = (SELECT
                      MAX(diameter) as biggest_planet
                   FROM planet_data);
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number7.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WHERE/image/number7.png)
 
 ### 8. Find the farthest planet from the Sun
 First step: find the longest distance from the sun using MAX() aggregate function
@@ -126,7 +126,7 @@ SELECT
 FROM planet_data;
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number8step1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WHERE/image/number8step1.png)
 
 
 Second step: find planet with distance is the farthest from the Sun
@@ -138,7 +138,7 @@ WHERE distance_from_sun = (SELECT
                               MAX(distance_from_sun) as farthest_planet
                            FROM planet_data);
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number8.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WHERE/image/number8.png)
 
 ### 9. Find all planets that father from the sun than the smallest planet but closer to the Sun than the planet that has the most moon.
 First step: Find the smallest diameter
@@ -148,7 +148,7 @@ SELECT
 FROM planet_data;
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number9step1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WHERE/image/number9step1.png)
 
 
 Second step: find the distance from the Sun of the smallest planet
@@ -160,7 +160,7 @@ WHERE diameter = (SELECT
                      MIN(diameter) as smallest_planet
                   FROM planet_data);
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number9step2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WHERE/image/number9step2.png)
 
 Third step: Find the number of most moon
 ```sql
@@ -169,7 +169,7 @@ SELECT
 FROM planet_data;
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number9step3.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WHERE/image/number9step3.png)
 
 
 Fourth step: Find the distance from the sun of the planet that has the most moon
@@ -181,7 +181,7 @@ WHERE number_of_moon = (SELECT
                            MAX(number_of_moon) as most_moon
                         FROM planet_data);
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number9step4.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WHERE/image/number9step4.png)
 
 Fifth step: Use nested function in WHERE statement.
 ```sql
@@ -202,4 +202,4 @@ AND distance_from_sun < (SELECT
                                                  FROM planet_data));
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WHERE/image/number9.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WHERE/image/number9.png)
