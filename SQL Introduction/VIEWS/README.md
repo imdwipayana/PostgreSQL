@@ -54,7 +54,7 @@ SELECT
 	number_sold*price as sales
 FROM book_data_sold
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/COMMON%20TABLE%20EXPRESSION/image/number1method1step1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/VIEWS/image/number1method1step1.png)
 
 Second step: using SUM() for column sales to find out the total sales.
 ```sql
@@ -66,7 +66,7 @@ FROM (SELECT
       FROM book_data_sold
 )
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/COMMON%20TABLE%20EXPRESSION/image/number1method1step2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/VIEWS/image/number1method1step2.png)
 
 #### Second method: using Common Table Expression (CTE)
 ```sql
