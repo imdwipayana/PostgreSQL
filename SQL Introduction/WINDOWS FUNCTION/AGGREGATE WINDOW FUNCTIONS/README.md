@@ -41,7 +41,7 @@ VALUES
 SELECT * FROM book_data;
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/book_data.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/book_data.png)
 
 ### 1. Create a new column that contains the average price of the books
 ```sql
@@ -50,7 +50,7 @@ SELECT
 	AVG(price) OVER() as average_price
 FROM book_data;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number1.png)
 
 ### 2. Create a new column to inform the total books in stock
 ```sql
@@ -59,7 +59,7 @@ SELECT
 	SUM(in_stock) OVER() as total_book
 FROM book_data;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number2.png)
 
 ### 3. Create a new column that inform the most expensive book
 ```sql
@@ -68,7 +68,7 @@ SELECT
 	MAX(price) OVER() as most_expensive
 FROM book_data;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number3.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number3.png)
 
 ### 4. Create a new column with information of the cheapest book
 ```sql
@@ -77,7 +77,7 @@ SELECT
 	MIN(price) OVER() as most_expensive
 FROM book_data;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number4.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number4.png)
 
 ### 5. Create a new column with information about the number of book's titles available
 ```sql
@@ -86,7 +86,7 @@ SELECT
 	COUNT(*) OVER() as book_title
 FROM book_data;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number5.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number5.png)
 
 ### 6. Create a new table with information of the average price of book based on genre
 ```sql
@@ -95,7 +95,7 @@ SELECT
 	AVG(price) OVER(PARTITION BY genre) as average_price
 FROM book_data;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number6.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number6.png)
 
 ### 7. Create a new table with information of the average price of book based on genre. Put the most pages on top for each category.
 
@@ -105,7 +105,7 @@ SELECT
 	AVG(price) OVER(PARTITION BY genre ORDER BY price DESC)::numeric(10,2) as average_price
 FROM book_data;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number7.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number7.png)
 
 The result is a little bit weird. The pages column is sorted for each category, but the average price result based the row data and the preceeding data in the same category (this is the default from frame clause which is ROWS BETWEEN CURRENT ROW AND UNBOUNDED PRECEEDING). For further understanting, look for frame clause in window functions. I myself still learning when the ORDER BY in aggregate window function supposed to be applied in the real problem.
 
@@ -120,7 +120,7 @@ FROM book_data;
 ```
 The result is the same with the previous one. It means the default is ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW if we didn't write the ROWS frame clause.
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number8.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number8.png)
 
 ### 9. Example of aggregate window function with frame clause
 
@@ -132,7 +132,7 @@ SELECT
 FROM book_data;
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number9.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number9.png)
 
 ### 10. Example of aggregate window function with frame clause
 
@@ -144,7 +144,7 @@ SELECT
 FROM book_data;
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number10.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number10.png)
 
 ### 11. Example of aggregate window function with frame clause
 
@@ -157,7 +157,7 @@ FROM book_data;
 ```
 The ROWS statement in here can be used to calculate moving average in time series data.
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number11.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number11.png)
 
 ### 12. The following two syntaxs using RANGE give the qustion result?
 
@@ -170,7 +170,7 @@ SELECT
 FROM book_data;
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number12part1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number12part1.png)
 
 Part two:
 ```sql
@@ -181,7 +181,7 @@ SELECT
 FROM book_data;
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number12part2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number12part2.png)
 
 ### 13. Use COUNT() windows function to detect NULL
 
@@ -216,7 +216,7 @@ VALUES
 SELECT * FROM book_duplicate;
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number13part1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number13part1.png)
 
 Using COUNT() window functions to detect the NULL value:
 ```sql
@@ -226,7 +226,7 @@ SELECT
 	COUNT(book_id) OVER () as no_null
 FROM book_duplicate;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number13.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number13.png)
 
 ### 14. Use COUNT() windows function to detect data duplicate
 
@@ -237,7 +237,7 @@ SELECT
 FROM book_data;
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number14part1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number14part1.png)
 
 The following syntax looks like has the same result, but if there is NULL data in book_id column, then the result will be different.
 ```sql
@@ -247,7 +247,7 @@ SELECT
 FROM book_data;
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number14part2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number14part2.png)
 
 Based on the previous problem, the different must be clear. Try use the same syntax in book_duplicate table.
 ```sql
@@ -256,7 +256,7 @@ SELECT
 	COUNT(*) OVER(PARTITION BY book_id) as number_repetitive
 FROM book_duplicate;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number14part3.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number14part3.png)
 
 If the number of repetitive is more than 1, it means there must be duplication.
 ```sql
@@ -269,7 +269,7 @@ FROM (SELECT
 )
 WHERE number_repetitive >1;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number14part4.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number14part4.png)
 
 Finding the unique book_id that has duplicate:
 ```sql
@@ -283,7 +283,7 @@ FROM (SELECT
 )
 WHERE number_repetitive >1;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number14part5.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/AGGREGATE%20WINDOW%20FUNCTIONS/image/number14part5.png)
 
 
 
