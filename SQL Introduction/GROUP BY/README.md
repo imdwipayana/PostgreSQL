@@ -34,7 +34,7 @@ VALUES
 SELECT * FROM employee_data;
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/employee_data.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/GROUP%20BY/image/employee_data.png)
 
 ### 1. Find the average salary of every job title
 
@@ -45,7 +45,7 @@ SELECT
 FROM employee_data
 GROUP BY job_title
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/GROUP%20BY/image/number1.png)
 
 ### 2. Find the average salary based on level of education
 
@@ -56,7 +56,7 @@ SELECT
 FROM employee_data
 GROUP BY education
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/GROUP%20BY/image/number2.png)
 
 ### 3. Find the age average of every job title
 
@@ -68,7 +68,7 @@ SELECT
 	CURRENT_DATE - date_of_birth as age_in_days
 FROM employee_data
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number3step1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/GROUP%20BY/image/number3step1.png)
 
 Second step: find the age average by using nested function from table of the first step above.
 
@@ -84,7 +84,7 @@ FROM (
 )
 GROUP BY job_title
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number3step2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/GROUP%20BY/image/number3step2.png)
 
 ### 4. Find all employee who born in 1995 or later
 
@@ -93,7 +93,7 @@ SELECT *
 FROM employee_data
 WHERE date_of_birth > '1995-01-01'
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number4.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/GROUP%20BY/image/number4.png)
 
 ### 5. Find the age of employee when they were hired (in days)
 
@@ -106,7 +106,7 @@ SELECT
 	(hire_date - date_of_birth) as age_hired_days
 FROM employee_data
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number5.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/GROUP%20BY/image/number5.png)
 
 ### 6. Find the age of employee when they were hired (in months)
 
@@ -120,7 +120,7 @@ SELECT
 	   (DATE_PART('MONTH',hire_date) - DATE_PART('MONTH', date_of_birth)) as age_hired_months
 FROM employee_data
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number6.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/GROUP%20BY/image/number6.png)
 
 ### 7. Find the age of employee when they were hired (in years)
 
@@ -133,7 +133,7 @@ SELECT
 	DATE_PART('YEAR',hire_date) - DATE_PART('YEAR', date_of_birth) as age_hired_years
 FROM employee_data
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number7.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/GROUP%20BY/image/number7.png)
 
 ### 8. Someone who was born before 1997 is called millenial and called gen z if they were born in 1997-2012. Based on this clasification, calculate the average salary of millenial and gen z from employee_table.
 
@@ -147,7 +147,7 @@ SELECT
 	END as employee_categorical
 FROM employee_data
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number8step1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/GROUP%20BY/image/number8step1.png)
 
 Second step: use AVG() aggregate functions to calculate the average salary foe each category
 ```sql
@@ -165,7 +165,7 @@ FROM employee_data
 )
 GROUP BY employee_categorical
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number8step2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/GROUP%20BY/image/number8step2.png)
 
 ### 9. There are three level of employee based on years of experience. Junior level with less tan 5 years of work experience. Mid level with 5-10 years of experience. The rest is the senior level. Based on that category, find the average salary of every level of employee.
 
@@ -180,7 +180,7 @@ SELECT
 	DATE_PART('YEAR',CURRENT_DATE) - DATE_PART('YEAR', hire_date) as age_hired_years
 FROM employee_data
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number9step1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/GROUP%20BY/image/number9step1.png)
 
 Second step: Make category based on the work experience with CASE statement.
 ```sql
@@ -202,7 +202,7 @@ FROM(
 	FROM employee_data
 )
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number9step2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/GROUP%20BY/image/number9step2.png)
 
 Third step: Use nested function then AVG() agregate functions to calculate the average work experience of the employee category based on salary
 ```sql
@@ -230,7 +230,7 @@ FROM employee_data
 )
 GROUP BY level_employee
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number9step3.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/GROUP%20BY/image/number9step3.png)
 
 ### 10. There are 3 groups based on the salary: high, medium and low. The high earn employee is the one who earns more than 80000. Lower than 70000 is considered as low earning. Meanwhile the rest is the medium. Find out the average of work experience in years for all 3 groups.
 
@@ -250,7 +250,7 @@ SELECT
 	End as salary_category
 FROM employee_data
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number10step1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/GROUP%20BY/image/number10step1.png)
 
 Second step: Use nested function from the previous table to calculate the average experience of 3 group based on salary.
 ```sql
@@ -274,4 +274,4 @@ FROM (
 )
 GROUP BY salary_category
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/GROUP%20BY/image/number10step2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/GROUP%20BY/image/number10step2.png)
