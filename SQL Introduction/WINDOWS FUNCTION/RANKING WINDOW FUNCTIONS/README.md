@@ -41,7 +41,7 @@ VALUES
 SELECT * FROM book_data_sold;
 ```
 
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/book_data_sold.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/book_data_sold.png)
 
 ### 1. Create ranking based on price which the most expensive book comes first.
 
@@ -51,7 +51,7 @@ SELECT
 	ROW_NUMBER() OVER(ORDER BY price DESC) as price_ranking
 FROM book_data_sold;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number1.png)
 
 ### 2. For each genre, list the price of book starting from the most expensive.
 
@@ -61,7 +61,7 @@ SELECT
 	ROW_NUMBER() OVER(PARTITION BY genre ORDER BY price DESC) as price_ranking
 FROM book_data_sold;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number2.png)
 
 ### 3. Find the most expensive book for each genre.
 
@@ -77,7 +77,7 @@ FROM (SELECT
 )
 WHERE price_ranking = 1;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number3.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number3.png)
 
 ### 4. Compares ROW_NUMBER(), RANK() and DENSE_RANK window function to sort the book based on the number books in stock.
 
@@ -91,7 +91,7 @@ SELECT
 	DENSE_RANK() OVER(ORDER BY in_stock DESC) as rank_dense
 FROM book_data_sold;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number4.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number4.png)
 
 ### 5. Compares ROW_NUMBER(), RANK() and DENSE_RANK window function to sort the book based on the number books were sold.
 
@@ -106,7 +106,7 @@ SELECT
 	DENSE_RANK() OVER(ORDER BY number_sold DESC) as rank_dense
 FROM book_data_sold;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number5.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number5.png)
 
 ### 6. Rank the best 3 book titles that were sold.
 
@@ -117,7 +117,7 @@ SELECT
 	number_sold*price as sales
 FROM book_data_sold;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number6step1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number6step1.png)
 
 Second step: use ROW_NUMBER() to rank the book based on sales.
 ```sql
@@ -131,7 +131,7 @@ SELECT
 FROM book_data_sold
 );
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number6step2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number6step2.png)
 
 Thirsd step: use LIMIT to find out the top three book sales.
 ```sql
@@ -145,7 +145,7 @@ FROM (SELECT
 )
 LIMIT 3;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number6step3.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number6step3.png)
 
 ### 7. USE NTILE() to divide the book data through some groups based on price.
 
@@ -160,7 +160,7 @@ SELECT
 	NTILE(6) OVER(ORDER BY price DESC) as six_groups
 FROM book_data_sold;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number7.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number7.png)
 
 ### 8. USE NTILE() to categorize the book based on price into 3 groups: expensive, medium and cheap
 
@@ -171,7 +171,7 @@ SELECT
 	NTILE(3) OVER(ORDER BY price DESC) as three_group
 FROM book_data_sold;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number8step1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number8step1.png)
 
 -- Second step: use CASE to categorize data based on the NTILE() result
 ```sql
@@ -188,7 +188,7 @@ FROM (SELECT
       FROM book_data_sold
 );
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number8step2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number8step2.png)
 
 ### 9. Categorize the books to be two groups based on sales: top_selling and less_selling
 
@@ -199,7 +199,7 @@ SELECT
 	number_sold*price as sales
 FROM book_data_sold;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number9step1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number9step1.png)
 
 Second step: use NTILE(2) to divide the sales becomes two groups.
 ```sql
@@ -212,7 +212,7 @@ FROM (SELECT
       FROM book_data_sold
 );
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number9step2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number9step2.png)
 
 Third step: use CASE to make category based on sales
 ```sql
@@ -232,7 +232,7 @@ FROM (SELECT
 )
 );
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number9step3.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number9step3.png)
 
 ### 10. USE CUME_DIST() to find out the top 40% from book price
 
@@ -243,7 +243,7 @@ SELECT
 	CUME_DIST() OVER(ORDER BY price DESC) as cumulative_dist 
 FROM book_data_sold;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number10step1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number10step1.png)
 
 Second step: use WHERE to constrain the only top 40%
 ```sql
@@ -256,7 +256,7 @@ FROM(SELECT
 )
 WHERE cumulative_dist<=0.4;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number10step2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number10step2.png)
 
 Third step: use CONCAT to write in percentage
 ```sql
@@ -273,7 +273,7 @@ FROM (SELECT
 WHERE cumulative_dist<=0.4
 );
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number10step3.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number10step3.png)
 
 ### 11. USE PERCENT_RANK() to find out the top 40% from book price
 
@@ -285,7 +285,7 @@ SELECT
 	PERCENT_RANK() OVER(ORDER BY price DESC)::numeric(10,2) as cumulative_dist 
 FROM book_data_sold;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number11step1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number11step1.png)
 
 
 Second step: use WHERE to constrain the only top 40%
@@ -299,7 +299,7 @@ FROM(SELECT
 )
 WHERE cumulative_dist<=0.4;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number11step2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number11step2.png)
 
 Third step: use CONCAT to write in percentage
 ```sql
@@ -316,7 +316,7 @@ FROM (SELECT
 WHERE cumulative_dist<=0.4
 );
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number11step3.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number11step3.png)
 
 ### 12. Compare CUME_DIST() and PERCENT_RANK() from book price
 
@@ -327,4 +327,4 @@ SELECT
 	PERCENT_RANK() OVER(ORDER BY price DESC)::numeric(10,2) as example_percent_rank
 FROM book_data_sold;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number12.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/WINDOWS%20FUNCTION/RANKING%20WINDOW%20FUNCTIONS/image/number12.png)
