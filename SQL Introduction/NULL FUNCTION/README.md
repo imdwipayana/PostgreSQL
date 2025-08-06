@@ -31,7 +31,7 @@ VALUES
 SELECT * FROM chess_player;
 ```
 The result of table is shown as follow:
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/NULL%20FUNCTION/image/null_chess_player.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/NULL%20FUNCTION/image/null_chess_player.png)
 
 ### 1. How long each chess player spend their time in the tournament?
 ```sql
@@ -40,7 +40,7 @@ SELECT
 	time_check_out - time_check_in as time_in_tournament
 FROM chess_player;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/NULL%20FUNCTION/image/number1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/NULL%20FUNCTION/image/number1.png)
 
 ### 2. Find out all players that last name are missing
 ```sql
@@ -49,7 +49,7 @@ SELECT
 FROM chess_player
 WHERE last_name is NULL;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/NULL%20FUNCTION/image/number2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/NULL%20FUNCTION/image/number2.png)
 
 ### 3. who is missing his/her first name?
 ```sql
@@ -58,7 +58,7 @@ SELECT
 FROM chess_player
 WHERE first_name is NULL;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/NULL%20FUNCTION/image/number3.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/NULL%20FUNCTION/image/number3.png)
 
 ### 4. who is missing either his/her first name or his/her last_name?
 ```sql
@@ -67,7 +67,7 @@ SELECT
 FROM chess_player
 WHERE first_name is NULL AND last_name is NULL;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/NULL%20FUNCTION/image/number4.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/NULL%20FUNCTION/image/number4.png)
 
 ### 5. Nick name usually is last name. But if it is empty, replace it by first name.
 ```sql
@@ -76,7 +76,7 @@ SELECT
 	COALESCE(last_name,first_name) as nick_name
 FROM chess_player;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/NULL%20FUNCTION/image/number5.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/NULL%20FUNCTION/image/number5.png)
 
 ### 6. What happened when the position is reversed
 ```sql
@@ -85,7 +85,7 @@ SELECT
 	COALESCE(first_name,last_name) as nick_name
 FROM chess_player;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/NULL%20FUNCTION/image/number6.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/NULL%20FUNCTION/image/number6.png)
 
 ### 7. Without first name and last name, the player must be unknown
 ```sql
@@ -94,7 +94,7 @@ SELECT
 	COALESCE(first_name,last_name, 'unknown') as nick_name
 FROM chess_player;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/NULL%20FUNCTION/image/number7.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/NULL%20FUNCTION/image/number7.png)
 
 
 ### 8. Find out all full name of the chess players. If it is not complete, just use either first name or last name. If both are NULL then the player is unknown 
@@ -109,7 +109,7 @@ SELECT
 	END as full_name_unknown
 FROM chess_player;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/NULL%20FUNCTION/image/number8.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/NULL%20FUNCTION/image/number8.png)
 
 ### 9. Every player is awarded 5000 as appearance money. Count the total money that every players is collected.
 ```sql
@@ -118,7 +118,7 @@ SELECT
 	winner_prize + 5000 as total_money
 FROM chess_player;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/NULL%20FUNCTION/image/number9part1.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/NULL%20FUNCTION/image/number9part1.png)
 
 If we assume that NULL means the winner prize is 0, then:
 ```sql
@@ -127,7 +127,7 @@ SELECT
 	COALESCE(winner_prize,0) + 5000 as total_money
 FROM chess_player;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/NULL%20FUNCTION/image/number9part2.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/NULL%20FUNCTION/image/number9part2.png)
 
 ### 10. In aggregate functions, the NULL value is calculated differently.
 ```sql
@@ -142,4 +142,4 @@ SELECT
 	MIN(COALESCE(winner_prize,0)) OVER() MIN_without_null
 FROM chess_player;
 ```
-![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Practice/NULL%20FUNCTION/image/number10.png)
+![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/SQL%20Introduction/NULL%20FUNCTION/image/number10.png)
