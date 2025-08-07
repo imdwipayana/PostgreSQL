@@ -24,6 +24,7 @@ VALUES
 SELECT * FROM production_status
 ```
 The first table:
+
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/JOINNING%20GROUPING%20AGGREGATING/image/table1.png)
 
 Craete second table:
@@ -49,7 +50,8 @@ VALUES
 
 SELECT * FROM sales_product
 ```
-The secong table:
+The second table:
+
 ![Library_project](https://github.com/imdwipayana/PostgreSQL/blob/main/Problem%20and%20Solution/JOINNING%20GROUPING%20AGGREGATING/image/table2.png)
 
 ### 
