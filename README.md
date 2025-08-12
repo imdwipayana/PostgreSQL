@@ -1,4 +1,5 @@
-All codes run perfectly under PostgreSQL.
+Documentation of SQL queries for PostgreSQL. All codes run perfectly under PostgreSQL.
+
 ## I. SQL Introduction
 
 ### 1. [SELECT](https://github.com/imdwipayana/PostgreSQL/tree/main/SQL%20Introduction/SELECT)
