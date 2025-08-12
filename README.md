@@ -3,6 +3,8 @@ Documentation of SQL queries for PostgreSQL. All codes run perfectly under Postg
 ## I. SQL Introduction
 
 ### 1. [SELECT](https://github.com/imdwipayana/PostgreSQL/tree/main/SQL%20Introduction/SELECT)
+This statement can be used for retrieving data from one or some columns of data. Besides that, it can be utilized to conduct simple mathematical calculation.
+
 ### 2. [WHERE](https://github.com/imdwipayana/PostgreSQL/tree/main/SQL%20Introduction/WHERE)
 ### 3. [GROUP BY](https://github.com/imdwipayana/PostgreSQL/tree/main/SQL%20Introduction/GROUP%20BY)
 ### 4. [HAVING](https://github.com/imdwipayana/PostgreSQL/tree/main/SQL%20Introduction/HAVING)
